@@ -1,3 +1,4 @@
+//2018-06-26 28기 송원민 모델1 insert 작업
 package service;
 
 public class Member {
