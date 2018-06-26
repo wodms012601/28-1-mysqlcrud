@@ -1,4 +1,4 @@
-/*ÃÖÀ±¼®, 2018.06.26*/
+/*ìµœìœ¤ì„, 2018.06.26*/
 package service;
 
 import java.sql.Connection;
@@ -9,14 +9,14 @@ import java.sql.SQLException;
 public class TeacherDao {
 	
 	public int insertTeacher(Teacher t) {
-		// insertTeacher ¸Ş¼­µå ¼±¾ğ
-		// ¸Å°³º¯¼ö´Â Teacher Å¬·¡½º Å¸ÀÔÀÇ ±³»çÀÇ ÀÌ¸§°ú ³ªÀÌ¸¦ ´ãÀº °´Ã¼ÀÇ ÁÖ¼Ò°ªÀ» ´ãÀº º¯¼ö t
-		// ¸®ÅÏ°ª int Å¸ÀÔ
+		// insertTeacher ë©”ì„œë“œ ì„ ì–¸
+		// ë§¤ê°œë³€ìˆ˜ëŠ” Teacher í´ë˜ìŠ¤ íƒ€ì…ì˜ êµì‚¬ì˜ ì´ë¦„ê³¼ ë‚˜ì´ë¥¼ ë‹´ì€ ê°ì²´ì˜ ì£¼ì†Œê°’ì„ ë‹´ì€ ë³€ìˆ˜ t
+		// ë¦¬í„´ê°’ int íƒ€ì…
 		
 		Connection con = null; 
 		PreparedStatement pstmt = null;
 		
-		try{ // ¿¹¿Ü ¹ß»ı °¡´É¼ºÀÌ ÀÖ´Â ¹®Àå
+		try{ // ì˜ˆì™¸ ë°œìƒ ê°€ëŠ¥ì„±ì´ ìˆëŠ” ë¬¸ì¥
 			Class.forName("com.mysql.jdbc.Driver");
 			 
 			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
@@ -26,7 +26,7 @@ public class TeacherDao {
 			
 			con = DriverManager.getConnection(URL, dbUserId, dbPassword);
 		
-			System.out.println("µ¥ÀÌÅÍ º£ÀÌ½º ¿¬°á");
+			System.out.println("ë°ì´í„° ë² ì´ìŠ¤ ì—°ê²°");
 		
 			pstmt = con.prepareStatement("INSERT INTO teacher(teacher_name, teacher_age) VALUES (?,?)");
 			pstmt.setString(1, t.getTeacherName());
@@ -34,10 +34,10 @@ public class TeacherDao {
 			
 			pstmt.executeUpdate();
 		
-		}catch(SQLException | ClassNotFoundException a) { // ¿¹¿Ü Å¸ÀÔ°ú ¸Å°³º¯¼ö ¸í
+		}catch(SQLException | ClassNotFoundException a) { // ì˜ˆì™¸ íƒ€ì…ê³¼ ë§¤ê°œë³€ìˆ˜ ëª…
 			System.out.println(a.getMessage() + "<-- catch");
 			
-		}finally{ // Ç×»ó ¼öÇàÇÒ ÇÊ¿ä°¡ ÀÖ´Â ¹®Àå
+		}finally{ // í•­ìƒ ìˆ˜í–‰í•  í•„ìš”ê°€ ìˆëŠ” ë¬¸ì¥
 			
 			try {
 				if(pstmt != null) pstmt.close();
