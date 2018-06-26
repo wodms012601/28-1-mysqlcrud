@@ -4,12 +4,7 @@
 <%@ page import = "service.Teacher" %>
 <% request.setCharacterEncoding("EUC-KR"); %>
 <!DOCTYPE html>
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-	<title>insertTeacherAction</title>
-</head>
-<body>
+
 <%
 	Teacher t = new Teacher();
 	t.setTeacherName(request.getParameter("teacherName"));
@@ -21,5 +16,3 @@
 	TeacherDao tdao = new TeacherDao();
 	tdao.insertTeacher(t);
 %>
-</body>
-</html>
