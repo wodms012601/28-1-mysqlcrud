@@ -2,12 +2,16 @@
 <%@ page language = "java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import = "service.*"  %>
 <!DOCTYPE html>
-<% request.setCharacterEncoding("EUC-KR"); %>
-
-<!-- vo객체 생성 및 데이터 입력 -->
-<jsp:useBean id="stu" class="service.Student"/>
-<jsp:setProperty property="*" name="stu"/>
 <%
+	//EUC-KR로 인코딩
+	request.setCharacterEncoding("EUC-KR");
+
+	//Student클래스를 통해 객체 생성 및 set메소드를 통해 데이터 삽입
+	Student stu = new Student();
+	stu.setStudentName(request.getParameter("studentName"));
+	stu.setStudentAge(Integer.parseInt(request.getParameter("studentAge")));
+	System.out.println("입력 완료");
+	
 	//실행
 	StudentDao st = new StudentDao();
 	st.insertStudent(stu);

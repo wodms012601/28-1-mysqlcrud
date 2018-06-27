@@ -13,9 +13,9 @@ public class StudentDao {
 	insert만 하기때문에 리턴은 사용하지않는다.
 	student_no는 기본값으로 auto_increment를 주었기때문에 입력하지않는다.
 	--------------------------------------------
-	student_no	| student_name | student_age
+	student_no | student_name | student_age
 	--------------------------------------------
-		  1		|	      개미	   |		12 
+	 	1 |	 개미	 |	 12
 	--------------------------------------------
 	*/
 	public void insertStudent(Student stu) {
