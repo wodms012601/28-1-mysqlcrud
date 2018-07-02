@@ -1,4 +1,4 @@
-<!-- 28th Choi Yun-Seok, 2018.06.26 -->
+<!-- 28th Choi Yun-Seok, 2018.07.02 -->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>
