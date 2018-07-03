@@ -21,13 +21,9 @@ public class StudentDao {
 	--------------------------------------------
 	*/
 	//db.학생테이블에 데이터 저장
-	public Student insertStudent(Student stu) {
+	public void insertStudent(Student stu) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		PreparedStatement pstmt2 = null;
-		ResultSet rs = null;
-		
-		Student student = new Student(); //넘버 데이터를 저장하기 위한 객체 생성
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
@@ -37,26 +33,11 @@ public class StudentDao {
 			
 			pstmt = conn.prepareStatement("insert into student (student_name, student_age) values (?, ?)"); //쿼리문준비
 			
-			/*각 테이블의 기본키를 auto_increment로 주었기때문에
-			학생테이블에 먼저 데이터를 입력한 후 추가된 auto_increment를
-			select문으로 받아 저장했습니다.*/
-			pstmt2 = conn.prepareStatement("select student_no from student where student_name=?"); //주소테이블과 연관성을 주기위해 no데이터를 가져옴
-			
 			pstmt.setString(1, stu.getStudentName());
 			pstmt.setInt(2, stu.getStudentAge());
 			
-			pstmt2.setString(1, stu.getStudentName());
-			
 			pstmt.executeUpdate(); //쿼리문 실행
 			System.out.println("학생테이블저장");
-			
-			rs = pstmt2.executeQuery(); //쿼리문 실행
-			System.out.println("학생테이블select");
-			
-			if(rs.next()) {
-				student.setStudentNo(rs.getInt("student_no")); //넘버데이터 가져와서 변수에 저장
-				System.out.println(student.getStudentNo() + "<--확인용");
-			}
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -78,7 +59,6 @@ public class StudentDao {
 				}
 			}
 		}
-		return student;
 	}
 	
 	/*
