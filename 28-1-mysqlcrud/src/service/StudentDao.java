@@ -20,9 +20,14 @@ public class StudentDao {
 	 	1 |	 개미	 |	1212
 	--------------------------------------------
 	*/
-	public void insertStudent(Student stu) {
+	//db.학생테이블에 데이터 저장
+	public Student insertStudent(Student stu) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		ResultSet rs = null;
+		
+		Student student = new Student(); //넘버 데이터를 저장하기 위한 객체 생성
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
@@ -32,11 +37,26 @@ public class StudentDao {
 			
 			pstmt = conn.prepareStatement("insert into student (student_name, student_age) values (?, ?)"); //쿼리문준비
 			
+			/*각 테이블의 기본키를 auto_increment로 주었기때문에
+			학생테이블에 먼저 데이터를 입력한 후 추가된 auto_increment를
+			select문으로 받아 저장했습니다.*/
+			pstmt2 = conn.prepareStatement("select student_no from student where student_name=?"); //주소테이블과 연관성을 주기위해 no데이터를 가져옴
+			
 			pstmt.setString(1, stu.getStudentName());
 			pstmt.setInt(2, stu.getStudentAge());
 			
+			pstmt2.setString(1, stu.getStudentName());
+			
 			pstmt.executeUpdate(); //쿼리문 실행
-			System.out.println("실행 확인");
+			System.out.println("학생테이블저장");
+			
+			rs = pstmt2.executeQuery(); //쿼리문 실행
+			System.out.println("학생테이블select");
+			
+			if(rs.next()) {
+				student.setStudentNo(rs.getInt("student_no")); //넘버데이터 가져와서 변수에 저장
+				System.out.println(student.getStudentNo() + "<--확인용");
+			}
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -58,6 +78,7 @@ public class StudentDao {
 				}
 			}
 		}
+		return student;
 	}
 	
 	/*
@@ -77,9 +98,9 @@ public class StudentDao {
 	 	6 |	 화사	 |	24
 	--------------------------------------------
 	*/
-	//리스트 작업
-	public ArrayList<Student> selectMemberByPage(int currentPage, int pagePerRow){
-		ArrayList<Student> list = new ArrayList<Student>(); //ArrayList클래스를 통해 배열객체 생성
+	//학생리스트 작업
+	public ArrayList<Student> selectStudentByPage(int currentPage, int pagePerRow){
+		ArrayList<Student> studentList = new ArrayList<Student>(); //ArrayList클래스를 통해 배열객체 생성
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -106,7 +127,7 @@ public class StudentDao {
 				student.setStudentName(rs.getString("student_name"));
 				student.setStudentAge(rs.getInt("student_age"));
 				
-				list.add(student); //각 객체의 주소값을 배열의 인덱스에 추가
+				studentList.add(student); //각 객체의 주소값을 배열의 인덱스에 추가
 			}
 			
 		} catch (ClassNotFoundException e) { //예외가 일어났을경우의 처리
@@ -129,10 +150,10 @@ public class StudentDao {
 				}
 			}
 		}
-		return list;
+		return studentList;
 	}
 	
-	//페이징 작업
+	//학생페이징 작업
 	public int paging(int pagePerRow) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -183,5 +204,134 @@ public class StudentDao {
 			}
 		}
 		return lastPage;
+	}
+	
+	//학생이름, 나이를 수정하기위해 리스트에 저장되어있는 데이터 찾기
+	public Student selectStudent(int studentNo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		Student student = new Student(); //Student클래스를 통해 객체를 생성
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
+			
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
+
+			System.out.println("연결 확인");
+			
+			pstmt = conn.prepareStatement("select student_name, student_age from student where student_no=?"); //쿼리문준비
+			
+			pstmt.setInt(1, studentNo);
+			
+			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
+			
+			if(rs.next()) {
+				student.setStudentName(rs.getString("student_name")); //ResultSet객체에서 꺼내온 데이터들을 student객체참조변수를 통해 객체 내에 값을 대입 
+				student.setStudentAge(rs.getInt("student_age"));
+			}
+			
+		} catch (ClassNotFoundException e) { //예외가 일어났을경우의 처리
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally { //모든 처리가 끝나면 반드시 나중에 열린 객체 순서대로 닫아준다.
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return student;
+	}
+	
+	//학생 테이블 데이터 수정
+	public void updateStudent(Student stu) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
+				
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
+			System.out.println("연결 확인");
+			
+			pstmt = conn.prepareStatement("update student set student_name=?, student_age=? where student_no=?"); //쿼리문준비
+			
+			pstmt.setString(1, stu.getStudentName());
+			pstmt.setInt(2, stu.getStudentAge());
+			pstmt.setInt(3, stu.getStudentNo());
+			
+			pstmt.executeUpdate(); //쿼리문 실행
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	//학생 데이터 삭제
+	public void deleteStudent(int studentNo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
+				
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
+			System.out.println("연결 확인");
+			
+			pstmt = conn.prepareStatement("delete from student where student_no=?"); //쿼리문준비
+			
+			pstmt.setInt(1, studentNo);
+			
+			pstmt.executeUpdate(); //쿼리문 실행
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 }
