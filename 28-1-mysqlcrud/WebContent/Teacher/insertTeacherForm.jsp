@@ -1,4 +1,4 @@
-<!-- 28th Choi Yun-Seok, 2018.07.02 -->
+<!-- 28th Choi Yun-Seok, 2018.07.03 -->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>
@@ -10,7 +10,7 @@
 </style>
 </head>
 <body>
-<form action = "<%= request.getContextPath() %>/insertTeacherAction.jsp" method="post">
+<form action = "<%= request.getContextPath() %>/Teacher/insertTeacherAction.jsp" method="post">
 	<fieldset id = "box">
 		<legend>insert Teacher Form</legend>
 		

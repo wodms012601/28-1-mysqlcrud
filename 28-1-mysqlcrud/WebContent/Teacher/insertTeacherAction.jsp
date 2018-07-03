@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import = "service.TeacherDao" %>
 <%@ page import = "service.Teacher" %>
-<% request.setCharacterEncoding("EUC-KR"); %>
+<% request.setCharacterEncoding("UTF-8"); %>
 <!DOCTYPE html>
 
 <%
@@ -15,4 +15,5 @@
 	
 	TeacherDao tdao = new TeacherDao();
 	tdao.insertTeacher(t);
+	response.sendRedirect(request.getContextPath() + "/Teacher/selectTeacherList.jsp");
 %>
