@@ -4,7 +4,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="service.Member" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -34,14 +34,19 @@
 		%>
 			<table border="1">
 				<tr>
-					<td>번호</td>
-					<td>이름</td>
-					<td>나이</td>
+					<th>번호</th>
+					<th>이름</th>
+					<th>나이</th>
+					<th>수정</th>
+					<th>삭제</th>
 				<tr>
 				<tr>
 					<td><%=result.get(i).getMember_no() %></td>
-					<td><%=result.get(i).getMember_name() %></td>
+					<td><a href = "./MemberAddrList.jsp?no=<%=result.get(i).getMember_no() %>"><%=result.get(i).getMember_name() %></a></td>
 					<td><%=result.get(i).getMember_age()%></td>
+					<td><a href = "./updateMemberForm.jsp?no=">수정</a></td>
+					<td><a href = "./deleteMember.jsp?no=">삭제</a></td>
+					<!-- updateMemberForm -> updateMemberAction-->
 				</tr>
 			</table>
 		<%

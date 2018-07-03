@@ -8,9 +8,10 @@
 	</head>
 	
 	<body>
-		<form action="./InsertMemberAction.jsp" method="post">
+		<form action="./insertMemberAction.jsp" method="post">
 			<input type="text" name="name">
 			<input type="text" name="age">
+			<input type="text" name="addr_content">
 			<input type="submit" value="º¸³»±â">
 		</form>
 	</body>

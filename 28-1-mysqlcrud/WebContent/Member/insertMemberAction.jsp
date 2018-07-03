@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import="service.Member" %>
 <%@ page import="service.Memberdao" %>
+<%@ page import="service.MemberAddr" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <% request.setCharacterEncoding("euc-kr"); %>
@@ -28,13 +29,16 @@
 		2. 생성자("Member()"")가 abc객체를 초기화 시킨다
 		3. new 연산자가 새로 생성된 주소를 객체 참조변수 abc에 변수에 저장
 		4. abc를 통해 Member에 접근이 가능해집니다.*/
-		
-		
 	abc.setMember_name(request.getParameter("name"));
 	abc.setMember_age(Integer.parseInt(request.getParameter("age")));
+	
+	MemberAddr def = new MemberAddr();
+	def.setMember_addr_content(request.getParameter("addr_content"));
 	/*28행 : abc객체참조변수 안에 주소값을 따라가 setMember_age 메소드 안의 int타입 member_age 매개변수에
 			InsertMemberForm.jsp에서 문자열을 넘겨받은 age값을 정수형으로 형변환을 시켜준다.*/
 
 	Memberdao a = new Memberdao();
 	a.InsertMember(m);
+	
+	
 %>

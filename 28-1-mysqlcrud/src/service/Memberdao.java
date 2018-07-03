@@ -10,15 +10,18 @@ import java.util.ArrayList;
 
 public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여야합니다.
 
-	public void InsertMember(Member m) { 
+	public Member InsertMember(Member m) { 
 		/*void를 쓴 이유는 멤버변수를 사용하지 않고 메소드 안의 지역변수를 사용해주었기 때문에 */
 			
 			Connection conn = null;
 			PreparedStatement pstmt = null;
+			PreparedStatement pstmt1 = null;
+			ResultSet rs = null;
+			
 		try {
 			
 			Class.forName("com.mysql.jdbc.Driver");
-			// Class 클래스의 forName()함수를 이용하여 해당 클래스 메모리를 로드한다("동적로딩"
+			// Class 클래스의 forName()함수를 이용하여 해당 클래스 메모리를 로드한다("동적로딩")
 			
 			
 			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
@@ -28,12 +31,21 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
 			
 			pstmt = conn.prepareStatement("insert into member (member_name, member_age) values(?,?)");
+			pstmt1 = conn.prepareStatement("select member_no from member_addr where member_name=?");
+			
 			System.out.println(conn + "<-- Conn��");
 			pstmt.setString(1, m.getMember_name());
 			pstmt.setInt(2, m.getMember_age()); 
 			
 			pstmt.executeUpdate();
-		
+			
+			pstmt1.setInt(1, m.getMember_no());
+			rs = pstmt1.executeQuery();
+			
+			if(rs.next()) {
+				m.setMember_no(Integer.parseInt(rs.getString("member_no")));
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace(); // 
 			
@@ -52,14 +64,23 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 				catch(SQLException e) {
 					e.printStackTrace();
 				}
+			if (pstmt1 != null)
+				try { 
+					pstmt.close(); 
+				} 
+				catch(SQLException e) {
+					e.printStackTrace();
+				}
 		    if (conn != null) 
 		    	try {
 		    		conn.close(); 
 		    	} catch(SQLException e) {
 		    		e.printStackTrace();	
 		    	}
+		  
 		}
 		/* finally문이 무조건 필요한 것은 아니다. finally가 사용되면 안의 내용은 무조건 실행 시켜야 하며 try 다음 catch 문장에 return; 이 있다고 해도 finally로 넘어온다.*/
+		return m;
 	}
 	
 	public ArrayList<Member> selectMemberByPage(int currentpage, int pagePerRow) {
