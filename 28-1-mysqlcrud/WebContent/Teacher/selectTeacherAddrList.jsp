@@ -14,7 +14,7 @@
 	if(request.getParameter("currentPage") != null) {
 	    currentPage = Integer.parseInt(request.getParameter("currentPage")); // 인트 변환
 	}
-	TeacherDao teacherDao = new TeacherDao();
+	TeacherAddrDao teacherDao = new TeacherAddrDao();
 	int totalRowCount = teacherDao.selectTotalTeacherCountAddr(); // 전체 행의 수
 	int pagePerRow = 10; // 한 페이지당 보이는 수
 	int beginRow = (currentPage-1)*pagePerRow;
@@ -28,7 +28,6 @@
                 <th>teacher_addr_no</th>
                 <th>teacher_no</th>
                 <th>teacher_addr_content</th>
-                <th>돌아가기</th>
             </tr>
         </thead>
         <tbody>
@@ -38,8 +37,7 @@
                 <tr>
                     <td><%=a.getTeacher_addr_no()%></td>
                     <td><%=a.getTeacher_no()%></td>
-                    <td><%=a.getTeacherAddrContent()%></td>
-                    <td><a href="selectTeacherList.jsp?send_id=<%=a.getTeacher_no()%>">돌아가기</a></td>
+                    <td><%=a.getTeacher_addr_content()%></td>
                 </tr>
 <%        
             }
@@ -64,13 +62,13 @@
 <%
         if(currentPage>1) {
 %>
-            <a href="<%=request.getContextPath()%>/Teacher/selectTeacherList.jsp?currentPage=<%=currentPage-1%>">이전</a>
+            <a href="<%=request.getContextPath()%>/Teacher/selectTeacherAddrList.jsp?currentPage=<%=currentPage-1%>">이전</a>
 <%
         }
         if(currentPage<lastPage) {
 %>
  
-            <a href="<%=request.getContextPath()%>/Teacher/selectTeacherList.jsp?currentPage=<%=currentPage+1%>">다음</a>
+            <a href="<%=request.getContextPath()%>/Teacher/selectTeacherAddrList.jsp?currentPage=<%=currentPage+1%>">다음</a>
 <%
         }
 %>

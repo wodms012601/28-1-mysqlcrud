@@ -10,9 +10,9 @@
 <%
 	TeacherAddr t = new TeacherAddr();
 	t.setTeacher_no(Integer.parseInt(request.getParameter("teacher_no")));
-	t.setTeacherAddrContent(request.getParameter("teacher_addr_content"));
+	t.setTeacher_addr_content(request.getParameter("teacher_addr_content"));
 		
-	TeacherDao teacherdao = new TeacherDao();
-	teacherdao.insertTeacherAdd(t);
+	TeacherAddrDao teacherAddrDao = new TeacherAddrDao();
+	teacherAddrDao.insertTeacherAdd(t);
 	response.sendRedirect(request.getContextPath() + "/Teacher/selectTeacherAddrList.jsp");
 %>

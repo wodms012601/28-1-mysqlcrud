@@ -1,5 +1,5 @@
 <!-- 28th Choi Yun-Seok, 2018.06.26 -->
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "service.TeacherDao" %>
 <%@ page import = "service.Teacher" %>
 <% request.setCharacterEncoding("UTF-8"); %>

@@ -39,7 +39,7 @@
 %>
                 <tr>
                     <td><%=a.getTeacher_no()%></td>
-                    <td><a href="selectTeacherAddrList.jsp?send_id=<%=a.getTeacher_no()%>"><%=a.getTeacherName()%></td>
+                    <td><a href="teacherAddrList.jsp?send_id=<%=a.getTeacher_no()%>"><%=a.getTeacherName()%></td>
                     <td><%=a.getTeacherAge()%></td>
                     <td><a href="insertTeacherAddrForm.jsp?send_id=<%=a.getTeacher_no()%>">주소입력</a></td>
                     <td><a href="deleteTeacherAction.jsp?send_id=<%=a.getTeacher_no()%>">삭제</a></td>

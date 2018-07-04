@@ -27,5 +27,6 @@
 			<tr>
 				<td>teacher_age</td>
 				<td><input type="text" name="teacher_age" value=<%=t.getTeacherAge()%>></td>
+			</tr>
 		</table>
 	<input type="submit" value="수정">
