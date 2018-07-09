@@ -1,4 +1,4 @@
-//탁재은, 2018.07.02
+//탁재은, 2018.07.09
 package service;
 
 import java.sql.Connection;
@@ -11,19 +11,18 @@ import java.util.ArrayList;
 public class StudentDao {
 	
 	/*db연결 및 학생 테이블에 데이터 상입
-	매개변수는 stu객체참조변수로서 stu를 통해 학생데이터를 가져온다.
-	insert만 하기때문에 리턴은 사용하지않는다.
-	student_no는 기본값으로 auto_increment를 주었기때문에 입력하지않는다.
 	--------------------------------------------
 	student_no | student_name | student_age
 	--------------------------------------------
 	 	1 |	 개미	 |	1212
 	--------------------------------------------
 	*/
-	//db.학생테이블에 데이터 저장
-	public void insertStudent(Student stu) {
+	//db의 학생테이블에 데이터 저장 및 주소테이블의 student_no컬럼에 학생테이블의 student_no값을 저장하기위해 학생번호 검색
+	public Student insertStudent(Student stu) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		ResultSet rs = null;
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
@@ -31,13 +30,30 @@ public class StudentDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			pstmt = conn.prepareStatement("insert into student (student_name, student_age) values (?, ?)"); //쿼리문준비
+			//학생 테이블에서 학생 이름과 학생 번호를 저장하기위한 쿼리문 준비
+			pstmt = conn.prepareStatement("insert into student (student_name, student_age) values (?, ?)");
+			
+			/*각 테이블의 기본키를 auto_increment로 주었기때문에
+			학생테이블에 먼저 데이터를 입력한 후 추가된 auto_increment를
+			select문으로 받아 저장했습니다.*/
+			//학생 테이블의 학생이름을 통해 학생 번호를 검색하는 쿼리문 준비
+			pstmt2 = conn.prepareStatement("select student_no from student where student_name=?");
 			
 			pstmt.setString(1, stu.getStudentName());
 			pstmt.setInt(2, stu.getStudentAge());
 			
+			pstmt2.setString(1, stu.getStudentName());
+			
 			pstmt.executeUpdate(); //쿼리문 실행
 			System.out.println("학생테이블저장");
+			
+			rs = pstmt2.executeQuery(); //쿼리문 실행
+			System.out.println("학생테이블select");
+			
+			if(rs.next()) {
+				stu.setStudentNo(rs.getInt("student_no")); //넘버데이터 가져와서 변수에 저장
+				System.out.println(stu.getStudentNo() + "<--학생넘버");
+			}
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -59,6 +75,7 @@ public class StudentDao {
 				}
 			}
 		}
+		return stu;
 	}
 	
 	/*
@@ -79,7 +96,7 @@ public class StudentDao {
 	--------------------------------------------
 	*/
 	//학생리스트 작업
-	public ArrayList<Student> selectStudentByPage(int currentPage, int pagePerRow){
+	public ArrayList<Student> selectStudentByPage(int currentPage, int pagePerRow, String word){
 		ArrayList<Student> studentList = new ArrayList<Student>(); //ArrayList클래스를 통해 배열객체 생성
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -91,21 +108,35 @@ public class StudentDao {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
 			
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-
 			System.out.println("연결 확인");
 			
-			pstmt = conn.prepareStatement("select student_no, student_name, student_age from student order by student_no limit ?, ?"); //쿼리문준비
-			
-			pstmt.setInt(1, startPage);
-			pstmt.setInt(2, pagePerRow);
+			if(word.equals("")) { //검색이 없을 경우 그대로 리스트 처리
+				//학생 테이블에서 학생번호와 학생이름, 학생나이를 검색하는 쿼리문 준비(조건 : 학생번호를 기점으로 오름차순, 지정한 숫자대로 테이블의 열을 보여준다)
+				pstmt = conn.prepareStatement("select student_no, student_name, student_age from student order by student_no limit ?, ?");
+				
+				pstmt.setInt(1, startPage);
+				pstmt.setInt(2, pagePerRow);
+				
+				System.out.println("쿼리문 실행 1");
+				
+			} else { //검색이 있을경우 검색한 문자가 포함된 결과를 리스트로 처리
+				//학생 테이블에서 학생번호와 학생이름, 학생나이를 검색하는 쿼리문 준비(조건 : 학생이름컬럼에서 지정한 문자가 들어가있는 열을 검색)
+				pstmt = conn.prepareStatement("select student_no, student_name, student_age from student where student_name like ? order by student_no limit ?, ?");
+				
+				pstmt.setString(1, "%"+word+"%");
+				pstmt.setInt(2, startPage);
+				pstmt.setInt(3, pagePerRow);
+				
+				System.out.println("쿼리문 실행 2");
+			}
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
 			
 			while(rs.next()) {
 				Student student = new Student(); //Student클래스를 통해 객체를 생성 후 ResultSet객체에서 꺼내온 데이터들을 student객체참조변수를 통해 객체 내에 값을 대입 
-				student.setStudentNo(rs.getInt("student_no"));
-				student.setStudentName(rs.getString("student_name"));
-				student.setStudentAge(rs.getInt("student_age"));
+				student.setStudentNo(rs.getInt("student_no")); //학생번호
+				student.setStudentName(rs.getString("student_name")); //학생이름
+				student.setStudentAge(rs.getInt("student_age")); //학생나이
 				
 				studentList.add(student); //각 객체의 주소값을 배열의 인덱스에 추가
 			}
@@ -148,7 +179,8 @@ public class StudentDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			pstmt = conn.prepareStatement("select count(*) from student"); //쿼리문준비
+			//학생 테이블의 전체행의 값을 구하는 쿼리문 준비
+			pstmt = conn.prepareStatement("select count(*) from student");
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
 			
@@ -198,17 +230,17 @@ public class StudentDao {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
 			
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-
 			System.out.println("연결 확인");
 			
-			pstmt = conn.prepareStatement("select student_name, student_age from student where student_no=?"); //쿼리문준비
+			//학생테이블의 학생번호를 통해 학생이름과 학생나이를 검색하는 쿼리문 준비
+			pstmt = conn.prepareStatement("select student_name, student_age from student where student_no=?");
 			
 			pstmt.setInt(1, studentNo);
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
 			
 			if(rs.next()) {
-				student.setStudentName(rs.getString("student_name")); //ResultSet객체에서 꺼내온 데이터들을 student객체참조변수를 통해 객체 내에 값을 대입 
+				student.setStudentName(rs.getString("student_name")); //ResultSet객체에서 꺼내온 데이터들을  학생 객체의 주소값을 통해 데이터 저장 
 				student.setStudentAge(rs.getInt("student_age"));
 			}
 			
@@ -232,7 +264,7 @@ public class StudentDao {
 				}
 			}
 		}
-		return student;
+		return student; //학생 객체의 주소값을 리턴값으로한다
 	}
 	
 	//학생 테이블 데이터 수정
@@ -246,11 +278,12 @@ public class StudentDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			pstmt = conn.prepareStatement("update student set student_name=?, student_age=? where student_no=?"); //쿼리문준비
+			//학생 테이블의 학생번호를 통해 학생이름과 학생나이 데이터를 수정하는 쿼리문 준비
+			pstmt = conn.prepareStatement("update student set student_name=?, student_age=? where student_no=?");
 			
-			pstmt.setString(1, stu.getStudentName());
-			pstmt.setInt(2, stu.getStudentAge());
-			pstmt.setInt(3, stu.getStudentNo());
+			pstmt.setString(1, stu.getStudentName()); //학생이름
+			pstmt.setInt(2, stu.getStudentAge()); //학생나이
+			pstmt.setInt(3, stu.getStudentNo()); //학생번호
 			
 			pstmt.executeUpdate(); //쿼리문 실행
 
@@ -287,7 +320,8 @@ public class StudentDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			pstmt = conn.prepareStatement("delete from student where student_no=?"); //쿼리문준비
+			//학생 테이블에서 학생번호가 들어간 행을 전체 삭제
+			pstmt = conn.prepareStatement("delete from student where student_no=?");
 			
 			pstmt.setInt(1, studentNo);
 			

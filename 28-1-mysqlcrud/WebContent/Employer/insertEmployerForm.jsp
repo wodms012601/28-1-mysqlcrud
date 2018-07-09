@@ -1,4 +1,4 @@
-<!-- 탁재은, 2018.07.03 -->
+<!-- 탁재은, 2018.07.09 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,14 +15,14 @@
 						<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
 						<td>이름 :&nbsp;</td>
 						<td>
-							<input type="text" name="name">
+							<input type="text" name="employerName">
 						</td>
 					</tr>
 					<tr><!-- 나이 -->
 						<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
 						<td>나이 :&nbsp;</td>
 						<td colspan="3">
-							<input type="text" name="age" size="40">
+							<input type="text" name="employerAge" size="40">
 						</td>
 					</tr>
 					<tr><!-- 주소 -->

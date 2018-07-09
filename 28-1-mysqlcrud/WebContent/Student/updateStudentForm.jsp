@@ -1,14 +1,15 @@
-<!-- 탁재은, 2018.07.03 -->
+<!-- 탁재은, 2018.07.09 -->
 <%@ page language = "java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%@ page import = "service.*" %>
 <!DOCTYPE html>
 <%
-	int studentNo = Integer.parseInt(request.getParameter("no")); //어느 학생을 보려고 했는지 알기위해 no값을 넘겨줌
+	int studentNo = Integer.parseInt(request.getParameter("no")); //리스트 페이지에서 넘겨받은 학생 번호 데이터를 변수에 저장
 	StudentDao studentDao = new StudentDao();
-	Student student = studentDao.selectStudent(studentNo); //객체에서 메서드를 생성해 select문으로 이름과 나이값을 찾음
+	Student student = studentDao.selectStudent(studentNo); //학생 번호 데이터를 매개변수로 학생 리스트 검색 메서드를 호출, 학생이름과 학생나이가 저장된 학생 객체의 주소값을 리턴받는다.
 	
 	StudentAddrDao studentAddrDao = new StudentAddrDao();
-	StudentAddr studentAddr = studentAddrDao.selectStudentAddr(studentNo); //주소객체에서 메서드를 이용해 select문으로 학생주소를 찾음 
+	//학생 번호 데이터를 매개변수로 학생주소 리스트 검색 메서드를 호출, 학생 주소가 저장된 학생주소 객체의 주소값을 리턴받는다.
+	StudentAddr studentAddr = studentAddrDao.selectStudentAddr(studentNo);
 %>
 <html>
 	<head>

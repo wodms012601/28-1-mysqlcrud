@@ -1,4 +1,4 @@
-//탁재은, 2018.07.02
+//탁재은, 2018.07.09
 package service;
 
 import java.sql.Connection;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class StudentAddrDao {
 	
-	//db.학생주소테이블에 데이터 저장
+	//db의 학생주소테이블에 데이터 저장
 	public void insertStudentAddr(StudentAddr addr) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -20,7 +20,8 @@ public class StudentAddrDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			pstmt = conn.prepareStatement("insert into student_addr (student_no, student_addr_content) values (?, ?)"); //쿼리문준비
+			//학생 주소 테이블에서 학생번호와 학생주소를 저장하는 쿼리문 준비
+			pstmt = conn.prepareStatement("insert into student_addr (student_no, student_addr_content) values (?, ?)");
 			
 			pstmt.setInt(1, addr.getStudentNo());
 			pstmt.setString(2, addr.getStudentAddrContent());
@@ -77,17 +78,17 @@ public class StudentAddrDao {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
 			
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-
 			System.out.println("연결 확인");
 			
-			pstmt = conn.prepareStatement("select student_addr_no, student_no, student_addr_content from student_addr where student_no=?"); //쿼리문준비
+			//학생주소 테이블에서 학생번호를 통해 학생주소번호, 학생번호, 학생주소 데이터를 찾는 쿼리문 준비
+			pstmt = conn.prepareStatement("select student_addr_no, student_no, student_addr_content from student_addr where student_no=?");
 			
 			pstmt.setInt(1, studentNo);
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
 			
 			if(rs.next()) {
-				studentAddr.setStudentAddrNo(rs.getInt("student_addr_no")); //ResultSet객체에서 꺼내온 데이터들을 studentAddr객체참조변수를 통해 객체 내에 값을 대입 
+				studentAddr.setStudentAddrNo(rs.getInt("student_addr_no")); //ResultSet객체에서 꺼내온 데이터들을  학생주소 객체의 주소값을 통해 데이터 저장 
 				studentAddr.setStudentNo(rs.getInt("student_no"));
 				studentAddr.setStudentAddrContent(rs.getString("student_addr_content"));
 			}
@@ -112,7 +113,7 @@ public class StudentAddrDao {
 				}
 			}
 		}
-		return studentAddr;
+		return studentAddr; //학생주소 객체의 주소값을 리턴값으로한다
 	}
 	
 	//학생주소 페이징 작업
@@ -130,7 +131,8 @@ public class StudentAddrDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			pstmt = conn.prepareStatement("select count(*) from student_addr"); //쿼리문준비
+			//학생 주소테이블의 전체행의 값을 구하는 쿼리문 준비
+			pstmt = conn.prepareStatement("select count(*) from student_addr");
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
 			
@@ -165,7 +167,7 @@ public class StudentAddrDao {
 				}
 			}
 		}
-		return lastPage;
+		return lastPage; //마지막 페이지의 결과값을 리턴
 	}
 	
 	//학생 테이블 데이터 수정
@@ -179,7 +181,8 @@ public class StudentAddrDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			pstmt = conn.prepareStatement("update student_addr set student_addr_content=? where student_no=?"); //쿼리문준비
+			//학생 주소테이블의 학생번호를 통해 학생주소 데이터를 수정하는 쿼리문 준비
+			pstmt = conn.prepareStatement("update student_addr set student_addr_content=? where student_no=?");
 			
 			pstmt.setString(1, addr.getStudentAddrContent());
 			pstmt.setInt(2, addr.getStudentNo());
@@ -219,11 +222,13 @@ public class StudentAddrDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			pstmt = conn.prepareStatement("delete from student_addr where student_no=?"); //쿼리문준비
+			//학생주소테이블에서 학생번호가 들어간 행을 전체 삭제
+			pstmt = conn.prepareStatement("delete from student_addr where student_no=?");
 			
 			pstmt.setInt(1, studentNo);
 			
 			pstmt.executeUpdate(); //쿼리문 실행
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
