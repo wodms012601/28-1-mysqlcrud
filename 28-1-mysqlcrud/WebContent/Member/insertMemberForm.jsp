@@ -8,7 +8,7 @@
 	</head>
 	
 	<body>
-		<form action="./insertMemberAction.jsp" method="post">
+		<form action="<%=request.getContextPath() %>/insertMemberAction.jsp" method="post">
 			<input type="text" name="name">
 			<input type="text" name="age">
 			<input type="text" name="addr_content">

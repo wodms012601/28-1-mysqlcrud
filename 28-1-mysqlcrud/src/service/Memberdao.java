@@ -10,13 +10,11 @@ import java.util.ArrayList;
 
 public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여야합니다.
 
-	public Member InsertMember(Member m) { 
+	public void InsertMember(Member m) { 
 		/*void를 쓴 이유는 멤버변수를 사용하지 않고 메소드 안의 지역변수를 사용해주었기 때문에 */
 			
 			Connection conn = null;
 			PreparedStatement pstmt = null;
-			PreparedStatement pstmt1 = null;
-			ResultSet rs = null;
 			
 		try {
 			
@@ -31,20 +29,69 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
 			
 			pstmt = conn.prepareStatement("insert into member (member_name, member_age) values(?,?)");
-			pstmt1 = conn.prepareStatement("select member_no from member_addr where member_name=?");
 			
 			System.out.println(conn + "<-- Conn��");
 			pstmt.setString(1, m.getMember_name());
 			pstmt.setInt(2, m.getMember_age()); 
 			
 			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace(); // 
 			
-			pstmt1.setInt(1, m.getMember_no());
-			rs = pstmt1.executeQuery();
+		
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace(); // 
+		 /* try문안에 Class 클래스에서 forName 메소드를 호출할 때 오류가 발생할 경우 catch문으로 넘어와
+			Class 클래스에서 forName 메소드를 호출할 때  발생하는 예외인 ClassNotFoundException 객체 안에
+			단계별로 발생한 에러를 출력한다.*/
+		
+		} finally {
+			if (pstmt != null)
+				try { 
+					pstmt.close(); 
+				} 
+				catch(SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		    if (conn != null) 
+		    	try {
+		    		conn.close(); 
+		    	} catch(SQLException e) {
+		    		e.printStackTrace();	
+		    	}
+		  
+		}
+		/* finally문이 무조건 필요한 것은 아니다. finally가 사용되면 안의 내용은 무조건 실행 시켜야 하며 try 다음 catch 문장에 return; 이 있다고 해도 finally로 넘어온다.*/
+	public Member SelectNumber(String Id) { 
+		/*void를 쓴 이유는 멤버변수를 사용하지 않고 메소드 안의 지역변수를 사용해주었기 때문에 */
+			
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			Member m = null;
+			
+		try {
+			
+			Class.forName("com.mysql.jdbc.Driver");
+			// Class 클래스의 forName()함수를 이용하여 해당 클래스 메모리를 로드한다("동적로딩")
+			
+			
+			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
+			String dbUser = "dev28id";
+			String dbPass = "dev28pw";
+			
+			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			
+			pstmt = conn.prepareStatement("select * from member where member_no=?");
+			pstmt.setString(1, Id);
+			
+			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
+				m = new Member();
 				m.setMember_no(Integer.parseInt(rs.getString("member_no")));
-			}
+			}	
 			
 		} catch (SQLException e) {
 			e.printStackTrace(); // 
@@ -64,24 +111,17 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 				catch(SQLException e) {
 					e.printStackTrace();
 				}
-			if (pstmt1 != null)
-				try { 
-					pstmt.close(); 
-				} 
-				catch(SQLException e) {
-					e.printStackTrace();
-				}
+			}
 		    if (conn != null) 
 		    	try {
 		    		conn.close(); 
 		    	} catch(SQLException e) {
 		    		e.printStackTrace();	
 		    	}
+			return m;
 		  
 		}
-		/* finally문이 무조건 필요한 것은 아니다. finally가 사용되면 안의 내용은 무조건 실행 시켜야 하며 try 다음 catch 문장에 return; 이 있다고 해도 finally로 넘어온다.*/
-		return m;
-	}
+	
 	
 	public ArrayList<Member> selectMemberByPage(int currentpage, int pagePerRow) {
 		
@@ -91,7 +131,7 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 		ResultSet rs = null;
 		
 		int startPage = (currentpage -1) * pagePerRow;
-try {
+	try {
 			
 			Class.forName("com.mysql.jdbc.Driver");
 			// Class 클래스의 forName()함수를 이용하여 해당 클래스 메모리를 로드한다("동적로딩"
@@ -199,4 +239,6 @@ try {
 		}
 		return lastPage;
 	}
+	
+	
 }

@@ -1,9 +1,8 @@
 <!-- 2018-06-26 28기 송원민 모델1 insert 작업 -->
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
-<%@ page import="service.Member" %>
-<%@ page import="service.Memberdao" %>
-<%@ page import="service.MemberAddr" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page import="service.*" %>
+
+<!DOCTYPE html>
 
 <% request.setCharacterEncoding("euc-kr"); %>
 <!-- (1) jsp:useBean 을 사용한 방식 
@@ -32,13 +31,11 @@
 	abc.setMember_name(request.getParameter("name"));
 	abc.setMember_age(Integer.parseInt(request.getParameter("age")));
 	
-	MemberAddr def = new MemberAddr();
-	def.setMember_addr_content(request.getParameter("addr_content"));
-	/*28행 : abc객체참조변수 안에 주소값을 따라가 setMember_age 메소드 안의 int타입 member_age 매개변수에
-			InsertMemberForm.jsp에서 문자열을 넘겨받은 age값을 정수형으로 형변환을 시켜준다.*/
-
-	Memberdao a = new Memberdao();
-	a.InsertMember(m);
 	
+	
+	Memberdao a = new Memberdao();
+	a.InsertMember(abc);
+	
+	response.sendRedirect(request.getContextPath() + "/Member/memberList.jsp");
 	
 %>
