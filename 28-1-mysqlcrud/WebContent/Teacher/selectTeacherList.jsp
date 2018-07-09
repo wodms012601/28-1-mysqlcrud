@@ -1,7 +1,8 @@
-<!-- 28th Choi Yun-Seok, 2018.07.03 -->
+<!-- 28th Choi Yun-Seok, 2018.07.9 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 <%@ page import="service.*" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,18 +11,27 @@
 </head>
 <body>
 <%
-	int currentPage = 1; // 현재 페이지
+	request.setCharacterEncoding("UTF-8");
+
+	int currentPage = 1;
+	int pagePerRow = 10;
+	
 	if(request.getParameter("currentPage") != null) {
-	    currentPage = Integer.parseInt(request.getParameter("currentPage")); // 인트 변환
+	    currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
+	
+	String keyword = "";
+	if(request.getParameter("keyword") != null){
+		keyword = request.getParameter("keyword");
+	}
+		
 	TeacherDao teacherDao = new TeacherDao();
-	int totalRowCount = teacherDao.selectTotalTeacherCount(); // 전체 행의 수
-	int pagePerRow = 10; // 한 페이지당 보이는 수
-	int beginRow = (currentPage-1)*pagePerRow;
-	ArrayList<Teacher> list = teacherDao.selectTeacherByPage(beginRow, pagePerRow); // 주소값 리턴
+	ArrayList<Teacher> teacherList = teacherDao.selectTeacherByPage(currentPage, pagePerRow, keyword);
+	
+	int lastPage = teacherDao.teacherPaging(pagePerRow);
+	
 %>
  
-    <div>전체행의 수 : <%=totalRowCount%> / 현재행의 수: <%=list.size()%></div>
     <table border="1">
         <thead>
             <tr>
@@ -29,21 +39,25 @@
                 <th>teacher_name</th>
                 <th>teacher_age</th>
                 <th>주소입력</th>
+                <th>점수입력</th>
                 <th>삭제</th>
                 <th>수정</th>
+                <th>조인</th>
             </tr>
         </thead>
         <tbody>
 <%
-            for(Teacher a : list) {
+				for(int i=0; i<teacherList.size(); i++){
 %>
                 <tr>
-                    <td><%=a.getTeacher_no()%></td>
-                    <td><a href="teacherAddrList.jsp?send_id=<%=a.getTeacher_no()%>"><%=a.getTeacherName()%></td>
-                    <td><%=a.getTeacherAge()%></td>
-                    <td><a href="insertTeacherAddrForm.jsp?send_id=<%=a.getTeacher_no()%>">주소입력</a></td>
-                    <td><a href="deleteTeacherAction.jsp?send_id=<%=a.getTeacher_no()%>">삭제</a></td>
-                    <td><a href="updateTeacherForm.jsp?send_id=<%=a.getTeacher_no()%>">수정</a></td>
+                    <td><%=teacherList.get(i).getTeacher_no()%></td>
+                    <td><a href="teacherAddrList.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>"><%=teacherList.get(i).getTeacherName()%></a></td>
+                    <td><%=teacherList.get(i).getTeacherAge()%></td>
+                    <td><a href="insertTeacherAddrForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">주소입력</a></td>
+                    <td><a href="insertTeacherScoreForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">점수입력</a></td>
+                    <td><a href="deleteTeacherAction.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">삭제</a></td>
+                    <td><a href="updateTeacherForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">수정</a></td>
+                    <td><a href="teacherAndScoreList.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">조인</a></td>
                 </tr>
 <%        
             }
@@ -51,33 +65,30 @@
         </tbody>
     </table>
     
-    <form>
-    	<div>
-    		이름 :
-    		<input type = "text" name="searchWord">
-    		<button type = "button">검색</button>
-    	</div>
+    <form action="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp" method="post">
+    		<input type = "text" name="keyword">
+    		<input type="submit" value = "검색하기">
+    	
     </form>
-<%
-    int lastPage = totalRowCount/pagePerRow; // 마지막 페이지
-    if(totalRowCount%pagePerRow != 0) {
-        lastPage++;
-    }
-%>
+    
     <div>
-<%
-        if(currentPage>1) {
-%>
-            <a href="<%=request.getContextPath()%>/Teacher/selectTeacherList.jsp?currentPage=<%=currentPage-1%>">이전</a>
-<%
-        }
-        if(currentPage<lastPage) {
-%>
- 
-            <a href="<%=request.getContextPath()%>/Teacher/selectTeacherList.jsp?currentPage=<%=currentPage+1%>">다음</a>
-<%
-        }
-%>
+		<%
+			if(currentPage > 1){
+		%>
+			<a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp?currentPage=<%=currentPage-1 %>">이전</a>
+		<%
+			}
+			for(int L=1; L<=lastPage; L++){
+		%>
+			<a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp?currentPage=<%=L%>"><%=L%></a>
+		<%
+			}
+			if(currentPage < lastPage){
+		%>
+			<a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp?currentPage=<%=currentPage+1 %>">다음</a>
+		<%	
+			}
+		%>
     </div>
 
 </body>

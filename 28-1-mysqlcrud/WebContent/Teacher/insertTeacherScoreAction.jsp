@@ -7,15 +7,12 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Insert title here</title>
-	
-<%	
-	Teacher t = new Teacher();
-	t.setTeacher_no(Integer.parseInt(request.getParameter("teacher_no")));
-	t.setTeacherName(request.getParameter("teacher_name"));
-	t.setTeacherAge(Integer.parseInt(request.getParameter("teacher_age")));;
-
-	TeacherDao teacherDao = new TeacherDao();
-	
-	teacherDao.updateTeacher(t);
+<%
+	TeacherScore teacherScore = new TeacherScore();
+	teacherScore.setTeacherNo(Integer.parseInt(request.getParameter("teacher_no")));
+	teacherScore.setScore(Integer.parseInt(request.getParameter("score")));
+		
+	TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
+	teacherScoreDao.insertTeacherScore(teacherScore);
 	response.sendRedirect(request.getContextPath() + "/Teacher/selectTeacherList.jsp");
 %>

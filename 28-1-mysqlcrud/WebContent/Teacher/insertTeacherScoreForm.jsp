@@ -10,15 +10,18 @@
 </style>
 </head>
 <body>
-<form action = "<%= request.getContextPath() %>/Teacher/insertTeacherAction.jsp" method="post">
+<%
+	String send_id = request.getParameter("send_id");
+%>
+<form action = "<%= request.getContextPath() %>/Teacher/insertTeacherScoreAction.jsp" method="post">
 	<fieldset id = "box">
-		<legend>insert Teacher Form</legend>
+		<legend>insert Teacher Score Form</legend>
 		
-		<label for="1">teacherName</label>
-		<input type = "text" name = "teacherName"/> <br/>
+		<label for="1">teacher_no</label>
+		<input type = "text" name = "teacher_no" value=<%=send_id%> readonly="readonly"> <br/>
 		
-		<label for="2">teacherAge</label>
-		<input type = "text" name = "teacherAge"/> <br/> <br/>
+		<label for="2">Score</label>
+		<input type = "text" name = "score"/> <br/> <br/>
 		
 		<input type = "submit" value = "insert">
 	</fieldset>

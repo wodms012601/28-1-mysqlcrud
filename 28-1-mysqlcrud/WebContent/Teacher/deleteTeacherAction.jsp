@@ -1,4 +1,4 @@
-<!-- 28th Choi Yun-Seok, 2018.07.03 -->
+<!-- 28th Choi Yun-Seok, 2018.07.9 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "service.*" %>
 <!DOCTYPE html>
