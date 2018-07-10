@@ -56,9 +56,17 @@ public class StudentScoreDao {
 	---------------------------------------------------------------
 	student_no | student_name | student_age	|	score
 	---------------------------------------------------------------
-	 	21 |	 탁재은	 |	23	|	95
+	 	1 |	 송원민	 |	25	|	95
 	---------------------------------------------------------------
-	 	20 |	 박씨	 |	26	|	100
+	 	2 |	 탁재은	 |	23	|	94
+	---------------------------------------------------------------
+	 	3 |	 최윤석	 |	24	|	90
+	---------------------------------------------------------------
+	 	4 |	 홍길동	 |	26	|	85
+	---------------------------------------------------------------
+	 	5 |	 김길동	 |	28	|	80
+	---------------------------------------------------------------
+	 	6 |	 이길이	 |	20	|	97
 	---------------------------------------------------------------
 	*/
 	public ArrayList<StudentAndScore> studentScoreJoin(){
@@ -122,9 +130,11 @@ public class StudentScoreDao {
 	---------------------------------------------------------------
 	student_no | student_name 	|	score
 	---------------------------------------------------------------
-	 	20 |	 박씨	 	|	100
+	 	6 |	 이길이	 	|	97
 	---------------------------------------------------------------
-	 	21 |	 탁재은	|	95
+	 	1 |	 송원민	|	95
+	---------------------------------------------------------------
+	 	2 |	 탁재은	|	94
 	---------------------------------------------------------------
 	*/
 	public ArrayList<StudentAndScore> selectStudentListAboveAvg(){
@@ -138,7 +148,7 @@ public class StudentScoreDao {
 		String user = "dev28id";
 		String password = "dev28pw";
 		//학생 테이블과 학생 점수 테이블을 조인해서 no와 점수, 이름을 검색하면서 평균 점수보다 높은 점수를 가진 학생만 출력하도록 조건을 주는 쿼리문 준비  
-		String sql = "select s.student_no, ss.score, s.student_name from student s inner join student_score ss on s.student_no=ss.student_no where score >= (select avg(score) from student_score) order by score desc";
+		String sql = "select s.student_no, s.student_name, ss.score from student s inner join student_score ss on s.student_no=ss.student_no where score >= (select avg(score) from student_score) order by score desc";
 		
 		try {
 			Class.forName(driver); //드라이버 로딩

@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class StudentAddrDao {
 	
@@ -54,20 +55,77 @@ public class StudentAddrDao {
 	--------------------------------------------
 	student_addr_no | student_no | student_addr_content
 	--------------------------------------------
-	 	1 |	 17	 |	전주싱
+	 	1 |	 1	 |	전주시 덕진구
 	--------------------------------------------
-	 	2 |	 18	 |	서울시
+	 	2 |	 2	 |	전주시
 	--------------------------------------------
-	 	3 |	 19	 |	부산시
+	 	3 |	 3	 |	전주시
 	--------------------------------------------
-	 	4 |	 20	 |	대전시
+	 	4 |	 4	 |	서울시
 	--------------------------------------------
-	 	5 |	 21	 |	광주시
+	 	5 |	 5	 |	대전시
 	--------------------------------------------
-	 	6 |	 22	 |	수원시
+	 	6 |	 6	 |	부산
 	--------------------------------------------
 	*/
 	//주소리스트 작업
+	public ArrayList<StudentAddr> selectStudentAddrList() {
+		ArrayList<StudentAddr> studentAddrList = new ArrayList<StudentAddr>(); //학생 주소객체의 주소값을 저장할 배열객체 생성
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
+			
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
+			System.out.println("연결 확인");
+			
+			//학생주소 테이블에서 학생번호를 통해 학생주소번호, 학생번호, 학생주소 데이터를 찾는 쿼리문 준비
+			pstmt = conn.prepareStatement("select student_addr_no, student_no, student_addr_content from student_addr");
+			
+			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
+			
+			while(rs.next()) {
+				StudentAddr addr = new StudentAddr();
+				addr.setStudentAddrNo(rs.getInt("student_addr_no")); //ResultSet객체에서 꺼내온 데이터들을  학생주소 객체의 주소값을 통해 데이터 저장 
+				addr.setStudentNo(rs.getInt("student_no"));
+				addr.setStudentAddrContent(rs.getString("student_addr_content"));
+				
+				studentAddrList.add(addr); //한번씩 반복될때마다 학생 주소객체의 주소값을 인덱스에 저장
+			}
+			
+		} catch (ClassNotFoundException e) { //예외가 일어났을경우의 처리
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally { //모든 처리가 끝나면 반드시 나중에 열린 객체 순서대로 닫아준다.
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return studentAddrList; //학생주소 객체의 주소값담은 배열객체의 주소값을 리턴
+	}
+	
+	/*
+	--------------------------------------------
+	student_addr_no | student_no | student_addr_content
+	--------------------------------------------
+	 	1 |	 1	 |	전주시 덕진구
+	--------------------------------------------
+	*/
+	//학생 주소테이블에서 한명의 학생 주소검색
 	public StudentAddr selectStudentAddr(int studentNo) {
 		StudentAddr studentAddr = new StudentAddr(); //StudentAddr클래스를 통해 객체를 생성
 		Connection conn = null;

@@ -4,11 +4,9 @@
 <%@ page import = "java.util.ArrayList" %>
 <!DOCTYPE html>
 <%
-	int studentNo = Integer.parseInt(request.getParameter("no")); //학생 리스트에서 받은 학생 번호데이터를 변수에 대입
-
 	StudentAddrDao studentAddrDao = new StudentAddrDao();
-	//학생 번호 데이터가 저장된 변수를 매개변수로 대입하고 학생주소 데이터들이 저장된 학생주소 객체의 주소값을 리턴받는다.
-	StudentAddr studentAddr = studentAddrDao.selectStudentAddr(studentNo); 
+	//학생 주소를 검색하는 메서드를 호출하고 학생 주소데이터가 담긴 객체의 주소값을 담은 배열객체의 주소값을 리턴받는다.
+	ArrayList<StudentAddr> studentAddrList = studentAddrDao.selectStudentAddrList(); 
 %>
 <html>
 	<head>
@@ -21,14 +19,18 @@
 				<th>학생주소번호</th>
 				<th>학생주소</th>
 			</tr>
+		<%
+			for(int i=0; i<studentAddrList.size(); i++){
+		%>
 			<tr>
-				<td><%=studentAddr.getStudentAddrNo() %></td>
-				<td><%=studentAddr.getStudentNo() %></td>
-				<td><%=studentAddr.getStudentAddrContent() %></td>
+				<td><%=studentAddrList.get(i).getStudentAddrNo() %></td>
+				<td><%=studentAddrList.get(i).getStudentNo() %></td>
+				<td><%=studentAddrList.get(i).getStudentAddrContent() %></td>
 			</tr>
-		</table>
-		<form>
-			<!-- 검색 -->
-		</form>
+		<%	
+			}
+		%>
+		</table><br>
+		<div><a href="<%=request.getContextPath() %>/Student/studentList.jsp">학생 리스트 페이지로</a></div>
 	</body>
 </html>
