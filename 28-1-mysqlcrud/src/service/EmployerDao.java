@@ -4,9 +4,7 @@ package service;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class EmployerDao {
 	
@@ -50,15 +48,5 @@ public class EmployerDao {
 				}
 			}
 		}
-	}
-	
-	public ArrayList<Employer> selectEmployer(int currentPage, int pagePerRow, String word){
-		ArrayList<Employer> employerList = new ArrayList<Employer>(); //ArrayList클래스를 통해 배열객체 생성
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		int startPage = (currentPage - 1) * pagePerRow; //처음 보는 글
-		return employerList;
 	}
 }

@@ -56,7 +56,6 @@
 				}
 			%>
 		</table>
-		<div><a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp">점수리스트보기</a></div>
 		<form>
 			<!-- 검색 -->
 		</form>
@@ -77,5 +76,8 @@
 		<%	
 			}
 		%>
+		<br>
+		<div><a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp">점수리스트</a></div>
+		<div><a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp">평균점수 이상의 학생들의 리스트</a></div>
 	</body>
 </html>

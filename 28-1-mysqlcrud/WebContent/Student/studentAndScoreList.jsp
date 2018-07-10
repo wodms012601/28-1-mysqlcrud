@@ -32,7 +32,8 @@
 		<%
 			}
 		%>
-		</table>
+		</table><br>
+		<div><a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp">평균점수 이상의 학생들의 리스트</a></div>
 		<div><a href="<%=request.getContextPath() %>/Student/studentList.jsp">학생 리스트 페이지로</a></div>
 	</body>
 </html>

@@ -117,8 +117,18 @@ public class StudentScoreDao {
 		return studentJoin; //조인객체의 주소값들이 저장된 배열객체의 주소값을 리턴
 	}
 	
+	//학생 테이블과 학생 점수 테이블을 조인해서 평균점수를 넘은 학생만 검색하는 검색하는 메서드
+	/*
+	---------------------------------------------------------------
+	student_no | student_name 	|	score
+	---------------------------------------------------------------
+	 	20 |	 박씨	 	|	100
+	---------------------------------------------------------------
+	 	21 |	 탁재은	|	95
+	---------------------------------------------------------------
+	*/
 	public ArrayList<StudentAndScore> selectStudentListAboveAvg(){
-		ArrayList<StudentAndScore> list = new ArrayList<StudentAndScore>();
+		ArrayList<StudentAndScore> studentAvg = new ArrayList<StudentAndScore>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -127,26 +137,106 @@ public class StudentScoreDao {
 		String url = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=utf-8";
 		String user = "dev28id";
 		String password = "dev28pw";
+		//학생 테이블과 학생 점수 테이블을 조인해서 no와 점수, 이름을 검색하면서 평균 점수보다 높은 점수를 가진 학생만 출력하도록 조건을 주는 쿼리문 준비  
+		String sql = "select s.student_no, ss.score, s.student_name from student s inner join student_score ss on s.student_no=ss.student_no where score >= (select avg(score) from student_score) order by score desc";
 		
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, user, password);
+			Class.forName(driver); //드라이버 로딩
+				
+			conn = DriverManager.getConnection(url, user, password); //db연결
+			System.out.println("연결 확인");
 			
-			pstmt = conn.prepareStatement(sql);
+			pstmt = conn.prepareStatement(sql); //쿼리문 준비
 			
+			rs = pstmt.executeQuery(); //쿼리문 실행
 			
+			while(rs.next()) {
+				Student student = new Student(); //학생 테이블의 데이터를 저장하기위한 학생 객체
+				student.setStudentNo(rs.getInt("s.student_no")); //학생번호
+				student.setStudentName(rs.getString("s.student_name")); //학생이름
+				
+				StudentScore studentScore = new StudentScore(); //점수 테이블의 데이터를 저장하기위한 점수 객체
+				studentScore.setScore(rs.getInt("ss.score")); //학생점수
+				
+				StudentAndScore studentAndScore = new StudentAndScore(); //학생 객체와 점수 객체의 주소값을 저장하는 조인객체
+				studentAndScore.setStudent(student); //학생 객체
+				studentAndScore.setStudentScore(studentScore); //점수 객체
+				
+				studentAvg.add(studentAndScore); //한번씩 반복될때마다 조인객체의 주소값을 인덱스에 저장
+			}
 			
-			
-		} catch {
-			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		} finally {
-			
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
-		return list;
+		return studentAvg; //조인객체의 주소값들이 저장된 배열객체의 주소값을 리턴
 	}
 	
+	//평균점수를 구하는 메서드
 	public int selectScoreAvg() {
-		//평균점수 구하는 쿼리문
-		return 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		int avg = 0; //평균점수를 저장할 변수
+		
+		String driver = "com.mysql.jdbc.Driver";
+		String url = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=utf-8";
+		String user = "dev28id";
+		String password = "dev28pw";
+		//학생 점수테이블에서 집합함수를 사용해서 평균점수를 검색
+		String sql = "select avg(score) from student_score order by score desc";
+		
+		try {
+			Class.forName(driver); //드라이버 로딩
+				
+			conn = DriverManager.getConnection(url, user, password); //db연결
+			System.out.println("연결 확인");
+			
+			pstmt = conn.prepareStatement(sql); //쿼리문 준비
+			
+			rs = pstmt.executeQuery(); //쿼리문 실행
+			
+			while(rs.next()) {
+				avg = rs.getInt("avg(score)");
+			}
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return avg; //검색한 평균점수의 값을 담은 변수를 리턴
 	}
 }

@@ -13,4 +13,6 @@
 	
 	StudentScoreDao score = new StudentScoreDao();
 	score.insertScore(studentScore); //db의 학생점수테이블에 학생점수를 저장하기위한 메서드를 호출하면서 학생점수 객체의 주소값을 매개변수로 대입
+	
+	response.sendRedirect(request.getContextPath()+"/Student/studentList.jsp"); //모든 처리가 끝나면 리스트페이지로 이동
 %>
