@@ -50,7 +50,7 @@ public class MemberAddrDao {
 		
 	}
 	
-	public ArrayList<MemberAddr> addrList(String no) {
+	public ArrayList<MemberAddr> addrList(int no) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -68,7 +68,7 @@ public class MemberAddrDao {
 			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
 			
 			pstmt = conn.prepareStatement("select member_addr_no, member_no, member_addr_content from member_addr where member_no=?");
-			pstmt.setString(1, no);
+			pstmt.setInt(1, no);
 			
 			rs = pstmt.executeQuery();
 			MemberAddr m1 = null;

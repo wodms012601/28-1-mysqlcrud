@@ -11,4 +11,6 @@
 	
 	MemberAddrDao dao = new MemberAddrDao();
 	dao.insertaddrList(dao1);
+	
+	response.sendRedirect(request.getContextPath() + "/Member/memberList.jsp");
 %>
