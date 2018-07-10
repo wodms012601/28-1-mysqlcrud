@@ -21,8 +21,18 @@
 	}
 	
 	String keyword = "";
+
+
 	if(request.getParameter("keyword") != null){
+
 		keyword = request.getParameter("keyword");
+
+		request.getSession().setAttribute("keyword", keyword);
+
+	}else if(request.getSession().getAttribute("keyword") != null){ 
+
+		keyword = (String)request.getSession().getAttribute("keyword");
+
 	}
 		
 	TeacherDao teacherDao = new TeacherDao();
@@ -66,7 +76,7 @@
 %>
         </tbody>
     </table>
-    
+    <br>
     <form action="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp" method="post">
     		<input type = "text" name="keyword">
     		<input type="submit" value = "검색하기">
