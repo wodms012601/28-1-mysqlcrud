@@ -7,12 +7,14 @@
 	//UTF-8로 인코딩
 	request.setCharacterEncoding("UTF-8");
 
+	//페이징 작업
 	int pagePerRow = 5; //한 페이지당 보는 갯수
 	int currentPage = 1; //현재 페이지
 	if(request.getParameter("currentPage") != null){ //페이지 이동 후 currentPage가 String타입이 되기때문에 int 데이터타입으로 변경
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
 	
+	//검색 작업
 	String word = ""; //검색 초기값 공백
 	if(request.getParameter("word") != null){
 		word = request.getParameter("word"); //검색값이 들어오면 변수에 저장
@@ -46,7 +48,7 @@
 			%>
 			<tr>
 				<td><%=studentList.get(i).getStudentNo() %></td>
-				<td><a href="<%=request.getContextPath() %>/Student/studentAddrList.jsp?no=<%=studentList.get(i).getStudentNo() %>"><%=studentList.get(i).getStudentName() %></a></td> <!-- 주소링크 -->
+				<td><a href="<%=request.getContextPath() %>/Student/selectStudentAddr.jsp?no=<%=studentList.get(i).getStudentNo() %>"><%=studentList.get(i).getStudentName() %></a></td> <!-- 주소링크 -->
 				<td><%=studentList.get(i).getStudentAge() %></td>
 				<td><a href="<%=request.getContextPath() %>/Student/updateStudentForm.jsp?no=<%=studentList.get(i).getStudentNo() %>">수정</a></td>
 				<td><a href="<%=request.getContextPath() %>/Student/deleteStudent.jsp?no=<%=studentList.get(i).getStudentNo() %>">삭제</a></td>
@@ -78,6 +80,7 @@
 		%>
 		<br>
 		<div><a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp">점수리스트</a></div>
-		<div><a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp">평균점수 이상의 학생들의 리스트</a></div>
+		<div><a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp">평균점수 이상의 학생들의 리스트</a></div><br>
+		<div><a href="<%=request.getContextPath() %>/index.jsp">메인 페이지로</a></div>
 	</body>
 </html>

@@ -69,11 +69,13 @@ public class StudentAddrDao {
 	--------------------------------------------
 	*/
 	//주소리스트 작업
-	public ArrayList<StudentAddr> selectStudentAddrList() {
+	public ArrayList<StudentAddr> selectStudentAddrList(int currentPage, int pagePerRow, String word) {
 		ArrayList<StudentAddr> studentAddrList = new ArrayList<StudentAddr>(); //학생 주소객체의 주소값을 저장할 배열객체 생성
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
+		int startPage = (currentPage - 1) * pagePerRow; //처음 보는 글
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
@@ -81,16 +83,29 @@ public class StudentAddrDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			//학생주소 테이블에서 학생번호를 통해 학생주소번호, 학생번호, 학생주소 데이터를 찾는 쿼리문 준비
-			pstmt = conn.prepareStatement("select student_addr_no, student_no, student_addr_content from student_addr");
-			
+			if(word.equals("")) { //검색이 없을 경우 그대로 리스트 처리
+				//학생주소 테이블에서 학생번호와 학생주소번호, 학생주소를 검색하는 쿼리문 준비(조건 : 학생번호를 기점으로 오름차순, 지정한 숫자대로 테이블의 열을 보여준다)
+				pstmt = conn.prepareStatement("select student_addr_no, student_no, student_addr_content from student_addr order by student_addr_no limit ?, ?");
+				
+				pstmt.setInt(1, startPage);
+				pstmt.setInt(2, pagePerRow);
+				
+			} else { //검색이 있을경우 검색한 문자가 포함된 결과를 리스트로 처리
+				//학생 테이블에서 학생번호와 학생이름, 학생나이를 검색하는 쿼리문 준비(조건 : 학생이름컬럼에서 지정한 문자가 들어가있는 열을 검색)
+				pstmt = conn.prepareStatement("select student_addr_no, student_no, student_addr_content from student_addr where student_addr_content like ? order by student_addr_no limit ?, ?");
+				
+				pstmt.setString(1, "%"+word+"%");
+				pstmt.setInt(2, startPage);
+				pstmt.setInt(3, pagePerRow);
+			}
+
 			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
 			
 			while(rs.next()) {
-				StudentAddr addr = new StudentAddr();
-				addr.setStudentAddrNo(rs.getInt("student_addr_no")); //ResultSet객체에서 꺼내온 데이터들을  학생주소 객체의 주소값을 통해 데이터 저장 
-				addr.setStudentNo(rs.getInt("student_no"));
-				addr.setStudentAddrContent(rs.getString("student_addr_content"));
+				StudentAddr addr = new StudentAddr(); //ResultSet객체에서 꺼내온 데이터들을  학생주소 객체의 주소값을 통해 데이터 저장 
+				addr.setStudentAddrNo(rs.getInt("student_addr_no")); //학생 주소번호
+				addr.setStudentNo(rs.getInt("student_no")); //학생 번호
+				addr.setStudentAddrContent(rs.getString("student_addr_content")); //학생 주소
 				
 				studentAddrList.add(addr); //한번씩 반복될때마다 학생 주소객체의 주소값을 인덱스에 저장
 			}

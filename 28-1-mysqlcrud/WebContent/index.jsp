@@ -16,6 +16,7 @@
 			<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp">선생님리스트</a></li>
 			<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherAddrList.jsp">선생님주소리스트</a></li>
 			<li><a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreList.jsp">선생님점수리스트</a></li>
+			<li><a href="<%=request.getContextPath() %>/Teacher/teacherListAboveAvg.jsp">평균점수이상의 선생님 리스트</a></li>
 		</ul>
 	</body>
 </html>

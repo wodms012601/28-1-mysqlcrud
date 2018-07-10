@@ -69,11 +69,13 @@ public class StudentScoreDao {
 	 	6 |	 이길이	 |	20	|	97
 	---------------------------------------------------------------
 	*/
-	public ArrayList<StudentAndScore> studentScoreJoin(){
+	public ArrayList<StudentAndScore> studentScoreJoin(int currentPage, int pagePerRow){
 		ArrayList<StudentAndScore> studentJoin = new ArrayList<StudentAndScore>(); //join한 데이터들을 담은 객체의 주소값을 저장하기위한 배열객체 생성
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
+		int startPage = (currentPage - 1) * pagePerRow; //처음 보는 글
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
@@ -81,8 +83,11 @@ public class StudentScoreDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=utf-8", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			//점수테이블과 학생테이블을 조인(join)해서 두 테이블의 컬럼값들을 리스트 처리할수있도록 쿼리문 준비
-			pstmt = conn.prepareStatement("select student.student_no, student.student_name, student.student_age, student_score.score from student_score inner join student on student_score.student_no=student.student_no");
+			//점수테이블과 학생테이블을 조인(join)해서 두 테이블의 컬럼값들을 리스트 처리할수있도록 쿼리문 준비(조건 : 지정한 숫자대로 테이블의 열을 보여준다)
+			pstmt = conn.prepareStatement("select student.student_no, student.student_name, student.student_age, student_score.score from student_score inner join student on student_score.student_no=student.student_no order by student_no limit ?, ?");
+			
+			pstmt.setInt(1, startPage);
+			pstmt.setInt(2, pagePerRow);
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행
 			
@@ -125,6 +130,60 @@ public class StudentScoreDao {
 		return studentJoin; //조인객체의 주소값들이 저장된 배열객체의 주소값을 리턴
 	}
 	
+	//학생점수리스트 페이징 작업
+	public int paging(int pagePerRow) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		int totalRow = 0; //모든 행의 갯수를 담을 변수
+		int lastPage = 0; //마지막 페이지를 담을 변수
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
+			
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
+			System.out.println("연결 확인");
+			
+			//학생 테이블의 전체행의 값을 구하는 쿼리문 준비
+			pstmt = conn.prepareStatement("select count(*) from student_score");
+			
+			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
+			
+			if(rs.next()) {
+				//전체 행의 갯수를 totalRow에 대입
+				totalRow = rs.getInt("count(*)");
+			}
+			
+			if(totalRow % pagePerRow == 0){
+				lastPage = totalRow / pagePerRow;
+			} else{
+				lastPage = (totalRow / pagePerRow) + 1;
+			}
+				
+		} catch (ClassNotFoundException e) { //예외가 일어났을경우의 처리
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally { //모든 처리가 끝나면 반드시 나중에 열린 객체 순서대로 닫아준다.
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lastPage;
+	}
+	
 	//학생 테이블과 학생 점수 테이블을 조인해서 평균점수를 넘은 학생만 검색하는 검색하는 메서드
 	/*
 	---------------------------------------------------------------
@@ -137,18 +196,20 @@ public class StudentScoreDao {
 	 	2 |	 탁재은	|	94
 	---------------------------------------------------------------
 	*/
-	public ArrayList<StudentAndScore> selectStudentListAboveAvg(){
+	public ArrayList<StudentAndScore> selectStudentListAboveAvg(int currentPage, int pagePerRow){
 		ArrayList<StudentAndScore> studentAvg = new ArrayList<StudentAndScore>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
+		int startPage = (currentPage - 1) * pagePerRow; //처음 보는 글
+		
 		String driver = "com.mysql.jdbc.Driver";
 		String url = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=utf-8";
 		String user = "dev28id";
 		String password = "dev28pw";
-		//학생 테이블과 학생 점수 테이블을 조인해서 no와 점수, 이름을 검색하면서 평균 점수보다 높은 점수를 가진 학생만 출력하도록 조건을 주는 쿼리문 준비  
-		String sql = "select s.student_no, s.student_name, ss.score from student s inner join student_score ss on s.student_no=ss.student_no where score >= (select avg(score) from student_score) order by score desc";
+		//학생 테이블과 학생 점수 테이블을 조인해서 no와 점수, 이름을 검색하면서 평균 점수보다 높은 점수를 가진 학생만 출력하도록 조건을 주는 쿼리문 준비 (조건 : 점수가 가장 높은 학생이 맨 위로 지정한 숫자대로 테이블의 열을 보여준다)
+		String sql = "select s.student_no, s.student_name, ss.score from student s inner join student_score ss on s.student_no=ss.student_no where score >= (select avg(score) from student_score) order by score desc limit ?, ?";
 		
 		try {
 			Class.forName(driver); //드라이버 로딩
@@ -157,6 +218,9 @@ public class StudentScoreDao {
 			System.out.println("연결 확인");
 			
 			pstmt = conn.prepareStatement(sql); //쿼리문 준비
+			
+			pstmt.setInt(1, startPage);
+			pstmt.setInt(2, pagePerRow);
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행
 			
