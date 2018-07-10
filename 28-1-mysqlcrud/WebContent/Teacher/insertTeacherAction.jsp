@@ -1,8 +1,8 @@
-<!-- 28th Choi Yun-Seok, 2018.06.26 -->
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<!-- 28th Choi Yun-Seok, 2018.07.9 -->
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "service.TeacherDao" %>
 <%@ page import = "service.Teacher" %>
-<% request.setCharacterEncoding("EUC-KR"); %>
+<% request.setCharacterEncoding("UTF-8"); %>
 <!DOCTYPE html>
 
 <%
@@ -15,4 +15,5 @@
 	
 	TeacherDao tdao = new TeacherDao();
 	tdao.insertTeacher(t);
+	response.sendRedirect(request.getContextPath() + "/Teacher/selectTeacherList.jsp");
 %>
