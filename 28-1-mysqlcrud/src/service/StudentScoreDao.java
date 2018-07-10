@@ -53,13 +53,13 @@ public class StudentScoreDao {
 	
 	//점수 테이블과 학생 테이블 조인해서 리스트화
 	/*
-	-----------------------------------------------------------
-	student_no | student_name | student_age		|	score
-	-----------------------------------------------------------
-	 	21 |	 탁재은	 |	23		|	95
-	-----------------------------------------------------------
-	 	20 |	 박씨	 |	26		|	100
-	-----------------------------------------------------------
+	---------------------------------------------------------------
+	student_no | student_name | student_age	|	score
+	---------------------------------------------------------------
+	 	21 |	 탁재은	 |	23	|	95
+	---------------------------------------------------------------
+	 	20 |	 박씨	 |	26	|	100
+	---------------------------------------------------------------
 	*/
 	public ArrayList<StudentAndScore> studentScoreJoin(){
 		ArrayList<StudentAndScore> studentJoin = new ArrayList<StudentAndScore>(); //join한 데이터들을 담은 객체의 주소값을 저장하기위한 배열객체 생성
@@ -70,7 +70,7 @@ public class StudentScoreDao {
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
 				
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=utf-8", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
 			//점수테이블과 학생테이블을 조인(join)해서 두 테이블의 컬럼값들을 리스트 처리할수있도록 쿼리문 준비
@@ -115,5 +115,38 @@ public class StudentScoreDao {
 			}
 		}
 		return studentJoin; //조인객체의 주소값들이 저장된 배열객체의 주소값을 리턴
+	}
+	
+	public ArrayList<StudentAndScore> selectStudentListAboveAvg(){
+		ArrayList<StudentAndScore> list = new ArrayList<StudentAndScore>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String driver = "com.mysql.jdbc.Driver";
+		String url = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=utf-8";
+		String user = "dev28id";
+		String password = "dev28pw";
+		
+		try {
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, user, password);
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			
+			
+			
+		} catch {
+			
+		} finally {
+			
+		}
+		return list;
+	}
+	
+	public int selectScoreAvg() {
+		//평균점수 구하는 쿼리문
+		return 0;
 	}
 }
