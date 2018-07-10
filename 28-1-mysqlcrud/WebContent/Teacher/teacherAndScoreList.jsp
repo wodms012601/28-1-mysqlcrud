@@ -11,10 +11,9 @@
 	<body>
 	<%		
 		request.setCharacterEncoding("UTF-8");
-		int send_id = Integer.parseInt(request.getParameter("send_id"));
-		
+
 		TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
-		ArrayList<TeacherAndScore> arrayList = teacherScoreDao.selectTeacherAndScored(send_id);	
+		ArrayList<TeacherAndScore> arrayList = teacherScoreDao.selectTeacherAndScored();	
 	%>
 			<table border="1">
 				<tr>
@@ -24,16 +23,13 @@
 					<th>score</th>
 				</tr>
 				<%
-					for(int i=0; i<arrayList.size(); i++){
-						TeacherAndScore teacherAndScore = arrayList.get(i);
-						Teacher teacher = teacherAndScore.getTeacher();
-						TeacherScore teacherScore = teacherAndScore.getTeacherScore();				
+					for(int i=0; i<arrayList.size(); i++){			
 				%>
 						<tr>
-							<td><%=teacherScore.getTeacherNo()%></td>
-							<td><%=teacher.getTeacherName()%></td>
-							<td><%=teacher.getTeacherAge()%></td>
-							<td><%=teacherScore.getScore()%></td>
+							<td><%=arrayList.get(i).getTeacherScore().getTeacherNo()%></td>
+							<td><%=arrayList.get(i).getTeacher().getTeacherName()%></td>
+							<td><%=arrayList.get(i).getTeacher().getTeacherAge()%></td>
+							<td><%=arrayList.get(i).getTeacherScore().getScore()%></td>
 						</tr>
 				<%
 					}

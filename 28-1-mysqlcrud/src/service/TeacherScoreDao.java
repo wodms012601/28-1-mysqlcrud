@@ -105,7 +105,7 @@ public class TeacherScoreDao {
 		return list; // TeacherAndScore 객체의 주소값들이 저장된 배열객체의 주소값을 리턴
 	}
 
-	public ArrayList<TeacherAndScore> selectTeacherAndScored(int teacherNo) { //teacher테이블과 teacher_score테이블의 데이터를 조인/조회 
+	public ArrayList<TeacherAndScore> selectTeacherAndScored() { //teacher테이블과 teacher_score테이블의 데이터를 조인/조회 
 																			  //조회된 데이터를 ArrayList클래스타입으로 객체배열의 주소값이 담긴 ArrayList객체 주소값을 리턴하는 메서드
 		
 		Connection connection = null; 

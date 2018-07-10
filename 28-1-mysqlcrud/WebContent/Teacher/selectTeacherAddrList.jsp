@@ -44,14 +44,7 @@
 %>
         </tbody>
     </table>
-    
-    <form>
-    	<div>
-    		이름 :
-    		<input type = "text" name="searchWord">
-    		<button type = "button">검색</button>
-    	</div>
-    </form>
+
 <%
     int lastPage = totalRowCount/pagePerRow; // 마지막 페이지
     if(totalRowCount%pagePerRow != 0) {
