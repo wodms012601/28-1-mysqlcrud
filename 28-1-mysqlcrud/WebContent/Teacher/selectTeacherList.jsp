@@ -43,6 +43,7 @@
                 <th>삭제</th>
                 <th>수정</th>
                 <th>조인</th>
+                <th>평균점수</th>
             </tr>
         </thead>
         <tbody>
@@ -58,6 +59,7 @@
                     <td><a href="deleteTeacherAction.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">삭제</a></td>
                     <td><a href="updateTeacherForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">수정</a></td>
                     <td><a href="teacherAndScoreList.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">조인</a></td>
+                    <td><a href="teacherListAboveAvg.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">평균점수</a></td>
                 </tr>
 <%        
             }

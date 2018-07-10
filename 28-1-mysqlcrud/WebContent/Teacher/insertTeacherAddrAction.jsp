@@ -14,5 +14,5 @@
 		
 	TeacherAddrDao teacherAddrDao = new TeacherAddrDao();
 	teacherAddrDao.insertTeacherAdd(t);
-	response.sendRedirect(request.getContextPath() + "/Teacher/selectTeacherAddrList.jsp");
+	response.sendRedirect(request.getContextPath() + "/Teacher/selectTeacherList.jsp");
 %>

@@ -39,5 +39,6 @@
 					}
 				%>
 			</table>
+			<a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp">돌아가기</a>
 	</body>
 </html>

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class TeacherAddrDao {
 	
-	public TeacherAddr infoTeacherAddr(int TeacherAddrid) {
+	public TeacherAddr infoTeacherAddr(int TeacherAddrid) { // 주소 상세보기 메서드
 	    Connection connection = null;
 	    PreparedStatement statement = null;
 	    ResultSet resultset = null;
@@ -52,7 +52,7 @@ public class TeacherAddrDao {
 	
 	}
 	
-	public int selectTotalTeacherCountAddr() {
+	public int selectTotalTeacherCountAddr() { // 주소 리스트 카운트 메서드
 	    int rowCount = 0;
 	    Connection connection = null;
 	    PreparedStatement statement = null;
@@ -91,7 +91,7 @@ public class TeacherAddrDao {
 	    return rowCount;
 	}
 	
-	public ArrayList<TeacherAddr> selectTeacherAddr(int beginRow, int pagePerRow) {
+	public ArrayList<TeacherAddr> selectTeacherAddr(int beginRow, int pagePerRow) { // 주소 리스트 페이징
 		ArrayList<TeacherAddr> list = new ArrayList<TeacherAddr>();
 	    Connection connection = null;
 	    PreparedStatement statement = null;
@@ -136,7 +136,7 @@ public class TeacherAddrDao {
 	    return list;
 	}
 	
-	public int insertTeacherAdd(TeacherAddr t) {	
+	public int insertTeacherAdd(TeacherAddr t) { // 주소 등록 메서드
 		Connection con = null; 
 		PreparedStatement pstmt = null;
 		

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class TeacherDao {
 	
-	public ArrayList<Teacher> selectTeacherByPage(int currentPage, int pagePerRow, String keyword){
+	public ArrayList<Teacher> selectTeacherByPage(int currentPage, int pagePerRow, String keyword){ // like 연산자를 이용한 키워드 검색 및 페이징 메서드
 		ArrayList<Teacher> teacherList = new ArrayList<Teacher>();
 		Connection connection = null;
         PreparedStatement statement = null;
@@ -29,13 +29,13 @@ public class TeacherDao {
 		
 			System.out.println("데이터 베이스 연결");
 			
-			if(keyword.equals("")) { 
+			if(keyword.equals("")) { // 키워드가 없을 경우
 				statement = connection.prepareStatement("SELECT teacher_no, teacher_name, teacher_age FROM teacher ORDER BY teacher_no LIMIT ?, ?");
 				
 				statement.setInt(1, firstPage);
 				statement.setInt(2, pagePerRow);
 				
-			} else {
+			} else { // 키워드가 있을 경우
 				statement = connection.prepareStatement("SELECT teacher_no, teacher_name, teacher_age FROM teacher where teacher_name LIKE ? ORDER BY teacher_no LIMIT ?, ?");
 				
 				statement.setString(1, "%"+keyword+"%");
@@ -69,7 +69,7 @@ public class TeacherDao {
 		return teacherList;
 	}
 	
-	public void updateTeacher(Teacher t) {
+	public void updateTeacher(Teacher t) { // 정보 수정 메서드
 		Connection connection = null;
         PreparedStatement statement = null;
         
@@ -106,7 +106,7 @@ public class TeacherDao {
 		}		
 	}
 	
-	public Teacher selectForUpdateTeacher(String teacherId) {
+	public Teacher selectForUpdateTeacher(String teacherId) { // 정보 수정 전 기존의 정보를 불러오는 메서드
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultset = null;
@@ -149,7 +149,7 @@ public class TeacherDao {
 		return t;
 	}    
 	
-	public void deleteTeacher(String teacherId) {
+	public void deleteTeacher(String teacherId) { // 정보 삭제 메서드
 		Connection connection = null;
 	    PreparedStatement statement = null;
 		
@@ -183,7 +183,7 @@ public class TeacherDao {
 		}		
 	}
 		
-	public int teacherPaging(int pagePerRow) {
+	public int teacherPaging(int pagePerRow) { // 티쳐리스트 카운트 메서드
 		Connection connection = null;
 	    PreparedStatement statement = null;
 	    ResultSet resultset = null;
@@ -230,7 +230,7 @@ public class TeacherDao {
 		return lastPage;
 	}
 
-	public int insertTeacher(Teacher t) {
+	public int insertTeacher(Teacher t) { // 정보 등록 메서드
 		Connection con = null; 
 		PreparedStatement pstmt = null;
 		
