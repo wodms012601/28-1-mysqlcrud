@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class TeacherScoreDao {
 	
-	public int selectScoreAvg() { // 평군점수를 구하는 메서드
+	public int selectScoreAvg() { // 평균점수를 구하는 메서드
 		Connection conn = null; 
 		PreparedStatement stmt = null;
 		ResultSet resultSet = null;
@@ -52,7 +52,7 @@ public class TeacherScoreDao {
 		return AVG; // 평균점수 값을 담은 변수 리턴
 	}
 	
-	public ArrayList<TeacherAndScore> selectTeacherListAboveAVG() { // 편균점수 이상인 사람들을 구하는 메서드
+	public ArrayList<TeacherAndScore> selectTeacherListAboveAVG() { // 평균점수 이상인 사람들을 구하는 메서드
 		ArrayList<TeacherAndScore> list = new ArrayList<TeacherAndScore>();
 		Connection conn = null; 
 		PreparedStatement stmt = null;
@@ -106,7 +106,7 @@ public class TeacherScoreDao {
 	}
 
 	public ArrayList<TeacherAndScore> selectTeacherAndScored() { //teacher테이블과 teacher_score테이블의 데이터를 조인/조회 
-																			  //조회된 데이터를 ArrayList클래스타입으로 객체배열의 주소값이 담긴 ArrayList객체 주소값을 리턴하는 메서드
+	//조회된 데이터를 ArrayList타입으로 객체배열의 주소값이 담긴 ArrayList객체 주소값을 리턴하는 메서드
 		
 		Connection connection = null; 
 		PreparedStatement statement = null;
