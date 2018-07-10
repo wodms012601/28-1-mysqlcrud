@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<!-- 데이터 전송 확인용 테스트 폼 -->
-		<form action="<%= request.getContextPath()%>/insertStudentAction.jsp" method="post">
+		<form action="<%= request.getContextPath()%>/Employer/insertEmployerAction.jsp" method="post">
 			<fieldset>
 				<legend>개인 정보</legend>
 				<table>
@@ -35,7 +35,7 @@
 				</table>
 			</fieldset><br>
 			<fieldset>
-				<input type="button" value="가입">
+				<input type="submit" value="가입">
 			</fieldset>
 		</form>
 	</body>

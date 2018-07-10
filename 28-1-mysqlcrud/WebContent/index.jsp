@@ -7,7 +7,15 @@
 	<body>
 		<h1>index.jsp</h1>
 		<ul>
-			<li><a href="<%=request.getContextPath() %>/Student/studentList.jsp"></a></li>
+			<li><a href="<%=request.getContextPath() %>/Student/studentList.jsp">학생리스트</a></li>
+			<li><a href="<%=request.getContextPath() %>/Student/studentAddrList.jsp">학생주소리스트</a></li>
+			<li><a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp">학생점수리스트</a></li>
+		</ul>
+		<ul>
+			<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp">선생님리스트</a></li>
+			<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherAddrList.jsp">선생님주소리스트</a></li>
+			<li><a href="<%=request.getContextPath() %>/Teacher/teacherAddrList.jsp">teacherAddrList</a></li>
+			<li><a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreList.jsp">선생님점수리스트</a></li>
 		</ul>
 	</body>
 </html>
