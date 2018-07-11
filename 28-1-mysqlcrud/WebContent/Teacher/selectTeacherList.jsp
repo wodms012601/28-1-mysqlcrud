@@ -51,7 +51,7 @@ width:800px;
 <body>
 <%
 	request.setCharacterEncoding("UTF-8");
-
+	
 	int currentPage = 1;
 	int pagePerRow = 10;
 	
@@ -61,7 +61,7 @@ width:800px;
 	
 	String keyword = "";
 
-
+	// 검색 키워드 세션
 	if(request.getParameter("keyword") != null){
 
 		keyword = request.getParameter("keyword");

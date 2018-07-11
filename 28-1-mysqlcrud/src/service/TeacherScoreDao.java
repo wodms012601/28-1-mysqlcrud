@@ -182,17 +182,17 @@ public class TeacherScoreDao {
 				TeacherScore teacherScore = new TeacherScore();
 				teacherScore.setTeacherNo(resultSet.getInt("ts.teacher_no"));
 				teacherScore.setScore(resultSet.getInt("ts.score"));
-				
+
 				TeacherAndScore teacherAndScore = new TeacherAndScore();
 				teacherAndScore.setTeacher(teacher);
 				teacherAndScore.setTeacherScore(teacherScore);
-				
+
 				arraylist.add(teacherAndScore);
 
 			}
 		} catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
 			System.out.println(a.getMessage() + "<-- catch");
-			
+
 		} finally{ // 항상 수행할 필요가 있는 문장
 			
 			try {

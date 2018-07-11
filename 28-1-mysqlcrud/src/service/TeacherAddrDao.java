@@ -138,13 +138,13 @@ public class TeacherAddrDao {
 	}
 
 	public int insertTeacherAdd(TeacherAddr t) { // 주소 등록 메서드
-		Connection con = null; 
+		Connection con = null;
 		PreparedStatement pstmt = null;
 
 		try{ // 예외 발생 가능성이 있는 문장
 			Class.forName("com.mysql.jdbc.Driver");
 
-			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";		
+			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";	
 			String dbUserId = "dev28id";
 			String dbPassword = "dev28pw";
 

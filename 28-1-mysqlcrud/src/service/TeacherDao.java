@@ -13,7 +13,7 @@ public class TeacherDao {
 	public ArrayList<Teacher> selectTeacherByPage(int currentPage, int pagePerRow, String keyword){ // like 연산자를 이용한 키워드 검색 및 페이징 메서드
 		ArrayList<Teacher> teacherList = new ArrayList<Teacher>();
 		Connection connection = null;
-        PreparedStatement statement = null;
+		PreparedStatement statement = null;
 		ResultSet resultset = null;
 
 		int firstPage = (currentPage-1)*pagePerRow;
@@ -37,7 +37,7 @@ public class TeacherDao {
 
 			} else { // 키워드가 있을 경우
 				statement = connection.prepareStatement("SELECT teacher_no, teacher_name, teacher_age FROM teacher where teacher_name LIKE ? ORDER BY teacher_no LIMIT ?, ?");
-				
+
 				statement.setString(1, "%"+keyword+"%");
 				statement.setInt(2, firstPage);
 				statement.setInt(3, pagePerRow);
@@ -71,7 +71,7 @@ public class TeacherDao {
 
 	public void updateTeacher(Teacher t) { // 정보 수정 메서드
 		Connection connection = null;
-        PreparedStatement statement = null;
+		PreparedStatement statement = null;
 
         try { // 예외 발생 가능성이 있는 문장
 			Class.forName("com.mysql.jdbc.Driver");
@@ -107,10 +107,10 @@ public class TeacherDao {
 	}
 
 	public Teacher selectForUpdateTeacher(String teacherId) { // 정보 수정 전 기존의 정보를 불러오는 메서드
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultset = null;
-        Teacher t = null;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultset = null;
+		Teacher t = null;
 
         try { // 예외 발생 가능성이 있는 문장
 			Class.forName("com.mysql.jdbc.Driver");
@@ -147,11 +147,11 @@ public class TeacherDao {
 			}
 		}
 		return t;
-	}    
+	}
 
 	public void deleteTeacher(String teacherId) { // 정보 삭제 메서드
 		Connection connection = null;
-	    PreparedStatement statement = null;
+		PreparedStatement statement = null;
 
         try { // 예외 발생 가능성이 있는 문장
 			Class.forName("com.mysql.jdbc.Driver");
@@ -185,8 +185,8 @@ public class TeacherDao {
 
 	public int teacherPaging(int pagePerRow) { // 티쳐리스트 카운트 메서드
 		Connection connection = null;
-	    PreparedStatement statement = null;
-	    ResultSet resultset = null;
+		PreparedStatement statement = null;
+		ResultSet resultset = null;
 
 		int totalRow = 0;
 		int lastPage = 0;
@@ -194,7 +194,7 @@ public class TeacherDao {
 		try{ // 예외 발생 가능성이 있는 문장
 			Class.forName("com.mysql.jdbc.Driver");
 
-			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";		
+			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
 			String dbUserId = "dev28id";
 			String dbPassword = "dev28pw";
 
@@ -233,11 +233,11 @@ public class TeacherDao {
 	public int insertTeacher(Teacher t) { // 정보 등록 메서드
 		Connection con = null; 
 		PreparedStatement pstmt = null;
-		
+
 		try{ // 예외 발생 가능성이 있는 문장
 			Class.forName("com.mysql.jdbc.Driver");
 
-			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";		
+			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
 			String dbUserId = "dev28id";
 			String dbPassword = "dev28pw";
 
@@ -263,7 +263,7 @@ public class TeacherDao {
 			catch(SQLException a) {
 				System.out.println(a.getMessage() + "<-- catch");
 			}
-		}		
+		}
 		return 0;
 	}
 }
