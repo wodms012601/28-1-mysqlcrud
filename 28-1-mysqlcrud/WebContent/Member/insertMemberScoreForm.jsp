@@ -21,7 +21,6 @@
 			
 					<label for="2">Member_score</label>
 					<input type = "text" name = "score"> <br/> <br/>
-				
 			<input type = "submit" value = "insert">
 		</fieldset>
 	</form>

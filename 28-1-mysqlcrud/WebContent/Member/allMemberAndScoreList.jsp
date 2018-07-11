@@ -9,11 +9,17 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
+		
+		
 		<%
 			MemberScoreDao dao5 = new MemberScoreDao();
 			ArrayList<MemberAndScore> result4 = dao5.AllSelectMemberAndScore();
+			int a = dao5.selectScoreAvg();
+		%>			
+			전체평균 :<%=a %>
+		<%	
 			for(int i=0; i<result4.size(); i++) {
-		%>	
+		%>		
 			<table border="1">
 				<tr>
 					<td>회원번호</td>

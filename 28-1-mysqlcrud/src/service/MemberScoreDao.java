@@ -51,9 +51,47 @@ public class MemberScoreDao {
 	}
 	
 	public int selectScoreAvg() { // 평균을 구하는 메서드도 만들어 줘야함
-		
-		return 0;
-		// select avg()
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			int a = 0;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
+			String dbUser = "dev28id";
+			String dbPass = "dev28pw";
+			
+			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			
+			pstmt = conn.prepareStatement("(select avg(score) from member_score)");
+			
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				a = rs.getInt("avg(score)");
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null)
+				try { 
+					pstmt.close(); 
+				}
+				catch(SQLException e) {
+					e.printStackTrace();
+				}
+		    if (conn != null) 
+		    	try {
+		    		conn.close(); 
+		    	} catch(SQLException e) {
+		    		e.printStackTrace();	
+		    	}
+		}
+		return a;
 	}
 	
 	// 한화면당 평균90점이상의 회원점수정보를 몇개 꺼내올건지에 대한 메서드  선언(페이징처리)

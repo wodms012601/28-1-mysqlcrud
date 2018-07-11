@@ -13,7 +13,11 @@
 			MemberScoreDao dao3 = new MemberScoreDao();
 			
 			ArrayList<MemberAndScore> result3= dao3.overSelectMemberList();
-			
+			int a = dao3.selectScoreAvg();
+		%>
+		
+			전체평균 :<%=a %>
+		<%	
 			for(int i=0; i<result3.size(); i++) {
 		%>
 				<table border="1">
