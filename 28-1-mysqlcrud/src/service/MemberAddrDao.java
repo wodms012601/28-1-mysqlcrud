@@ -106,4 +106,66 @@ public class MemberAddrDao {
 			}
 			return list;
 		}
+		
+		public ArrayList<MemberAddr> allSelectMember() {
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			ArrayList<MemberAddr> list1 = new ArrayList<>();
+		
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				// Class 클래스의 forName()함수를 이용하여 해당 클래스 메모리를 로드한다("동적로딩")
+				
+				
+				String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
+				String dbUser = "dev28id";
+				String dbPass = "dev28pw";
+				
+				conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+				String sql = "select ma.member_addr_no, m.member_name, ma.member_addr_content from member_addr ma "
+						+ "inner join member m on ma.member_no = m.member_no";
+				
+				pstmt = conn.prepareStatement(sql);
+				// 회원번호가 어느것이냐에 따라 회원주소번호,내용을 출력하는 쿼리문
+				
+				rs = pstmt.executeQuery();
+				MemberAddr m1 = null;
+				Member m2 = null;
+				
+				while (rs.next()) {
+					
+					m1 = new MemberAddr();
+					m2 = new Member();
+					
+					m1.setMember_addr_no(Integer.parseInt(rs.getString("ma.member_addr_no")));
+					m1.setMember_addr_content(rs.getString("ma.member_addr_content"));
+					m2.setMember_name(rs.getString("m.member_name"));
+					
+					m1.setMemberaddr(m1);
+					m1.setMember(m2);
+					
+					list1.add(m1);
+				}
+			} catch(SQLException e) {
+					
+			} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+			} finally {
+				if (pstmt != null)
+					try { 
+						pstmt.close(); 
+					} 
+					catch(SQLException e) {
+						e.printStackTrace();
+					}
+			    if (conn != null) 
+			    	try {
+			    		conn.close(); 
+			    	} catch(SQLException e) {
+			    		e.printStackTrace();	
+			    }
+			}
+			return list1;
+		}	
 }

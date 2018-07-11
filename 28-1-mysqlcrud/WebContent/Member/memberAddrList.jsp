@@ -1,4 +1,4 @@
-<!-- 07.10 송원민 list작업 -->
+<!-- 07.10 송원민 ArryList배열을 통한 회원주소,회원번호,내용을 화면에 출력-->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="service.*" %>
 <%@ page import="java.util.ArrayList" %>
@@ -13,7 +13,7 @@
 		<%
 			request.setCharacterEncoding("euc-kr");
 		
-			int no = Integer.parseInt(request.getParameter("no"));
+			int no = Integer.parseInt(request.getParameter("no")); //memberList.jsp 에서 받은 회원번호 값
 			
 			MemberAddrDao addr = new MemberAddrDao();
 			
@@ -38,5 +38,7 @@
 		<%		
 			}
 		%>
+		
+		<a href="<%= request.getContextPath() %>/Member/memberList.jsp">돌아가기</a>
 	</body>
 </html>

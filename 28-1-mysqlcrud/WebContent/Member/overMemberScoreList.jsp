@@ -1,3 +1,4 @@
+<!-- join과 서브쿼리를 사용하여 평균 90이상인 학생들을 뽑아낸 화면 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="service.*" %>
 <%@ page import="java.util.ArrayList" %>
@@ -30,5 +31,7 @@
 		<%		
 			}
 		%>
+		
+		<a href="<%= request.getContextPath() %>/index.jsp">돌아가기</a>
 	</body>
 </html>

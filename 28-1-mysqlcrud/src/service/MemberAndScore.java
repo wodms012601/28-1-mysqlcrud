@@ -3,6 +3,7 @@ package service;
 public class MemberAndScore {
 	private Member member;
 	private MemberScore memberScore;
+	
 	public Member getMember() {
 		return member;
 	}

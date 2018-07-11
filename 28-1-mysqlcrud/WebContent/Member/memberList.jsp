@@ -45,8 +45,8 @@
 					<td><%=result.get(i).getMember_age()%></td>
 					<td><a href = "<%= request.getContextPath() %>/Member/insertMemberaddrForm.jsp?no=<%=result.get(i).getMember_no() %>">주소입력</a></td>
 					<td><a href = "<%= request.getContextPath() %>/Member/insertMemberScoreForm.jsp?no=<%=result.get(i).getMember_no() %>">점수입력</a></td>
-					<td><a href = "<%= request.getContextPath() %>/Member/updateMemberForm.jsp?no=">수정</a></td>
-					<td><a href = "<%= request.getContextPath() %>/Member/deleteMember.jsp?no=">삭제</a></td>
+					<td><a href = "<%= request.getContextPath() %>/Member/updateMemberForm.jsp?no=<%=result.get(i).getMember_no() %>">수정</a></td>
+					<td><a href = "<%= request.getContextPath() %>/Member/deleteMemberAction.jsp?no=<%=result.get(i).getMember_no() %>">삭제</a></td>
 					<!-- updateMemberForm -> updateMemberAction-->
 				</tr>
 			</table>
@@ -54,7 +54,7 @@
 			}
 		%>	
 		
-	
+		
 		<%
 		if(currentPage > 1) {
 		
@@ -65,10 +65,10 @@
 		if(currentPage < lastPage){
 		%>
 		
-		<a href="<%= request.getContextPath() %>/Member/memberList.jsp?currentPage=<%=currentPage+1%>">다음</a>
+		<a href="<%= request.getContextPath() %>/Member/memberList.jsp?currentPage=<%=currentPage+1%>">다음</a><br>
 		<%
 		}
 		%>
-
+		<a href="<%= request.getContextPath() %>/index.jsp">돌아가기</a>
 	</body>
 </html>

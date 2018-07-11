@@ -6,6 +6,24 @@ public class MemberAddr {
 	private String member_addr_content;
 	private int member_no;
 	
+	private Member member;
+	private MemberAddr memberaddr;
+	
+	
+	
+	public Member getMember() {
+		return member;
+	}
+	public void setMember(Member member) {
+		this.member = member;
+	}
+	public MemberAddr getMemberaddr() {
+		return memberaddr;
+	}
+	public void setMemberaddr(MemberAddr memberaddr) {
+		this.memberaddr = memberaddr;
+	}
+	
 	public int getMember_no() {
 		return member_no;
 	}
