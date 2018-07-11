@@ -20,48 +20,63 @@
 <html>
 	<head>
 		<title>학생점수 리스트</title>
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 	</head>
 	<body>
-		<table border="1">
-			<tr>
-				<th>학생번호</th>
-				<th>학생이름</th>
-				<th>학생나이</th>
-				<th>학생점수</th>
-			</tr>
-		<%
-			for(int i=0; i<studentJoin.size(); i++){
-		%>
-			<tr>
-				<td><%=studentJoin.get(i).getStudent().getStudentNo() %></td> <!-- 학생 번호 -->
-				<td><%=studentJoin.get(i).getStudent().getStudentName() %></td> <!-- 학생 이름 -->
-				<td><%=studentJoin.get(i).getStudent().getStudentAge() %></td> <!-- 학생 나이 -->
-				<td><%=studentJoin.get(i).getStudentScore().getScore() %></td> <!-- 학생 점수 -->
-			</tr>
-		<%
-			}
-		%>
-		</table>
-		<%
-			if(currentPage > 1){
-		%>
-			<a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp?currentPage=<%=currentPage-1 %>">이전</a>
-		<%
-			}
-			for(int j=1; j<=lastPage; j++){
-		%>
-			<a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp?currentPage=<%=j %>"><%=j %></a> <!-- 1 ~ 마지막페이지까지 링크 -->
-		<%
-			}
-			if(currentPage < lastPage){
-		%>
-			<a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp?currentPage=<%=currentPage+1 %>">다음</a>
-		<%	
-			}
-		%>
-		<br>
-		<div><a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp">평균점수 이상의 학생들의 리스트</a></div>
-		<div><a href="<%=request.getContextPath() %>/Student/studentList.jsp">학생 리스트 페이지로</a></div><br>
-		<div><a href="<%=request.getContextPath() %>/index.jsp">메인 페이지로</a></div>
+		<div id="header">
+			<h1>학생점수 리스트</h1>
+		</div>
+		<div id="sidebar_a">
+			<ul>
+				<li><a href="<%=request.getContextPath() %>/index.jsp">메인페이지로</a></li>
+				<li><a href="<%=request.getContextPath() %>/Student/studentList.jsp">학생 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Student/studentAddrList.jsp">학생주소 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp">평균점수이상의 학생 리스트</a></li>
+			</ul>
+		</div>
+		<div id="content">
+			<table border="1">
+				<tr>
+					<th>학생번호</th>
+					<th>학생이름</th>
+					<th>학생나이</th>
+					<th>학생점수</th>
+				</tr>
+			<%
+				for(int i=0; i<studentJoin.size(); i++){
+			%>
+				<tr>
+					<td><%=studentJoin.get(i).getStudent().getStudentNo() %></td> <!-- 학생 번호 -->
+					<td><%=studentJoin.get(i).getStudent().getStudentName() %></td> <!-- 학생 이름 -->
+					<td><%=studentJoin.get(i).getStudent().getStudentAge() %></td> <!-- 학생 나이 -->
+					<td><%=studentJoin.get(i).getStudentScore().getScore() %></td> <!-- 학생 점수 -->
+				</tr>
+			<%
+				}
+			%>
+			</table>
+			<div>
+			<%
+				if(currentPage > 1){
+			%>
+				<a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp?currentPage=<%=currentPage-1 %>">이전</a>
+			<%
+				}
+				for(int j=1; j<=lastPage; j++){
+			%>
+				<a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp?currentPage=<%=j %>"><%=j %></a> <!-- 1 ~ 마지막페이지까지 링크 -->
+			<%
+				}
+				if(currentPage < lastPage){
+			%>
+				<a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp?currentPage=<%=currentPage+1 %>">다음</a>
+			<%	
+				}
+			%>
+			</div>
+		</div>
+		<div id="footer">
+			COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
+		</div>
 	</body>
 </html>

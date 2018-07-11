@@ -14,39 +14,42 @@
 <html>
 	<head>
 		<title>학생 수정 폼</title>
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 	</head>
 	<body>
-		<!-- 수정페이지 -->
-		<form action="<%= request.getContextPath()%>/Student/updateStudentAction.jsp?no=<%=studentNo %>" method="post">
-			<fieldset>
-				<legend>개인 정보</legend>
-				<table>
-					<tr><!-- 이름 -->
-						<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
-						<td>이름 :&nbsp;</td>
-						<td>
-							<input type="text" name="studentName" value="<%=student.getStudentName() %>">
-						</td>
-					</tr>
-					<tr><!-- 나이 -->
-						<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
-						<td>나이 :&nbsp;</td>
-						<td>
-							<input type="text" name="studentAge" value="<%=student.getStudentAge() %>">
-						</td>
-					</tr>
-					<tr><!-- 주소 -->
-						<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
-						<td>주소 :&nbsp;</td>
-						<td>
-							<input type="text" name="studentAddrContent" size="40" value="<%=studentAddr.getStudentAddrContent() %>">
-						</td>
-					</tr>
-				</table>
-			</fieldset><br>
-			<fieldset>
-				<input type="submit" value="수정">
-			</fieldset>
-		</form>
+		<div id="header">
+			<h1>학생 리스트</h1>
+		</div>
+		<div id="content">
+			<!-- 수정페이지 -->
+			<form action="<%= request.getContextPath()%>/Student/updateStudentAction.jsp?no=<%=studentNo %>" method="post">
+				<fieldset>
+					<legend>개인 정보</legend>
+					<table>
+						<tr><!-- 이름 -->
+							<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
+							<td>이름 :&nbsp;</td>
+							<td><input type="text" name="studentName" value="<%=student.getStudentName() %>"></td>
+						</tr>
+						<tr><!-- 나이 -->
+							<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
+							<td>나이 :&nbsp;</td>
+							<td><input type="text" name="studentAge" value="<%=student.getStudentAge() %>"></td>
+						</tr>
+						<tr><!-- 주소 -->
+							<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
+							<td>주소 :&nbsp;</td>
+							<td><input type="text" name="studentAddrContent" size="40" value="<%=studentAddr.getStudentAddrContent() %>"></td>
+						</tr>
+					</table>
+				</fieldset><br>
+				<fieldset>
+					<input type="submit" value="수정">
+				</fieldset>
+			</form>
+		</div>
+		<div id="footer">
+			COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
+		</div>
 	</body>
 </html>

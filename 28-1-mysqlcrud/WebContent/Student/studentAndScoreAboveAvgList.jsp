@@ -21,46 +21,62 @@
 <html>
 	<head>
 		<title>평균점수가 넘는 학생의 리스트</title>
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 	</head>
 	<body>
-		<div>평균 점수 : <%=avg %></div>
-		<table border="1">
-			<tr>
-				<th>학생번호</th>
-				<th>학생이름</th>
-				<th>학생점수</th>
-			</tr>
-		<%
-			for(int i=0; i<studentAvg.size(); i++){
-		%>
-			<tr>
-				<td><%=studentAvg.get(i).getStudent().getStudentNo() %></td>
-				<td><%=studentAvg.get(i).getStudent().getStudentName() %></td>
-				<td><%=studentAvg.get(i).getStudentScore().getScore() %></td>
-			</tr>
-		<%
-			}
-		%>
-		</table>
-		<%
-			if(currentPage > 1){
-		%>
-			<a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp?currentPage=<%=currentPage-1 %>">이전</a>
-		<%
-			}
-			for(int j=1; j<=lastPage; j++){
-		%>
-			<a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp?currentPage=<%=j %>"><%=j %></a> <!-- 1 ~ 마지막페이지까지 링크 -->
-		<%
-			}
-			if(currentPage < lastPage){
-		%>
-			<a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp?currentPage=<%=currentPage+1 %>">다음</a>
-		<%	
-			}
-		%>
-		<br>
-		<div><a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp">점수리스트</a></div><br>
-		<div><a href="<%=request.getContextPath() %>/index.jsp">메인 페이지로</a></div>
+		<div id="header">
+			<h1>평균점수가 넘는 학생의 리스트</h1>
+		</div>
+		<div id="sidebar_a">
+			<ul>
+				<li><a href="<%=request.getContextPath() %>/index.jsp">메인페이지로</a></li>
+				<li><a href="<%=request.getContextPath() %>/Student/studentList.jsp">학생 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Student/studentAddrList.jsp">학생주소 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp">학생점수 리스트</a></li>
+			</ul>
+		</div>
+		<div id="content">
+			<div>평균 점수 : <%=avg %></div><br>
+			<table border="1">
+				<tr>
+					<th>학생번호</th>
+					<th>학생이름</th>
+					<th>학생점수</th>
+				</tr>
+			<%
+				for(int i=0; i<studentAvg.size(); i++){
+			%>
+				<tr>
+					<td><%=studentAvg.get(i).getStudent().getStudentNo() %></td>
+					<td><%=studentAvg.get(i).getStudent().getStudentName() %></td>
+					<td><%=studentAvg.get(i).getStudentScore().getScore() %></td>
+				</tr>
+			<%
+				}
+			%>
+			</table>
+			<div>
+			<%
+				if(currentPage > 1){
+			%>
+				<a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp?currentPage=<%=currentPage-1 %>">이전</a>
+			<%
+				}
+				for(int j=1; j<=lastPage; j++){
+			%>
+				<a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp?currentPage=<%=j %>"><%=j %></a> <!-- 1 ~ 마지막페이지까지 링크 -->
+			<%
+				}
+				if(currentPage < lastPage){
+			%>
+				<a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp?currentPage=<%=currentPage+1 %>">다음</a>
+			<%	
+				}
+			%>
+			</div>
+		</div>
+		<div id="footer">
+			COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
+		</div>
 	</body>
 </html>

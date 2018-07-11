@@ -28,56 +28,75 @@
 <html>
 	<head>
 		<title>학생 리스트</title>
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 	</head>
 	<body>
-		<form action="<%=request.getContextPath() %>/Student/studentList.jsp" method="post">
-			<div><input type="text" name="word"></div> <!-- 검색입력폼 -->
-			<input type="submit" value="검색">
-		</form><br>
-		<table border="1">
-			<tr>
-				<th>학생번호</th>
-				<th>학생이름</th>
-				<th>학생나이</th>
-				<th>수정</th><!-- 수정페이지로 -->
-				<th>삭제</th><!-- 삭제하고 바로 리스트로 이동 -->
-				<th>점수입력</th>
-			</tr>
+		<div id="header">
+			<h1>학생 리스트</h1>
+		</div>
+		<div id="sidebar_a">
+			<ul>
+				<li><a href="<%=request.getContextPath() %>/index.jsp">메인페이지로</a></li>
+				<li><a href="<%=request.getContextPath() %>/Student/studentAddrList.jsp">학생주소 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp">학생점수 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp">평균점수이상의 학생 리스트</a></li>
+			</ul>
+		</div>
+		<div id="content">
+			<form action="<%=request.getContextPath() %>/Student/studentList.jsp" method="post">
+				<div>검색 : &nbsp;<input type="text" name="word"> &nbsp; <input type="submit" value="검색"></div> <!-- 검색입력폼 -->
+			</form><br>
+			<table border="1">
+				<thead>
+					<tr>
+						<th>학생번호</th>
+						<th>학생이름</th>
+						<th>학생나이</th>
+						<th>수정</th><!-- 수정페이지로 -->
+						<th>삭제</th><!-- 삭제하고 바로 리스트로 이동 -->
+						<th>점수입력</th>
+					</tr>
+				</thead>
+				<tbody>
+				<%
+					for(int i=0; i<studentList.size(); i++){
+				%>
+					<tr>
+						<td><%=studentList.get(i).getStudentNo() %></td>
+						<td><a href="<%=request.getContextPath() %>/Student/selectStudentAddr.jsp?no=<%=studentList.get(i).getStudentNo() %>"><%=studentList.get(i).getStudentName() %></a></td> <!-- 주소링크 -->
+						<td><%=studentList.get(i).getStudentAge() %></td>
+						<td><a href="<%=request.getContextPath() %>/Student/updateStudentForm.jsp?no=<%=studentList.get(i).getStudentNo() %>">수정</a></td>
+						<td><a href="<%=request.getContextPath() %>/Student/deleteStudent.jsp?no=<%=studentList.get(i).getStudentNo() %>">삭제</a></td>
+						<td><a href="<%=request.getContextPath() %>/Student/insertStudentScoreForm.jsp?no=<%=studentList.get(i).getStudentNo() %>">점수입력</a></td>
+					</tr>
+				<%
+					}
+				%>
+				</tbody>
+			</table>
+			<div>
 			<%
-				for(int i=0; i<studentList.size(); i++){
+				if(currentPage > 1){
 			%>
-			<tr>
-				<td><%=studentList.get(i).getStudentNo() %></td>
-				<td><a href="<%=request.getContextPath() %>/Student/selectStudentAddr.jsp?no=<%=studentList.get(i).getStudentNo() %>"><%=studentList.get(i).getStudentName() %></a></td> <!-- 주소링크 -->
-				<td><%=studentList.get(i).getStudentAge() %></td>
-				<td><a href="<%=request.getContextPath() %>/Student/updateStudentForm.jsp?no=<%=studentList.get(i).getStudentNo() %>">수정</a></td>
-				<td><a href="<%=request.getContextPath() %>/Student/deleteStudent.jsp?no=<%=studentList.get(i).getStudentNo() %>">삭제</a></td>
-				<td><a href="<%=request.getContextPath() %>/Student/insertStudentScoreForm.jsp?no=<%=studentList.get(i).getStudentNo() %>">점수입력</a></td>
-			</tr>
+				<a href="<%=request.getContextPath() %>/Student/studentList.jsp?currentPage=<%=currentPage-1 %>">이전</a>
 			<%
 				}
+				for(int j=1; j<=lastPage; j++){
 			%>
-		</table>
-		<%
-			if(currentPage > 1){
-		%>
-			<a href="<%=request.getContextPath() %>/Student/studentList.jsp?currentPage=<%=currentPage-1 %>">이전</a>
-		<%
-			}
-			for(int j=1; j<=lastPage; j++){
-		%>
-			<a href="<%=request.getContextPath() %>/Student/studentList.jsp?currentPage=<%=j %>"><%=j %></a> <!-- 1 ~ 마지막페이지까지 링크 -->
-		<%
-			}
-			if(currentPage < lastPage){
-		%>
-			<a href="<%=request.getContextPath() %>/Student/studentList.jsp?currentPage=<%=currentPage+1 %>">다음</a>
-		<%	
-			}
-		%>
-		<br>
-		<div><a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp">점수리스트</a></div>
-		<div><a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp">평균점수 이상의 학생들의 리스트</a></div><br>
-		<div><a href="<%=request.getContextPath() %>/index.jsp">메인 페이지로</a></div>
+				<a href="<%=request.getContextPath() %>/Student/studentList.jsp?currentPage=<%=j %>"><%=j %></a> <!-- 1 ~ 마지막페이지까지 링크 -->
+			<%
+				}
+				if(currentPage < lastPage){
+			%>
+				<a href="<%=request.getContextPath() %>/Student/studentList.jsp?currentPage=<%=currentPage+1 %>">다음</a>
+			<%	
+				}
+			%>
+			</div><br>
+		<div><a href="<%=request.getContextPath() %>/Student/insertStudentForm.jsp">학생 정보 입력 페이지</a></div>
+		</div>
+		<div id="footer">
+			COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
+		</div>
 	</body>
 </html>

@@ -14,20 +14,20 @@
 CREATE TABLE IF NOT EXISTS `teacher_addr` (
   `teacher_addr_no` int(10) NOT NULL AUTO_INCREMENT,
   `teacher_no` int(10) DEFAULT NULL,
-  `teacher_addr_content` varchar(50) CHARACTER SET euckr DEFAULT NULL,
-  PRIMARY KEY (`teacher_addr_no`),
-  KEY `FK_teacher_addr_teacher` (`teacher_no`),
-  CONSTRAINT `FK_teacher_addr_teacher` FOREIGN KEY (`teacher_no`) REFERENCES `teacher` (`teacher_no`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+  `teacher_addr_content` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`teacher_addr_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=euckr;
 
--- Dumping data for table dev28db.teacher_addr: ~3 rows (대략적)
+-- Dumping data for table dev28db.teacher_addr: ~5 rows (대략적)
 /*!40000 ALTER TABLE `teacher_addr` DISABLE KEYS */;
 INSERT INTO `teacher_addr` (`teacher_addr_no`, `teacher_no`, `teacher_addr_content`) VALUES
 	(5, 35, '서울'),
 	(6, 36, '전주'),
 	(7, 37, '서울'),
 	(8, 38, '전주'),
-	(9, 39, '부산');
+	(9, 39, '부산'),
+	(10, 41, '전주시 완산구'),
+	(11, 42, '전주시 덕진구');
 /*!40000 ALTER TABLE `teacher_addr` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

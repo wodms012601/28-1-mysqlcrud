@@ -3,20 +3,30 @@
 <html>
 	<head>
 		<title>메인페이지</title>
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 	</head>
 	<body>
-		<h1>index.jsp</h1>
-		<ul>
-			<li><a href="<%=request.getContextPath() %>/Student/studentList.jsp">학생리스트</a></li>
-			<li><a href="<%=request.getContextPath() %>/Student/studentAddrList.jsp">학생주소리스트</a></li>
-			<li><a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp">학생점수리스트</a></li>
-			<li><a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp">평균점수이상의 학생 리스트</a></li>
-		</ul>
-		<ul>
-			<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp">선생님리스트</a></li>
-			<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherAddrList.jsp">선생님주소리스트</a></li>
-			<li><a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreList.jsp">선생님점수리스트</a></li>
-			<li><a href="<%=request.getContextPath() %>/Teacher/teacherListAboveAvg.jsp">평균점수이상의 선생님 리스트</a></li>
-		</ul>
+		<div id="header">
+			<h1>메인 페이지</h1>
+		</div>
+		<div id="sidebar_a">
+			<div><h3>학생 리스트</h3></div>
+			<ul>
+				<li><a href="<%=request.getContextPath() %>/Student/studentList.jsp">학생 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Student/studentAddrList.jsp">학생주소 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp">학생점수 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp">평균점수이상의 학생 리스트</a></li>
+			</ul>
+			<div><h3>선생님 리스트</h3></div>
+			<ul>
+				<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp">선생님 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherAddrList.jsp">선생님주소 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreList.jsp">선생님점수 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Teacher/teacherListAboveAvg.jsp">평균점수 이상 선생님 리스트</a></li>
+			</ul>
+		</div><br>
+		<div id="footer">
+			COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
+		</div>
 	</body>
 </html>

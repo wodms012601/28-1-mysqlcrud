@@ -10,27 +10,26 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- 테이블 dev28db의 구조를 덤프합니다. teacher_score
-CREATE TABLE IF NOT EXISTS `teacher_score` (
-  `teacher_score_no` int(10) NOT NULL AUTO_INCREMENT,
-  `teacher_no` int(10) DEFAULT NULL,
+-- 테이블 dev28db의 구조를 덤프합니다. employer_score
+CREATE TABLE IF NOT EXISTS `employer_score` (
+  `employer_score_no` int(10) NOT NULL AUTO_INCREMENT,
+  `employer_no` int(10) DEFAULT NULL,
   `score` int(10) DEFAULT NULL,
-  PRIMARY KEY (`teacher_score_no`),
-  KEY `FK_teacher_score_teacher` (`teacher_no`),
-  CONSTRAINT `FK_teacher_score_teacher` FOREIGN KEY (`teacher_no`) REFERENCES `teacher` (`teacher_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=euckr;
+  PRIMARY KEY (`employer_score_no`),
+  KEY `FK_employer_score_employer` (`employer_no`),
+  CONSTRAINT `FK_employer_score_employer` FOREIGN KEY (`employer_no`) REFERENCES `employer` (`employer_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=euckr;
 
--- Dumping data for table dev28db.teacher_score: ~5 rows (대략적)
-/*!40000 ALTER TABLE `teacher_score` DISABLE KEYS */;
-INSERT INTO `teacher_score` (`teacher_score_no`, `teacher_no`, `score`) VALUES
-	(2, 35, 100),
-	(3, 36, 90),
-	(4, 37, 95),
-	(5, 38, 80),
-	(6, 39, 70),
-	(7, 41, 85),
-	(8, 42, 94);
-/*!40000 ALTER TABLE `teacher_score` ENABLE KEYS */;
+-- Dumping data for table dev28db.employer_score: ~2 rows (대략적)
+/*!40000 ALTER TABLE `employer_score` DISABLE KEYS */;
+INSERT INTO `employer_score` (`employer_score_no`, `employer_no`, `score`) VALUES
+	(1, 1, 90),
+	(2, 2, 80),
+	(3, 3, 70),
+	(4, 4, 60),
+	(5, 5, 76),
+	(6, 6, 91);
+/*!40000 ALTER TABLE `employer_score` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

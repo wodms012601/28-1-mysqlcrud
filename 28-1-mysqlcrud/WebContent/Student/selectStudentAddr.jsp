@@ -12,19 +12,28 @@
 <html>
 	<head>
 		<title>학생 개인 주소 검색</title>
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 	</head>
 	<body>
-		<table border="1">
-			<tr>
-				<th>주소번호</th>
-				<th>학생번호</th>
-				<th>학생주소</th>
-			</tr>
-			<tr>
-				<td><%=studentAddr.getStudentAddrNo() %></td>
-				<td><%=studentAddr.getStudentNo() %></td>
-				<td><%=studentAddr.getStudentAddrContent() %></td>
-			</tr>
-		</table>
+		<div id="header">
+			<h1>학생 개인 주소 검색</h1>
+		</div>
+		<div id="content">
+			<table border="1">
+				<tr>
+					<th>주소번호</th>
+					<th>학생번호</th>
+					<th>학생주소</th>
+				</tr>
+				<tr>
+					<td><%=studentAddr.getStudentAddrNo() %></td>
+					<td><%=studentAddr.getStudentNo() %></td>
+					<td><%=studentAddr.getStudentAddrContent() %></td>
+				</tr>
+			</table>
+		</div>
+		<div id="footer">
+			COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
+		</div>
 	</body>
 </html>
