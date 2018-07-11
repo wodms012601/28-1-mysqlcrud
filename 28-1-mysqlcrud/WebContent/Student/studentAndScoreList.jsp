@@ -19,7 +19,7 @@
 %>
 <html>
 	<head>
-		<title>studentAndScoreList</title>
+		<title>학생점수 리스트</title>
 	</head>
 	<body>
 		<table border="1">

@@ -1,14 +1,13 @@
 <!-- 탁재은, 2018.07.09 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "service.*" %>
-<%@ page import = "java.util.ArrayList" %>
 <!DOCTYPE html>
 <%
 	int studentNo = Integer.parseInt(request.getParameter("studentNo")); //학생 번호 데이터
 	int stuScore = Integer.parseInt(request.getParameter("studentScore")); //학생 점수 데이터
 	
 	StudentScore studentScore = new StudentScore(); //학생 번호와 학생 점수 데이터를 저장하기위한 학생점수 객체 생성
-	studentScore.setStudent_no(studentNo); //학생 번호
+	studentScore.setStudentNo(studentNo); //학생 번호
 	studentScore.setScore(stuScore); //학생 점수
 	
 	StudentScoreDao score = new StudentScoreDao();

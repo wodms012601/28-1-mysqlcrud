@@ -6,7 +6,7 @@
 	//EUC-KR로 인코딩
 	request.setCharacterEncoding("EUC-KR");
 
-	int studentNo = Integer.parseInt(request.getParameter("no")); //리스트 페이지에서 넘겨받은 학생 번호 데이터를 변수에 저장
+	int studentNo = Integer.parseInt(request.getParameter("no")); //수정폼 페이지에서 넘겨받은 학생 번호 데이터를 변수에 저장
 
 	//학생 객체 생성 및 set메소드를 통해 데이터 삽입
 	Student stu = new Student();

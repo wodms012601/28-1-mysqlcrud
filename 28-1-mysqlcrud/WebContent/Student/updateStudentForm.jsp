@@ -13,7 +13,7 @@
 %>
 <html>
 	<head>
-		<title>updateStudentForm</title>
+		<title>학생 수정 폼</title>
 	</head>
 	<body>
 		<!-- 수정페이지 -->
@@ -31,14 +31,14 @@
 					<tr><!-- 나이 -->
 						<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
 						<td>나이 :&nbsp;</td>
-						<td colspan="3">
+						<td>
 							<input type="text" name="studentAge" value="<%=student.getStudentAge() %>">
 						</td>
 					</tr>
 					<tr><!-- 주소 -->
 						<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
 						<td>주소 :&nbsp;</td>
-						<td colspan="3">
+						<td>
 							<input type="text" name="studentAddrContent" size="40" value="<%=studentAddr.getStudentAddrContent() %>">
 						</td>
 					</tr>

@@ -11,13 +11,13 @@
 %>
 <html>
 	<head>
-		<title>studentAddrList</title>
+		<title>학생 개인 주소 검색</title>
 	</head>
 	<body>
 		<table border="1">
 			<tr>
 				<th>주소번호</th>
-				<th>학생주소번호</th>
+				<th>학생번호</th>
 				<th>학생주소</th>
 			</tr>
 			<tr>
@@ -26,8 +26,5 @@
 				<td><%=studentAddr.getStudentAddrContent() %></td>
 			</tr>
 		</table>
-		<form>
-			<!-- 검색 -->
-		</form>
 	</body>
 </html>

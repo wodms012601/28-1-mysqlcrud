@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>insertEmployerForm</title>
+		<title>고용주 입력 폼</title>
 	</head>
 	<body>
 		<!-- 데이터 전송 확인용 테스트 폼 -->
@@ -21,15 +21,15 @@
 					<tr><!-- 나이 -->
 						<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
 						<td>나이 :&nbsp;</td>
-						<td colspan="3">
+						<td>
 							<input type="text" name="employerAge" size="40">
 						</td>
 					</tr>
 					<tr><!-- 주소 -->
 						<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
 						<td>주소 :&nbsp;</td>
-						<td colspan="3">
-							<input type="text" name="addr" size="40">
+						<td>
+							<input type="text" name="employerAddrContent" size="40" id="addr">
 						</td>
 					</tr>
 				</table>

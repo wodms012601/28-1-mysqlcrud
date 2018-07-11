@@ -1,41 +1,44 @@
-<!-- ≈π¿Á¿∫, 2018.06.26 -->
-<%@ page language = "java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<!-- ÌÉÅÏû¨ÏùÄ, 2018.06.26 -->
+<%@ page language = "java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>insertStudentForm</title>
+		<title>ÌïôÏÉù ÏûÖÎ†• Ìèº</title>
 	</head>
 	<body>
-		<!-- µ•¿Ã≈Õ ¿¸º€ »Æ¿ŒøÎ ≈◊Ω∫∆Æ ∆˚ -->
+		<!-- Îç∞Ïù¥ÌÑ∞ Ï†ÑÏÜ° ÌôïÏù∏Ïö© ÌÖåÏä§Ìä∏ Ìèº -->
 		<form action="<%= request.getContextPath()%>/Student/insertStudentAction.jsp" method="post">
 			<fieldset>
-				<legend>∞≥¿Œ ¡§∫∏</legend>
+				<legend>Í∞úÏù∏ Ï†ïÎ≥¥</legend>
 				<table>
-					<tr><!-- ¿Ã∏ß -->
+					<tr><!-- Ïù¥Î¶Ñ -->
 						<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
-						<td>¿Ã∏ß :&nbsp;</td>
+						<td>Ïù¥Î¶Ñ :&nbsp;</td>
 						<td>
-							<input type="text" name="studentName">
+							<input type="text" name="studentName" id="name" onkeyup="nameCheck()" >
+							<span id="nameCheck"></span>
 						</td>
 					</tr>
-					<tr><!-- ≥™¿Ã -->
+					<tr><!-- ÎÇòÏù¥ -->
 						<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
-						<td>≥™¿Ã :&nbsp;</td>
-						<td colspan="3">
-							<input type="text" name="studentAge">
+						<td>ÎÇòÏù¥ :&nbsp;</td>
+						<td>
+							<input type="text" name="studentAge" id="age" onkeyup="ageCheck()" >
+							<span id="ageCheck"></span>
 						</td>
 					</tr>
-					<tr><!-- ¡÷º“ -->
+					<tr><!-- Ï£ºÏÜå -->
 						<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
-						<td>¡÷º“ :&nbsp;</td>
-						<td colspan="3">
-							<input type="text" name="studentAddrContent" size="40">
+						<td>Ï£ºÏÜå :&nbsp;</td>
+						<td>
+							<input type="text" name="studentAddrContent" size="40" id="addr" onkeyup="addrCheck()" >
+							<span id="addrCheck"></span>
 						</td>
 					</tr>
 				</table>
 			</fieldset><br>
 			<fieldset>
-				<input type="submit" value="∞°¿‘">
+				<input type="submit" value="Í∞ÄÏûÖ">
 			</fieldset>
 		</form>
 	</body>

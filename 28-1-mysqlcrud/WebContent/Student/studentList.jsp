@@ -27,7 +27,7 @@
 %>
 <html>
 	<head>
-		<title>studentList</title>
+		<title>학생 리스트</title>
 	</head>
 	<body>
 		<form action="<%=request.getContextPath() %>/Student/studentList.jsp" method="post">
@@ -58,9 +58,6 @@
 				}
 			%>
 		</table>
-		<form>
-			<!-- 검색 -->
-		</form>
 		<%
 			if(currentPage > 1){
 		%>

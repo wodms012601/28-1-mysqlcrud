@@ -20,18 +20,18 @@
 		word = request.getParameter("word"); //검색값이 들어오면 변수에 저장
 	}
 	
-	StudentAddrDao studentAddrDao = new StudentAddrDao();
-	//학생 주소를 검색하는 메서드를 호출하고 학생 주소데이터가 담긴 객체의 주소값을 담은 배열객체의 주소값을 리턴받는다.
-	ArrayList<StudentAddr> studentAddrList = studentAddrDao.selectStudentAddrList(currentPage, pagePerRow, word);
+	EmployerAddrDao employerAddrDao = new EmployerAddrDao();
+	//고용주 주소를 검색하는 메서드를 호출하고 고용주 주소데이터가 담긴 객체의 주소값을 담은 배열객체의 주소값을 리턴받는다.
+	ArrayList<EmployerAddr> employerAddrList = employerAddrDao.selectEmployerAddrList(currentPage, pagePerRow, word);
 	
-	int lastPage = studentAddrDao.paging(pagePerRow); //페이징 작업 후 마지막 페이지값을 리턴
+	int lastPage = employerAddrDao.paging(pagePerRow); //페이징 작업 후 마지막 페이지값을 리턴
 %>
 <html>
 	<head>
-		<title>학생주소 리스트</title>
+		<title>고용주주소 리스트</title>
 	</head>
 	<body>
-		<form action="<%=request.getContextPath() %>/Student/studentAddrList.jsp" method="post">
+		<form action="<%=request.getContextPath() %>/Employer/employerAddrList.jsp" method="post">
 			<div><input type="text" name="word"></div> <!-- 검색입력폼 -->
 			<input type="submit" value="검색">
 		</form><br>
@@ -42,12 +42,12 @@
 				<th>학생주소</th>
 			</tr>
 		<%
-			for(int i=0; i<studentAddrList.size(); i++){
+			for(int i=0; i<employerAddrList.size(); i++){
 		%>
 			<tr>
-				<td><%=studentAddrList.get(i).getStudentAddrNo() %></td>
-				<td><%=studentAddrList.get(i).getStudentNo() %></td>
-				<td><%=studentAddrList.get(i).getStudentAddrContent() %></td>
+				<td><%=employerAddrList.get(i).getEmployerAddrNo() %></td>
+				<td><%=employerAddrList.get(i).getEmployerNo() %></td>
+				<td><%=employerAddrList.get(i).getEmployerAddrContent() %></td>
 			</tr>
 		<%	
 			}
@@ -56,22 +56,21 @@
 		<%
 			if(currentPage > 1){
 		%>
-			<a href="<%=request.getContextPath() %>/Student/studentAddrList.jsp?currentPage=<%=currentPage-1 %>">이전</a>
+			<a href="<%=request.getContextPath() %>/Employer/employerAddrList.jsp?currentPage=<%=currentPage-1 %>">이전</a>
 		<%
 			}
 			for(int j=1; j<=lastPage; j++){
 		%>
-			<a href="<%=request.getContextPath() %>/Student/studentAddrList.jsp?currentPage=<%=j %>"><%=j %></a> <!-- 1 ~ 마지막페이지까지 링크 -->
+			<a href="<%=request.getContextPath() %>/Employer/employerAddrList.jsp?currentPage=<%=j %>"><%=j %></a> <!-- 1 ~ 마지막페이지까지 링크 -->
 		<%
 			}
 			if(currentPage < lastPage){
 		%>
-			<a href="<%=request.getContextPath() %>/Student/studentAddrList.jsp?currentPage=<%=currentPage+1 %>">다음</a>
+			<a href="<%=request.getContextPath() %>/Employer/employerAddrList.jsp?currentPage=<%=currentPage+1 %>">다음</a>
 		<%	
 			}
 		%>
 		<br>
-		<div><a href="<%=request.getContextPath() %>/Student/studentList.jsp">학생 리스트 페이지로</a></div><br>
 		<div><a href="<%=request.getContextPath() %>/index.jsp">메인 페이지로</a></div>
 	</body>
 </html>

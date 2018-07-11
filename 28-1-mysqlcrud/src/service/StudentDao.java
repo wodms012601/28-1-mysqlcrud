@@ -60,6 +60,13 @@ public class StudentDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
+			if(pstmt2 != null) {
+				try {
+					pstmt2.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 			if(pstmt != null) {
 				try {
 					pstmt.close();

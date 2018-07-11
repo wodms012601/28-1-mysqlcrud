@@ -2,21 +2,21 @@
 package service;
 
 public class StudentScore {
-	private int student_score_no;
-	private int student_no;
+	private int studentScoreNo;
+	private int studentNo;
 	private int score;
 	
-	public int getStudent_score_no() {
-		return student_score_no;
+	public int getStudentScoreNo() {
+		return studentScoreNo;
 	}
-	public void setStudent_score_no(int student_score_no) {
-		this.student_score_no = student_score_no;
+	public void setStudentScoreNo(int studentScoreNo) {
+		this.studentScoreNo = studentScoreNo;
 	}
-	public int getStudent_no() {
-		return student_no;
+	public int getStudentNo() {
+		return studentNo;
 	}
-	public void setStudent_no(int student_no) {
-		this.student_no = student_no;
+	public void setStudentNo(int studentNo) {
+		this.studentNo = studentNo;
 	}
 	public int getScore() {
 		return score;
