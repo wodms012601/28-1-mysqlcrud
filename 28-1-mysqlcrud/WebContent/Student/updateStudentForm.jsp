@@ -29,17 +29,27 @@
 						<tr><!-- 이름 -->
 							<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
 							<td>이름 :&nbsp;</td>
-							<td><input type="text" name="studentName" value="<%=student.getStudentName() %>"></td>
+							<td>
+								<input type="text" name="studentName" value="<%=student.getStudentName() %>" onkeyup="nameCheck()" required>
+								<span id="nameSpan"></span>
+							</td>
 						</tr>
 						<tr><!-- 나이 -->
 							<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
 							<td>나이 :&nbsp;</td>
-							<td><input type="text" name="studentAge" value="<%=student.getStudentAge() %>"></td>
+							<td>
+								<input type="text" name="studentAge" value="<%=student.getStudentAge() %>" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' onfocusout='removeChar(event)' required>
+								<!-- onkeydown = 키를 눌렀을 때 발생하는 이벤트 / onkeyup = 눌렀던 키를 때면 발생하는 이벤트 -->
+								<!-- onkeydown="return showKeyCode(event)" 과 같이 하면 showKeyDown 함수를 호출해서 결과가 true이면 본래의 동작을 그대로 수행하고 false이면 본래의 동작을 중단시킨다 -->
+							</td>
 						</tr>
 						<tr><!-- 주소 -->
 							<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
 							<td>주소 :&nbsp;</td>
-							<td><input type="text" name="studentAddrContent" size="40" value="<%=studentAddr.getStudentAddrContent() %>"></td>
+							<td>
+								<input type="text" name="studentAddrContent" size="40" value="<%=studentAddr.getStudentAddrContent() %>" onkeyup="addrCheck()" required>
+								<span id="addrSpan"></span>
+							</td>
 						</tr>
 					</table>
 				</fieldset><br>
@@ -51,5 +61,6 @@
 		<div id="footer">
 			COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
 		</div>
+		<script src="<%= request.getContextPath() %>/script/main.js"></script>
 	</body>
 </html>
