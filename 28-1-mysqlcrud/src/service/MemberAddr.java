@@ -1,3 +1,4 @@
+//07.10 송원민 Member_addr 리스트 처리
 package service;
 
 public class MemberAddr {

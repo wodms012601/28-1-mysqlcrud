@@ -23,7 +23,7 @@
 		
 		<table border="1">
 			<tr>
-				<td>번호</td>
+				<td>회원주소번호</td>
 				<td>회원번호</td>
 				<td>내용</td>
 			</tr>

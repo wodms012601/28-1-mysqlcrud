@@ -1,18 +1,28 @@
 package service;
 
 public class MemberScore {
-	private Member member;
-	private MemberScore memberScore;
-	public Member getMember() {
-		return member;
+	private int MemberScoreNo;
+	private int MemberNo;
+	private int Score;
+	
+	public int getMemberScoreNo() {
+		return MemberScoreNo;
 	}
-	public void setMember(Member member) {
-		this.member = member;
+	public void setMemberScoreNo(int memberScoreNo) {
+		MemberScoreNo = memberScoreNo;
 	}
-	public MemberScore getMemberScore() {
-		return memberScore;
+	public int getMemberNo() {
+		return MemberNo;
 	}
-	public void setMemberScore(MemberScore memberScore) {
-		this.memberScore = memberScore;
+	public void setMemberNo(int memberNo) {
+		MemberNo = memberNo;
 	}
+	public int getScore() {
+		return Score;
+	}
+	public void setScore(int score) {
+		Score = score;
+	}
+	
+	
 }

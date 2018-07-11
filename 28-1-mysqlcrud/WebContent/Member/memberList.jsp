@@ -13,15 +13,15 @@
 	
 	<body>
 		<%
-			int pagePerRow = 4;
-			int currentPage = 1;
-			if(request.getParameter("currentPage") != null){ // currentPage 값이 null이 아니라면
+			int pagePerRow = 4; //한화면당 나오는 행의 갯수
+			int currentPage = 1; //첫페이지
+			if(request.getParameter("currentPage") != null){ 
 				currentPage = Integer.parseInt(request.getParameter("currentPage"));
 			}
 			Memberdao dao = new Memberdao();
 			ArrayList<Member> result = dao.selectMemberByPage(currentPage, pagePerRow);
 			
-			int lastPage = dao.paging(pagePerRow);
+			int lastPage = dao.paging(pagePerRow); //마지막 페이지
 		%>
 		
 		<%
@@ -34,17 +34,19 @@
 					<th>번호</th>
 					<th>이름</th>
 					<th>나이</th>
-					<th>주소입력</th><!-- 다수 -->
+					<th>주소</th><!-- 다수 -->
+					<th>점수</th>
 					<th>수정</th>
 					<th>삭제</th>
 				<tr>
 				<tr>
 					<td><%=result.get(i).getMember_no() %></td>
-					<td><a href = "./memberAddrList.jsp?no=<%=result.get(i).getMember_no() %>"><%=result.get(i).getMember_name() %></a></td>
+					<td><a href = "<%= request.getContextPath() %>/Member/memberAddrList.jsp?no=<%=result.get(i).getMember_no() %>"><%=result.get(i).getMember_name() %></a></td>
 					<td><%=result.get(i).getMember_age()%></td>
-					<td><a href = "./insertMemberaddrForm.jsp?no=<%=result.get(i).getMember_no() %>">주소입력</a></td>
-					<td><a href = "./updateMemberForm.jsp?no=">수정</a></td>
-					<td><a href = "./deleteMember.jsp?no=">삭제</a></td>
+					<td><a href = "<%= request.getContextPath() %>/Member/insertMemberaddrForm.jsp?no=<%=result.get(i).getMember_no() %>">주소입력</a></td>
+					<td><a href = "<%= request.getContextPath() %>/Member/insertMemberScoreForm.jsp?no=<%=result.get(i).getMember_no() %>">점수입력</a></td>
+					<td><a href = "<%= request.getContextPath() %>/Member/updateMemberForm.jsp?no=">수정</a></td>
+					<td><a href = "<%= request.getContextPath() %>/Member/deleteMember.jsp?no=">삭제</a></td>
 					<!-- updateMemberForm -> updateMemberAction-->
 				</tr>
 			</table>
@@ -57,13 +59,13 @@
 		if(currentPage > 1) {
 		
 		%>
-		<a href="./memberList.jsp?currentPage=<%=currentPage-1%>">이전</a>
+		<a href="<%= request.getContextPath() %>/Member/memberList.jsp?currentPage=<%=currentPage-1%>">이전</a>
 		<% 
 		}
 		if(currentPage < lastPage){
 		%>
 		
-		<a href="./memberList.jsp?currentPage=<%=currentPage+1%>">다음</a>
+		<a href="<%= request.getContextPath() %>/Member/memberList.jsp?currentPage=<%=currentPage+1%>">다음</a>
 		<%
 		}
 		%>

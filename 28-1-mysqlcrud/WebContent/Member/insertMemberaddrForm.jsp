@@ -1,3 +1,4 @@
+<!-- 07.10 송원민 : 회원주소삽입 화면 작업 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -7,12 +8,12 @@
 </head>
 <body>
 	<%
-		String no = request.getParameter("no");
+		String no = request.getParameter("no"); // memberList회원번호 
 	%>
 	
 	<form action = "<%= request.getContextPath() %>/Member/insertMemberaddrAction.jsp" method="post">
 		<fieldset id = "box">
-				<legend>insert Member Addr Form</legend>
+				<legend>회원주소정보삽입</legend>
 				
 				<label for="1">Member_no</label>
 					<input type = "text" name = "Member_no" value=<%=no%> readonly="readonly"> <br/>

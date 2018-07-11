@@ -239,6 +239,4 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 		}
 		return lastPage;
 	}
-	
-	
 }
