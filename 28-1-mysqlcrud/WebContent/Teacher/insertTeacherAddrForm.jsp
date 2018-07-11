@@ -74,7 +74,7 @@ width:800px;
 					<input type = "text" name = "teacher_no" value=<%=send_id%> readonly="readonly"> <br/>
 					
 					<label for="2">teacher_addr_content</label>
-					<input type = "text" name = "teacher_addr_content"> <br/> <br/>
+					<input type = "text" name = "teacher_addr_content" required > <br/> <br/>
 					
 					<input type = "submit" value = "insert">
 					<br>
