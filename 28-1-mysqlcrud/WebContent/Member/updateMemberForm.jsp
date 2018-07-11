@@ -1,32 +1,32 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page import="service.*" %>
+<!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 		<title>Insert title here</title>
 	</head>
 	
 	<body>
-		<%
+		
+		<%	
 			String no = request.getParameter("no");
-			String name = request.getParameter("name");
-			String age = request.getParameter("age");
-			System.out.println(no + "<--noê°’");
-			System.out.println(name+ "<--nameê°’");
-			System.out.println(age + "<--ageê°’");
+			System.out.println(no + "<--no°ª");
+			
+			Memberdao dao = new Memberdao();
+			Member result = dao.selectUpdateNumber(no);
 		%>
 		<form action = "<%= request.getContextPath() %>/Member/updateMemberAction.jsp" method="post">
 			<fieldset id = "box">
-					<legend>íšŒì›ìˆ˜ì •í™”ë©´</legend>
+					<legend>È¸¿ø¼öÁ¤È­¸é</legend>
 					
 					<label for="1">Member_no</label>
-						<input type = "text" name = "up_no" value=<%=no%> readonly="readonly"><br/>
+						<input type = "text" name = "upno" value=<%=no%> readonly="readonly"><br/>
 			
 						<label for="2">Member_name</label>
-						<input type = "text" name = "up_name" value=<%= %>><br/><br/>
-						
+						<input type = "text" name = "upname" value=<%=result.getMember_name()%>><br>
 						<label for="2">Member_age</label>
-						<input type = "text" name = "up_age" value=<%= %>><br/><br/>
+						<input type = "text" name = "upage" value=<%=result.getMember_age()%>><br><br>
 				<input type = "submit" value = "update">
 			</fieldset>
 		</form>

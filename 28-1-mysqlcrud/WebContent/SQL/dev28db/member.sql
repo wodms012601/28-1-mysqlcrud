@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `member` (
   `member_name` varchar(50) DEFAULT NULL,
   `member_age` int(10) DEFAULT NULL,
   PRIMARY KEY (`member_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=euckr;
 
 -- Dumping data for table dev28db.member: ~0 rows (대략적)
 /*!40000 ALTER TABLE `member` DISABLE KEYS */;

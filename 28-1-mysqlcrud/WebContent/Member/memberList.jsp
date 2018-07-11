@@ -45,7 +45,7 @@
 					<td><%=result.get(i).getMember_age()%></td>
 					<td><a href = "<%= request.getContextPath() %>/Member/insertMemberaddrForm.jsp?no=<%=result.get(i).getMember_no() %>">주소입력</a></td>
 					<td><a href = "<%= request.getContextPath() %>/Member/insertMemberScoreForm.jsp?no=<%=result.get(i).getMember_no() %>">점수입력</a></td>
-					<td><a href = "<%= request.getContextPath() %>/Member/updateMemberForm.jsp?no=<%=result.get(i).getMember_no() %>&name=<%=result.get(i).getMember_name() %>&age=<%=result.get(i).getMember_age() %>">수정</a></td>
+					<td><a href = "<%= request.getContextPath() %>/Member/updateMemberForm.jsp?no=<%=result.get(i).getMember_no() %>">수정</a></td>
 					<td><a href = "<%= request.getContextPath() %>/Member/deleteMemberAction.jsp?no=<%=result.get(i).getMember_no() %>">삭제</a></td>
 					<!-- updateMemberForm -> updateMemberAction-->
 				</tr>

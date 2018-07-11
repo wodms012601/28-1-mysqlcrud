@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 
-<% request.setCharacterEncoding("euc-kr"); %>
+<% request.setCharacterEncoding("UTF-8"); %>
 <%
 	MemberAddr dao1 = new MemberAddr();
 	dao1.setMember_no(Integer.parseInt(request.getParameter("Member_no")));
