@@ -122,6 +122,65 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 		  
 		}
 	
+	public void UpdateNumber(String name, int age, int no) { 
+		/*void를 쓴 이유는 멤버변수를 사용하지 않고 메소드 안의 지역변수를 사용해주었기 때문에 */
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			Member m = null;
+			String dbname = null;
+			String dbage = null;
+		try {
+			
+			Class.forName("com.mysql.jdbc.Driver");
+			// Class 클래스의 forName()함수를 이용하여 해당 클래스 메모리를 로드한다("동적로딩")
+			
+			
+			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
+			String dbUser = "dev28id";
+			String dbPass = "dev28pw";
+			
+			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			
+			pstmt = conn.prepareStatement("update member set member_name=?, member_age=? where member_no=?");
+			pstmt.setString(1, name);
+			pstmt.setInt(2, age);
+			pstmt.setInt(3, no);
+			
+			pstmt.executeUpdate();
+			
+			if(rs.next()) {
+				m = new Member();
+				m.setMember_no(Integer.parseInt(rs.getString("member_no")));
+			}	
+			
+		} catch (SQLException e) {
+			e.printStackTrace(); // 
+			
+		
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace(); // 
+		 /* try문안에 Class 클래스에서 forName 메소드를 호출할 때 오류가 발생할 경우 catch문으로 넘어와
+			Class 클래스에서 forName 메소드를 호출할 때  발생하는 예외인 ClassNotFoundException 객체 안에
+			단계별로 발생한 에러를 출력한다.*/
+		
+		} finally {
+			if (pstmt != null)
+				try { 
+					pstmt.close(); 
+				} 
+				catch(SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		    if (conn != null) 
+		    	try {
+		    		conn.close(); 
+		    	} catch(SQLException e) {
+		    		e.printStackTrace();	
+		    	}
+		}
+	
 	
 	public ArrayList<Member> selectMemberByPage(int currentpage, int pagePerRow) {
 		

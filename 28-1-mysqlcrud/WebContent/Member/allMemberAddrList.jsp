@@ -17,22 +17,22 @@
 			for(int i=0; i<result.size(); i++) {
 		%>
 		
-			<table border="1">
-				<tr>
-					<td>회원주소번호</td>
-					<td>회원이름</td>
-					<td>주소내용</td>
-				</tr>
-				<tr>
-					<td><%=result.get(i).getMemberaddr().getMember_addr_no() %></td>
-					<td><%=result.get(i).getMember().getMember_name() %></td>
-					<td><%=result.get(i).getMemberaddr().getMember_addr_content() %></td>
-				</tr>
-			</table>				
+				<table border="1">
+					<tr>
+						<td>회원주소번호</td>
+						<td>회원이름</td>
+						<td>주소내용</td>
+					</tr>
+					<tr>
+						<td><%=result.get(i).getMemberaddr().getMember_addr_no() %></td>
+						<td><%=result.get(i).getMember().getMember_name() %></td>
+						<td><%=result.get(i).getMemberaddr().getMember_addr_content() %></td>
+					</tr>
+				</table>				
 		<%		
 			}
 		%>
 		
-		<a href="<%= request.getContextPath() %>/index.jsp">돌아가기</a>
+			<a href="<%= request.getContextPath() %>/index.jsp">돌아가기</a>
 	</body>
 </html>
