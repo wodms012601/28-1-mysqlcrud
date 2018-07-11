@@ -71,7 +71,6 @@ public class MemberAddrDao {
 				conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
 				
 				pstmt = conn.prepareStatement("select member_addr_no, member_no, member_addr_content from member_addr where member_no=?");
-				// 회원번호가 어느것이냐에 따라 회원주소번호,내용을 출력하는 쿼리문
 				pstmt.setInt(1, no);
 				
 				rs = pstmt.executeQuery();
@@ -107,7 +106,8 @@ public class MemberAddrDao {
 			return list;
 		}
 		
-		public ArrayList<MemberAddr> allSelectMember() {
+		// 부모테이블 member, 자식테이블 member_addr에 join을 사용하여 회원주소번호, 회원이름, 주소를 조회하는 메서드 
+		public ArrayList<MemberAddr> allSelectMember() { 
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -134,7 +134,6 @@ public class MemberAddrDao {
 				Member m2 = null;
 				
 				while (rs.next()) {
-					
 					m1 = new MemberAddr();
 					m2 = new Member();
 					

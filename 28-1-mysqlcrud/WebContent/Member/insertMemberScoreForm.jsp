@@ -1,28 +1,34 @@
 <!-- 점수삽입화면 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
+<%
+	String no = request.getParameter("no");
+%>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Insert title here</title>
+		<title>회원 점수 입력 페이지</title>
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 	</head>
-	
 	<body>
-		<%
-			String no = request.getParameter("no");
-		%>
-	
-		<form action = "<%= request.getContextPath() %>/Member/insertMemberScoreAction.jsp" method="post">
-		<fieldset id = "box">
-				<legend>회원점수삽입박스</legend>
-				
-				<label for="1">Member_no</label>
-					<input type = "text" name = "Member_no" value=<%=no%> readonly="readonly"> <br/>
-			
-					<label for="2">Member_score</label>
-					<input type = "text" name = "score"> <br/> <br/>
-			<input type = "submit" value = "insert">
-		</fieldset>
-	</form>
+		<div id="header">
+			<h1>회원 점수 입력 페이지</h1>
+		</div>
+		<div id="content">
+			<!-- 데이터 전송 확인용 테스트 폼 -->
+			<form action="<%= request.getContextPath()%>/Member/insertMemberScoreAction.jsp" method="post">
+				<fieldset><!-- 학생 점수 -->
+					<legend>점수입력</legend>
+						<div><img src="<%=request.getContextPath() %>/image/check_icon.gif"> 점수 :&nbsp;</div>
+						<div><input type="text" name="score"></div> <!-- 회원점수 -->
+						<input type="hidden" name="Member_no" value="<%=no %>"> <!-- 회원 번호 데이터 -->
+				</fieldset><br>
+				<fieldset>
+					<input type="submit" value="점수입력">
+				</fieldset>
+			</form>
+		</div>
+		<div id="footer">
+			COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
+		</div>
 	</body>
 </html>

@@ -6,10 +6,9 @@ public class MemberAddr {
 	private String member_addr_content;
 	private int member_no;
 	
-	private Member member;
+	private Member member; 
 	private MemberAddr memberaddr;
-	
-	
+	// 데이터 베이스 안의 member테이블과 member_addr테이블을 join 해주기 위해서 "Getters and Setters" 하였음.
 	
 	public Member getMember() {
 		return member;
