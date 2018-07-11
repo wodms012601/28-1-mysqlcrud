@@ -48,6 +48,24 @@ width:800px;
 </style>
 </head>
 <body>
+<script>
+function onlyNumber(event){
+	event = event || window.event;
+	var keyID = (event.which) ? event.which : event.keyCode;
+	if ( (keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
+		return;
+	else
+		return false;
+}
+function removeChar(event) {
+	event = event || window.event;
+	var keyID = (event.which) ? event.which : event.keyCode;
+	if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
+		return;
+	else
+		event.target.value = event.target.value.replace(/[^0-9]/g, "");
+}
+</script>
 	<div id="header">
 		<h1>Insert Teacher Score Form</h1>
 	</div>
@@ -73,7 +91,7 @@ width:800px;
 				<input type = "text" name = "teacher_no" value=<%=send_id%> readonly="readonly"> <br/>
 				
 				<label for="2">Score</label>
-				<input type = "text" name = "score"/> <br/> <br/>
+				<input type = "text" name = "score" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' onfocusout='removeChar(event)' required /> <br/> <br/>
 		
 				<input type = "submit" value = "insert">
 				<br>
