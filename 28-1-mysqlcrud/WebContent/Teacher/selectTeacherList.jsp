@@ -153,7 +153,7 @@ width:800px;
 	    <br>
 	    <br>
 	    <br>
-	    <a href="<%=request.getContextPath() %>/Teacher/insertTeacherForm.jsp">돌아가기</a>
+	    <a href="<%=request.getContextPath() %>/Teacher/insertTeacherForm.jsp">등록 페이지로 이동</a>
 	</div>
 
 	<div id="footer">

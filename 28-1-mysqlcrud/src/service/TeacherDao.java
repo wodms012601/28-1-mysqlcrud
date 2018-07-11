@@ -44,14 +44,14 @@ public class TeacherDao {
 
 			}
 
-			resultset = statement.executeQuery();
+				resultset = statement.executeQuery();
 
 			while(resultset.next()) {
-                Teacher teacher = new Teacher();
-                teacher.setTeacher_no(resultset.getInt("teacher_no"));
-                teacher.setTeacherName(resultset.getString("teacher_name"));
-                teacher.setTeacherAge(resultset.getInt("teacher_age"));
-                teacherList.add(teacher);
+				Teacher teacher = new Teacher();
+				teacher.setTeacher_no(resultset.getInt("teacher_no"));
+				teacher.setTeacherName(resultset.getString("teacher_name"));
+				teacher.setTeacherAge(resultset.getInt("teacher_age"));
+				teacherList.add(teacher);
 			}
 		} catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
 			System.out.println(a.getMessage() + "<-- catch");
@@ -128,10 +128,10 @@ public class TeacherDao {
 			resultset = statement.executeQuery();
 
 			if(resultset.next()) {
-	            t = new Teacher();
-	            t.setTeacher_no(resultset.getInt("teacher_no"));
-	            t.setTeacherName(resultset.getString("teacher_name"));
-	            t.setTeacherAge(resultset.getInt("teacher_age"));
+				t = new Teacher();
+				t.setTeacher_no(resultset.getInt("teacher_no"));
+				t.setTeacherName(resultset.getString("teacher_name"));
+				t.setTeacherAge(resultset.getInt("teacher_age"));
 			}
 		} catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
 			System.out.println(a.getMessage() + "<-- catch");
@@ -248,7 +248,7 @@ public class TeacherDao {
 			pstmt = con.prepareStatement("INSERT INTO teacher(teacher_name, teacher_age) VALUES (?,?)");
 			pstmt.setString(1, t.getTeacherName());
 			pstmt.setInt(2, t.getTeacherAge());
-
+			
 			pstmt.executeUpdate();
 
 		} catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명

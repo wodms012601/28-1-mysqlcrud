@@ -82,6 +82,10 @@ width:800px;
 				<td><%=ta.getTeacher_addr_content()%></td>
 			</tr>
 		</table>
+		<br>
+		<br>
+		<br>
+		<a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp">돌아가기</a>
 	</div>
 
 	<div id="footer">
