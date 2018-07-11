@@ -7,6 +7,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Update Teacher Form</title>
 <style>
+	#box {width:300px;}
+	#box label {display:black; width:100px; float:left;}
 body {
 width:800px;
 margin:0 auto;
@@ -68,21 +70,23 @@ width:800px;
 
 	<div id="content">
 		<form action="<%=request.getContextPath()%>/Teacher/updateTeacherAction.jsp" method="post" >
-			<table>
-				<tr>
-					<td>teacher_no</td>
-					<td><input type="text" name="teacher_no" value=<%=send_id%> readonly="readonly" ></td>
-				</tr>
-				<tr>
-					<td>teacher_name</td>
-					<td><input type="text" name="teacher_name" value=<%=t.getTeacherName()%>></td>
-				</tr>
-				<tr>
-					<td>teacher_age</td>
-					<td><input type="text" name="teacher_age" value=<%=t.getTeacherAge()%>></td>
-				</tr>
-			</table>
-			<input type="submit" value="수정">
+			<fieldset id = "box">
+				<legend><h3>Update Teacher Form</h3></legend>
+				<br>
+				<br>
+					<label for="1">teacher_no</label>
+					<input type="text" name="teacher_no" value=<%=send_id%> readonly="readonly" >
+
+					<label for="2">teacher_name</label>
+					<input type="text" name="teacher_name" value=<%=t.getTeacherName()%>>
+
+					<label for="3">teacher_age</label>
+					<input type="text" name="teacher_age" value=<%=t.getTeacherAge()%>>
+
+				<input type="submit" value="수정">
+				<br>
+				<br>
+			</fieldset>
 		</form>
 	</div>
 	
