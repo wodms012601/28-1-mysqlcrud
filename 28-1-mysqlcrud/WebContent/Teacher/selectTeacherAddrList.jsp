@@ -95,7 +95,6 @@ width:800px;
 %>
 	        </tbody>
 	    </table>
-
 <%
     int lastPage = totalRowCount/pagePerRow; // 마지막 페이지
     if(totalRowCount%pagePerRow != 0) {
@@ -116,7 +115,11 @@ width:800px;
 <%
         }
 %>
-	    </div>
+	</div>
+	    <br>
+	    <br>
+	    <br>
+	    <a href="<%=request.getContextPath() %>/Teacher/insertTeacherForm.jsp">돌아가기</a>
 	</div>
 
 	<div id="footer">

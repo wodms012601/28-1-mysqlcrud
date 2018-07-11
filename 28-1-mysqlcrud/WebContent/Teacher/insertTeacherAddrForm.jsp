@@ -6,8 +6,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Insert Teacher Addr Form</title>
 <style type = "text/css">
-	#box {width:300px;}
-	#box label {display:black; width:100px; float:left;}
+#box {width:300px;}
+#box label {display:black; width:100px; float:left;}
 	
 body {
 width:800px;
@@ -52,7 +52,7 @@ width:800px;
  	<div id="header">
 		<h1>Insert Teacher Addr Form</h1>
 	</div>
-	
+
 	<div id="sidebar_a">
 		<ul>
 			<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp">선생님 리스트</a></li>
@@ -65,24 +65,24 @@ width:800px;
 	String send_id = request.getParameter("send_id");
 %>
 	<div id="content">	
-			<form action = "<%= request.getContextPath() %>/Teacher/insertTeacherAddrAction.jsp" method="post">
-				<fieldset id = "box">
-					<legend><h3>Insert Teacher Addr Form</h3></legend>
+		<form action = "<%= request.getContextPath() %>/Teacher/insertTeacherAddrAction.jsp" method="post">
+			<fieldset id = "box">
+				<legend><h3>Insert Teacher Addr Form</h3></legend>
 					<br>
 					<br>
 					<label for="1">teacher_no</label>
 					<input type = "text" name = "teacher_no" value=<%=send_id%> readonly="readonly"> <br/>
-					
+
 					<label for="2">teacher_addr_content</label>
 					<input type = "text" name = "teacher_addr_content" required > <br/> <br/>
-					
+
 					<input type = "submit" value = "insert">
 					<br>
 					<br>
-				</fieldset>
+			</fieldset>
 		</form>
 	</div>
-	
+
 	<div id="footer">
 		COPYRIGHT(C) 1조 프로젝트 최윤석 All Rights Reserved.
 	</div>

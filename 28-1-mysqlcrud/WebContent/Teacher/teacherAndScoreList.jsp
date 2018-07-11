@@ -61,36 +61,74 @@ width:800px;
 		</ul>
 	</div>
 
-	<%		
-		request.setCharacterEncoding("UTF-8");
+<%
+	request.setCharacterEncoding("UTF-8");
 
-		TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
-		ArrayList<TeacherAndScore> arrayList = teacherScoreDao.selectTeacherAndScored();	
-	%>
+	int currentPage = 1; // 현재 페이지
+	if(request.getParameter("currentPage") != null) {
+	    currentPage = Integer.parseInt(request.getParameter("currentPage")); // 인트 변환
+	}
+
+	int pagePerRow = 10; // 한 페이지당 보이는 수
+	int beginRow = (currentPage-1)*pagePerRow;
+
+	TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
+	int totalRowCount = teacherScoreDao.selectTotalTeacherCountJoin2();
+	ArrayList<TeacherAndScore> arrayList = teacherScoreDao.selectTeacherAndScored(beginRow, pagePerRow);	
+%>
 		
 	<div id="content">
+		<div>전체행의 수 : <%=totalRowCount%> / 현재행의 수: <%=arrayList.size()%></div>
 			<table border="1">
-				<tr>
-					<th>teacher_no</th>
-					<th>teacher_name</th>
-					<th>teacher_age</th>
-					<th>score</th>
-				</tr>
-				<%
-					for(int i=0; i<arrayList.size(); i++){			
-				%>
-						<tr>
-							<td><%=arrayList.get(i).getTeacherScore().getTeacherNo()%></td>
-							<td><%=arrayList.get(i).getTeacher().getTeacherName()%></td>
-							<td><%=arrayList.get(i).getTeacher().getTeacherAge()%></td>
-							<td><%=arrayList.get(i).getTeacherScore().getScore()%></td>
-						</tr>
-				<%
-					}
-				%>
+				<thead>
+					<tr>
+						<th>teacher_no</th>
+						<th>teacher_name</th>
+						<th>teacher_age</th>
+						<th>score</th>
+					</tr>
+				</thead>
+				<tbody>
+<%
+				for(int i=0; i<arrayList.size(); i++){			
+%>
+					<tr>
+						<td><%=arrayList.get(i).getTeacherScore().getTeacherNo()%></td>
+						<td><%=arrayList.get(i).getTeacher().getTeacherName()%></td>
+						<td><%=arrayList.get(i).getTeacher().getTeacherAge()%></td>
+						<td><%=arrayList.get(i).getTeacherScore().getScore()%></td>
+					</tr>
+<%
+}
+%>
+				</tbody>
 			</table>
-	
-			<a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp">돌아가기</a>
+<%
+    int lastPage = totalRowCount/pagePerRow; // 마지막 페이지
+    if(totalRowCount%pagePerRow != 0) {
+        lastPage++;
+	}
+%>
+
+	<div>
+<%
+        if(currentPage>1) {
+%>
+            <a href="<%=request.getContextPath()%>/Teacher/teacherAndScoreList.jsp?currentPage=<%=currentPage-1%>">이전</a>
+<%
+        }
+        if(currentPage<lastPage) {
+%>
+ 
+            <a href="<%=request.getContextPath()%>/Teacher/teacherAndScoreList.jsp?currentPage=<%=currentPage+1%>">다음</a>
+<%
+		}
+%>
+	</div>
+		<br>
+		<br>
+		<br>
+		<a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp">돌아가기</a>
 	</div>
 	
 	<div id="footer">

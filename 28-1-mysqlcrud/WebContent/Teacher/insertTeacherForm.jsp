@@ -83,17 +83,17 @@ function removeChar(event) {
 		<form action = "<%= request.getContextPath() %>/Teacher/insertTeacherAction.jsp" method="post">
 			<fieldset id = "box">
 				<legend><h3>Insert Teacher Form</h3></legend>
-				<br>
-				<br>
-				<label for="1">teacherName</label>
-				<input type = "text" name = "teacherName" required /> <br/>
+					<br>
+					<br>
+					<label for="1">teacherName</label>
+					<input type = "text" name = "teacherName" required /> <br/>
 				
-				<label for="2">teacherAge</label>
-				<input type = "text" name = "teacherAge" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' onfocusout='removeChar(event)' required /> <br/> <br/>
+					<label for="2">teacherAge</label>
+					<input type = "text" name = "teacherAge" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' onfocusout='removeChar(event)' required /> <br/> <br/>
 				
-				<input type = "submit" value = "insert">
-				<br>
-				<br>
+					<input type = "submit" value = "insert">
+					<br>
+					<br>
 			</fieldset>
 		</form>
 	</div>	

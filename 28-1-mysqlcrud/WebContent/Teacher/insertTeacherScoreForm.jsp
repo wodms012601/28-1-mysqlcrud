@@ -5,8 +5,8 @@
 <head>
 	<title>Insert Teacher Score Form</title>
 <style type = "text/css">
-	#box {width:300px;}
-	#box label {display:black; width:100px; float:left;}
+#box {width:300px;}
+#box label {display:black; width:100px; float:left;}
 	
 body {
 width:800px;
@@ -85,21 +85,21 @@ function removeChar(event) {
 		<form action = "<%= request.getContextPath() %>/Teacher/insertTeacherScoreAction.jsp" method="post">
 			<fieldset id = "box">
 				<legend><h3>Insert Teacher Score Form</h3></legend>
-				<br>
-				<br>
-				<label for="1">teacher_no</label>
-				<input type = "text" name = "teacher_no" value=<%=send_id%> readonly="readonly"> <br/>
-				
-				<label for="2">Score</label>
-				<input type = "text" name = "score" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' onfocusout='removeChar(event)' required /> <br/> <br/>
-		
-				<input type = "submit" value = "insert">
-				<br>
-				<br>
+					<br>
+					<br>
+					<label for="1">teacher_no</label>
+					<input type = "text" name = "teacher_no" value=<%=send_id%> readonly="readonly"> <br/>
+
+					<label for="2">Score</label>
+					<input type = "text" name = "score" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' onfocusout='removeChar(event)' required /> <br/> <br/>
+
+					<input type = "submit" value = "insert">
+					<br>
+					<br>
 			</fieldset>
 		</form>
 	</div>
-	
+
 	<div id="footer">
 		COPYRIGHT(C) 1조 프로젝트 최윤석 All Rights Reserved.
 	</div>

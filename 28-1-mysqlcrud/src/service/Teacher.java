@@ -2,11 +2,11 @@
 package service;
 
 public class Teacher {
-	
+
 	private int teacher_no;
 	private String teacherName;
 	private int teacherAge;
-	
+
 	public int getTeacher_no() {
 		return teacher_no;
 	}

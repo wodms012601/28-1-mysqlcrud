@@ -73,17 +73,17 @@ width:800px;
 		keyword = (String)request.getSession().getAttribute("keyword");
 
 	}
-		
+
 	TeacherDao teacherDao = new TeacherDao();
 	ArrayList<Teacher> teacherList = teacherDao.selectTeacherByPage(currentPage, pagePerRow, keyword);
 	
 	int lastPage = teacherDao.teacherPaging(pagePerRow);
-	
+
 %>
  	<div id="header">
 		<h1>Select Teacher List</h1>
 	</div>
-	
+
 	<div id="sidebar_a">
 		<ul>
 			<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp">선생님 리스트</a></li>
@@ -92,7 +92,7 @@ width:800px;
 			<li><a href="<%=request.getContextPath() %>/Teacher/teacherListAboveAvg.jsp">평균점수 이상 리스트</a></li>
 		</ul>
 	</div>
-	
+
 	<div id="content">
 	    <table border="1">
 	        <thead>
@@ -104,8 +104,6 @@ width:800px;
 	                <th>점수입력</th>
 	                <th>삭제</th>
 	                <th>수정</th>
-	                <th>조인</th>
-	                <th>평균점수</th>
 	            </tr>
 	        </thead>
 	        <tbody>
@@ -120,10 +118,8 @@ width:800px;
 	                    <td><a href="insertTeacherScoreForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">점수입력</a></td>
 	                    <td><a href="deleteTeacherAction.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">삭제</a></td>
 	                    <td><a href="updateTeacherForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">수정</a></td>
-	                    <td><a href="teacherAndScoreList.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">조인</a></td>
-	                    <td><a href="teacherListAboveAvg.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">평균점수</a></td>
 	                </tr>
-<%        
+<%
             }
 %>
 	        </tbody>
@@ -134,7 +130,7 @@ width:800px;
 	    		<input type="submit" value = "검색하기">
 	    	
 	    </form>
-	    
+
 	    <div>
 			<%
 				if(currentPage > 1){
@@ -159,7 +155,7 @@ width:800px;
 	    <br>
 	    <a href="<%=request.getContextPath() %>/Teacher/insertTeacherForm.jsp">돌아가기</a>
 	</div>
-	
+
 	<div id="footer">
 		COPYRIGHT(C) 1조 프로젝트 최윤석 All Rights Reserved.
 	</div>

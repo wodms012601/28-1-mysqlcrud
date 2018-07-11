@@ -2,11 +2,11 @@
 package service;
 
 public class TeacherScore {
-	
+
 	private int teacherScoreNo;
 	private int teacherNo;
 	private int score;
-	
+
 	public int getTeacherScoreNo() {
 		return teacherScoreNo;
 	}
@@ -25,5 +25,5 @@ public class TeacherScore {
 	public void setScore(int score) {
 		this.score = score;
 	}
-	
+
 }

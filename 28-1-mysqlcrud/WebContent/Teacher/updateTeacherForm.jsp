@@ -7,8 +7,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Update Teacher Form</title>
 <style>
-	#box {width:300px;}
-	#box label {display:black; width:100px; float:left;}
+#box {width:300px;}
+#box label {display:black; width:100px; float:left;}
 body {
 width:800px;
 margin:0 auto;
@@ -90,8 +90,8 @@ function removeChar(event) {
 		<form action="<%=request.getContextPath()%>/Teacher/updateTeacherAction.jsp" method="post" >
 			<fieldset id = "box">
 				<legend><h3>Update Teacher Form</h3></legend>
-				<br>
-				<br>
+					<br>
+					<br>
 					<label for="1">teacher_no</label>
 					<input type="text" name="teacher_no" value=<%=send_id%> readonly="readonly" >
 
@@ -107,7 +107,7 @@ function removeChar(event) {
 			</fieldset>
 		</form>
 	</div>
-	
+
 	<div id="footer">
 		COPYRIGHT(C) 1조 프로젝트 최윤석 All Rights Reserved.
 	</div>
