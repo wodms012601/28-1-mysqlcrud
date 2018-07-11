@@ -149,11 +149,6 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			
 			pstmt.executeUpdate();
 			
-			if(rs.next()) {
-				m = new Member();
-				m.setMember_no(Integer.parseInt(rs.getString("member_no")));
-			}	
-			
 		} catch (SQLException e) {
 			e.printStackTrace(); // 
 			
