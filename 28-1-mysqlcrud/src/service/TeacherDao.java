@@ -31,13 +31,13 @@ public class TeacherDao {
 			System.out.println("데이터 베이스 연결");
 
 			if(keyword.equals("")) { // 키워드가 없을 경우
-				statement = connection.prepareStatement("SELECT teacher_no, teacher_name, teacher_age FROM teacher ORDER BY teacher_no LIMIT ?, ?");
+				statement = connection.prepareStatement("SELECT teacher_no, teacher_name, teacher_age FROM teacher ORDER BY teacher_no DESC LIMIT ?, ?");
 
 				statement.setInt(1, firstPage);
 				statement.setInt(2, pagePerRow);
 
 			} else { // 키워드가 있을 경우
-				statement = connection.prepareStatement("SELECT teacher_no, teacher_name, teacher_age FROM teacher where teacher_name LIKE ? ORDER BY teacher_no LIMIT ?, ?");
+				statement = connection.prepareStatement("SELECT teacher_no, teacher_name, teacher_age FROM teacher where teacher_name LIKE ? ORDER BY teacher_no DESC LIMIT ?, ?");
 
 				statement.setString(1, "%"+keyword+"%");
 				statement.setInt(2, firstPage);
@@ -184,7 +184,7 @@ public class TeacherDao {
 		}
 	}
 
-	public int teacherPaging(int pagePerRow) { // 티쳐리스트 페이징 메서드
+	public int teacherPaging(int pagePerRow, String keyword) { // 티쳐리스트 페이징 메서드
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
@@ -203,7 +203,8 @@ public class TeacherDao {
 
 			System.out.println("데이터 베이스 연결");
 
-			statement = connection.prepareStatement("SELECT count(*) FROM teacher");
+			statement = connection.prepareStatement("SELECT count(*) FROM teacher where teacher_name LIKE ?");
+			statement.setString(1, "%"+keyword+"%");
 			resultset = statement.executeQuery();
 
 			if(resultset.next()) {

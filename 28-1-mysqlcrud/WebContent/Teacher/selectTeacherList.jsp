@@ -40,7 +40,7 @@
 	TeacherDao teacherDao = new TeacherDao();
 	ArrayList<Teacher> teacherList = teacherDao.selectTeacherByPage(currentPage, pagePerRow, keyword);
 	
-	int lastPage = teacherDao.teacherPaging(pagePerRow); // 마지막 페이지 값 리턴
+	int lastPage = teacherDao.teacherPaging(pagePerRow, keyword); // 마지막 페이지 값 리턴
 
 %>
  	<div id="header">
@@ -64,9 +64,10 @@
 	                <th>teacher_name</th>
 	                <th>teacher_age</th>
 	                <th>주소입력</th>
-	                <th>점수입력</th>
+	                <th>점수입력/수정</th>
 	                <th>삭제</th>
 	                <th>수정</th>
+	                <th>점수보기</th>
 	            </tr>
 	        </thead>
 	        <tbody>
@@ -78,9 +79,24 @@
 	                    <td><a href="teacherAddrList.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>"><%=teacherList.get(i).getTeacherName()%></a></td>
 	                    <td><%=teacherList.get(i).getTeacherAge()%></td>
 	                    <td><a href="insertTeacherAddrForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">주소입력</a></td>
+<%
+						TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
+						TeacherScore teacherId = teacherScoreDao.selectScoreCount(teacherList.get(i).getTeacher_no());
+						System.out.println(teacherId.getTeacherNo() + "--이거");
+						if(teacherId.getTeacherNo() == 0) {
+%>
 	                    <td><a href="insertTeacherScoreForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">점수입력</a></td>
+<%
+						} else {
+%>	           
+						<td><a href="updateScoreForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">점수수정</a></td>     
+<%
+						}
+%>						    
 	                    <td><a href="deleteTeacherAction.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">삭제</a></td>
 	                    <td><a href="updateTeacherForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">수정</a></td>
+	                    <td><a href="scoreInfo.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">점수보기</a></td>
+	                    
 	                </tr>
 <%
             }
@@ -88,7 +104,7 @@
 	        </tbody>
 	    </table>
 	    <br>
-	    <form action="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp" method="post">
+	    <form action="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp" method="get">
 	    		<input type = "text" name="keyword">
 	    		<input type="submit" value = "검색하기">
 	    	
@@ -98,17 +114,17 @@
 			<%
 				if(currentPage > 1){
 			%>
-				<a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp?currentPage=<%=currentPage-1 %>">이전</a>
+				<a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp?currentPage=<%=currentPage-1 %>&keyword=<%=keyword%>">이전</a>
 			<%
 				}
 				for(int L=1; L<=lastPage; L++){
 			%>
-				<a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp?currentPage=<%=L%>"><%=L%></a>
+				<a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp?currentPage=<%=L%>&keyword=<%=keyword%>"><%=L%></a>
 			<%
 				}
 				if(currentPage < lastPage){
 			%>
-				<a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp?currentPage=<%=currentPage+1 %>">다음</a>
+				<a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp?currentPage=<%=currentPage+1 %>&keyword=<%=keyword%>">다음</a>
 			<%	
 				}
 			%>

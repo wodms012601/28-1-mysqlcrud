@@ -52,7 +52,7 @@ public class TeacherScoreDao {
 		return AVG; // 평균점수 값을 담은 변수 리턴
 	}
 
-	public ArrayList<TeacherAndScore> selectTeacherListAboveAVG(int beginRow, int pagePerRow) { // 페이징,평균점수 이상인 사람들을 구하는 메서드
+	public ArrayList<TeacherAndScore> selectTeacherListAboveAVG(int beginRow, int pagePerRow) { // 리스트,평균점수 이상인 사람들을 구하는 메서드
 		ArrayList<TeacherAndScore> list = new ArrayList<TeacherAndScore>();
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -280,5 +280,170 @@ public class TeacherScoreDao {
 			}
 		}
 		return 0;
+	}
+	
+	public TeacherScore infoTeacherScore(int TeacherScoreId) { // 점수 상세보기 메서드
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultset = null;
+		TeacherScore teacherScore = null;
+
+		try { // 예외 발생 가능성이 있는 문장
+			Class.forName("com.mysql.jdbc.Driver");
+
+			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
+			String dbUserId = "dev28id";
+			String dbPassword = "dev28pw";
+			
+			connection = DriverManager.getConnection(URL, dbUserId, dbPassword);
+			
+			System.out.println("데이터 베이스 연결");
+			statement = connection.prepareStatement("SELECT * FROM teacher_score WHERE teacher_no=?");
+			statement.setInt(1, TeacherScoreId);
+			resultset = statement.executeQuery();
+
+		if(resultset.next()) {
+			teacherScore = new TeacherScore();
+			teacherScore.setTeacherScoreNo(resultset.getInt("teacher_score_no"));
+			teacherScore.setTeacherNo(resultset.getInt("teacher_no"));
+			teacherScore.setScore(resultset.getInt("score"));
+		}
+		} catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
+			System.out.println(a.getMessage() + "<-- catch");
+
+		} finally { // 항상 수행할 필요가 있는 문장
+
+			try {
+				if(statement != null) statement.close();
+				if(connection != null) connection.close();
+			}
+			catch(SQLException a) {
+				System.out.println(a.getMessage() + "<-- catch");
+			}
+		}
+		return teacherScore; // 티쳐점수 객체의 주소값을 리턴
+
+	}
+	
+	public void updateTeacherScore(TeacherScore teacherScore) { // 정보 수정 메서드
+		Connection connection = null;
+		PreparedStatement statement = null;
+
+        try { // 예외 발생 가능성이 있는 문장
+			Class.forName("com.mysql.jdbc.Driver");
+
+			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
+			String dbUserId = "dev28id";
+			String dbPassword = "dev28pw";
+
+			connection = DriverManager.getConnection(URL, dbUserId, dbPassword);
+
+			System.out.println("데이터 베이스 연결");
+
+			statement = connection.prepareStatement("UPDATE teacher_score SET score=? WHERE teacher_no=?");
+			statement.setInt(1, teacherScore.getScore());
+			statement.setInt(2, teacherScore.getTeacherNo());
+			
+
+			statement.executeUpdate();
+
+		} catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
+			System.out.println(a.getMessage() + "<-- catch");
+
+		} finally{ // 항상 수행할 필요가 있는 문장
+
+			try {
+				if(statement != null) statement.close();
+				if(connection != null) connection.close();
+			}
+			catch(SQLException a) {
+				System.out.println(a.getMessage() + "<-- catch");
+			}
+		}
+	}
+	
+	public TeacherScore selectForUpdateTeacherScore(String teacherScoreId) { // 정보 수정 전 기존의 정보를 불러오는 메서드
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultset = null;
+		TeacherScore teacherScore = null;
+
+        try { // 예외 발생 가능성이 있는 문장
+			Class.forName("com.mysql.jdbc.Driver");
+
+			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
+			String dbUserId = "dev28id";
+			String dbPassword = "dev28pw";
+
+			connection = DriverManager.getConnection(URL, dbUserId, dbPassword);
+
+			System.out.println("데이터 베이스 연결");
+
+			statement = connection.prepareStatement("SELECT * FROM teacher_score WHERE teacher_no=?");
+			statement.setString(1, teacherScoreId);
+			resultset = statement.executeQuery();
+
+			if(resultset.next()) {
+				teacherScore = new TeacherScore();
+				teacherScore.setTeacherScoreNo(resultset.getInt("teacher_score_no"));
+				teacherScore.setTeacherNo(resultset.getInt("teacher_no"));
+				teacherScore.setScore(resultset.getInt("score"));
+			}
+		} catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
+			System.out.println(a.getMessage() + "<-- catch");
+
+		} finally{ // 항상 수행할 필요가 있는 문장
+
+			try {
+				if(statement != null) statement.close();
+				if(connection != null) connection.close();
+			}
+			catch(SQLException a) {
+				System.out.println(a.getMessage() + "<-- catch");
+			}
+		}
+		return teacherScore; // 티쳐 객체의 주소값을 리턴
+	}
+	
+	public TeacherScore selectScoreCount(int teacherId) { // 정보 버튼 유동 메서드
+	    Connection connection = null;
+	    PreparedStatement statement = null;
+	    ResultSet resultset = null;
+	    TeacherScore teacherScore = new TeacherScore();
+	    String sql = "SELECT teacher_score_no, teacher_no, score FROM teacher_score WHERE teacher_no=?";
+	    try { // 예외 발생 가능성이 있는 문장
+			Class.forName("com.mysql.jdbc.Driver");
+
+			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
+			String dbUserId = "dev28id";
+			String dbPassword = "dev28pw";
+
+			connection = DriverManager.getConnection(URL, dbUserId, dbPassword);
+
+			System.out.println("데이터 베이스 연결");
+
+	        statement = connection.prepareStatement(sql);
+	        statement.setInt(1, teacherId);
+	        resultset = statement.executeQuery();
+	        
+			if(resultset.next()) {
+				teacherScore.setTeacherScoreNo(resultset.getInt("teacher_score_no"));
+				teacherScore.setTeacherNo(resultset.getInt("teacher_no"));
+				teacherScore.setScore(resultset.getInt("score"));
+			}
+	    } catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
+			System.out.println(a.getMessage() + "<-- catch");
+
+	    } finally {	// 항상 수행할 필요가 있는 문장
+
+			try {
+				if(statement != null) statement.close();
+				if(connection != null) connection.close();
+			}
+			catch(SQLException a) {
+				System.out.println(a.getMessage() + "<-- catch");
+			}
+	    }
+	    return teacherScore;
 	}
 }
