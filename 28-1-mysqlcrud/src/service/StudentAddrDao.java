@@ -2,7 +2,6 @@
 package service;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,10 +15,8 @@ public class StudentAddrDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-				
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//학생 주소 테이블에서 학생번호와 학생주소를 저장하는 쿼리문 준비
 			pstmt = conn.prepareStatement("insert into student_addr (student_no, student_addr_content) values (?, ?)");
@@ -30,8 +27,6 @@ public class StudentAddrDao {
 			pstmt.executeUpdate(); //쿼리문 실행
 			System.out.println("실행 확인");
 				
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -78,10 +73,8 @@ public class StudentAddrDao {
 		int startPage = (currentPage - 1) * pagePerRow; //처음 보는 글
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-			
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			if(word.equals("")) { //검색이 없을 경우 그대로 리스트 처리
 				//학생주소 테이블에서 학생번호와 학생주소번호, 학생주소를 검색하는 쿼리문 준비(조건 : 학생번호를 기점으로 오름차순, 지정한 숫자대로 테이블의 열을 보여준다)
@@ -110,8 +103,6 @@ public class StudentAddrDao {
 				studentAddrList.add(addr); //한번씩 반복될때마다 학생 주소객체의 주소값을 인덱스에 저장
 			}
 			
-		} catch (ClassNotFoundException e) { //예외가 일어났을경우의 처리
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally { //모든 처리가 끝나면 반드시 나중에 열린 객체 순서대로 닫아준다.
@@ -148,10 +139,8 @@ public class StudentAddrDao {
 		ResultSet rs = null;
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-			
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//학생주소 테이블에서 학생번호를 통해 학생주소번호, 학생번호, 학생주소 데이터를 찾는 쿼리문 준비
 			pstmt = conn.prepareStatement("select student_addr_no, student_no, student_addr_content from student_addr where student_no=?");
@@ -166,8 +155,6 @@ public class StudentAddrDao {
 				studentAddr.setStudentAddrContent(rs.getString("student_addr_content"));
 			}
 			
-		} catch (ClassNotFoundException e) { //예외가 일어났을경우의 처리
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally { //모든 처리가 끝나면 반드시 나중에 열린 객체 순서대로 닫아준다.
@@ -199,10 +186,8 @@ public class StudentAddrDao {
 		int lastPage = 0; //마지막 페이지를 담을 변수
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-			
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//학생 주소테이블의 전체행의 값을 구하는 쿼리문 준비
 			pstmt = conn.prepareStatement("select count(*) from student_addr");
@@ -220,8 +205,6 @@ public class StudentAddrDao {
 				lastPage = (totalRow / pagePerRow) + 1;
 			}
 			
-		} catch (ClassNotFoundException e) { //예외가 일어났을경우의 처리
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally { //모든 처리가 끝나면 반드시 나중에 열린 객체 순서대로 닫아준다.
@@ -249,10 +232,8 @@ public class StudentAddrDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-				
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//학생 주소테이블의 학생번호를 통해 학생주소 데이터를 수정하는 쿼리문 준비
 			pstmt = conn.prepareStatement("update student_addr set student_addr_content=? where student_no=?");
@@ -262,8 +243,6 @@ public class StudentAddrDao {
 			
 			pstmt.executeUpdate(); //쿼리문 실행
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -290,10 +269,8 @@ public class StudentAddrDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-				
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//학생주소테이블에서 학생번호가 들어간 행을 전체 삭제
 			pstmt = conn.prepareStatement("delete from student_addr where student_no=?");
@@ -302,8 +279,6 @@ public class StudentAddrDao {
 			
 			pstmt.executeUpdate(); //쿼리문 실행
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

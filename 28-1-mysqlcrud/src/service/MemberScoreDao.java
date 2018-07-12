@@ -1,7 +1,6 @@
 package service;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,21 +13,14 @@ public class MemberScoreDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement("insert into member_score (member_no, score) values(?,?)");
 			pstmt.setInt(1, a);
 			pstmt.setInt(2, b);
 			
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -56,12 +48,8 @@ public class MemberScoreDao {
 			ResultSet rs = null;
 			int a = 0;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement("(select avg(score) from member_score)");
 			
@@ -70,9 +58,6 @@ public class MemberScoreDao {
 			while(rs.next()) {
 				a = rs.getInt("avg(score)");
 			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -104,12 +89,8 @@ public class MemberScoreDao {
 		
 		String sql = "select member_score_no, member_no, score from member_score where score >= (select avg(score) from member_score) order by member_no limit ?,?";
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, startPage);
@@ -136,9 +117,6 @@ public class MemberScoreDao {
 				
 				list.add(m);
 			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -169,12 +147,8 @@ public class MemberScoreDao {
 		
 		String sql = "select m.member_no, m.member_name, ms.score from member_score ms inner join member m on ms.member_no = m.member_no";
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -196,9 +170,6 @@ public class MemberScoreDao {
 				
 				list2.add(m);
 			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -230,12 +201,8 @@ public class MemberScoreDao {
 		String sql = "select m.member_no, m.member_name, ms.score from member_score ms inner join member m on ms.member_no "
 				+ "= m.member_no where ms.score >= (select avg(score) from member_score) order by ms.score ASC";
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -257,9 +224,6 @@ public class MemberScoreDao {
 				
 				list.add(m);
 			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -286,21 +250,14 @@ public class MemberScoreDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement("update member_score set score=? where member_no=?");
 			pstmt.setInt(1, score);
 			pstmt.setInt(2, no);
 			
 			pstmt.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -328,12 +285,8 @@ public class MemberScoreDao {
 		MemberScore m = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement("select score from member_score where member_no=?");
 			pstmt.setInt(1, no);
@@ -344,9 +297,6 @@ public class MemberScoreDao {
 				m = new MemberScore();
 				m.setScore(Integer.parseInt(rs.getString("score")));;
 			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -375,12 +325,8 @@ public class MemberScoreDao {
 		MemberScore ms = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement("select member_score_no, member_no, score from member_score where member_no=?");
 			pstmt.setInt(1, no);
@@ -393,9 +339,6 @@ public class MemberScoreDao {
 				ms.setMemberNo(Integer.parseInt(rs.getString("member_no")));;
 				ms.setScore(Integer.parseInt(rs.getString("score")));;
 			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -426,13 +369,8 @@ public class MemberScoreDao {
 		int lastPage = 0;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement("select count(*) from member_score where score >= (select avg(score) from member_score);");
 			
@@ -450,9 +388,6 @@ public class MemberScoreDao {
 		
 		} catch (SQLException e) {
 				e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			
 		} finally {
 			if (pstmt != null)
 				try { 

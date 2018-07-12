@@ -2,7 +2,6 @@
 package service;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,13 +14,8 @@ public class MemberAddrDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement("insert into member_addr(member_no, member_addr_content) values(?,?)");
 			pstmt.setInt(1, addr.getMember_no());
@@ -31,8 +25,6 @@ public class MemberAddrDao {
 			
 		} catch(SQLException e) {
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (pstmt != null)
 				try { 
@@ -60,15 +52,8 @@ public class MemberAddrDao {
 			// 회원 한명이 여러번의 값을 입력할 수 있기 때문에 ArrayList 배열을 사용하였다.
 			
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				// Class 클래스의 forName()함수를 이용하여 해당 클래스 메모리를 로드한다("동적로딩")
-				
-				
-				String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-				String dbUser = "dev28id";
-				String dbPass = "dev28pw";
-				
-				conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+				Database database = new Database();
+				conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 				
 				pstmt = conn.prepareStatement("select member_addr_no, member_no, member_addr_content from member_addr where member_no=?");
 				pstmt.setInt(1, no);
@@ -86,8 +71,6 @@ public class MemberAddrDao {
 				}
 			} catch(SQLException e) {
 					
-			} catch (ClassNotFoundException e) {
-					e.printStackTrace();
 			} finally {
 				if (pstmt != null)
 					try { 
@@ -114,15 +97,9 @@ public class MemberAddrDao {
 			ArrayList<MemberAddr> list1 = new ArrayList<>();
 		
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				// Class 클래스의 forName()함수를 이용하여 해당 클래스 메모리를 로드한다("동적로딩")
+				Database database = new Database();
+				conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 				
-				
-				String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-				String dbUser = "dev28id";
-				String dbPass = "dev28pw";
-				
-				conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
 				String sql = "select ma.member_addr_no, m.member_name, ma.member_addr_content from member_addr ma "
 						+ "inner join member m on ma.member_no = m.member_no";
 				
@@ -148,8 +125,6 @@ public class MemberAddrDao {
 				}
 			} catch(SQLException e) {
 					
-			} catch (ClassNotFoundException e) {
-					e.printStackTrace();
 			} finally {
 				if (pstmt != null)
 					try { 

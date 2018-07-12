@@ -2,7 +2,6 @@
 package service;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,10 +15,8 @@ public class EmployerScoreDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-				
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//직원점수 테이블에 직원번호와 점수를 저장하는 쿼리문 준비
 			pstmt = conn.prepareStatement("insert into employer_score (employer_no, score) values (?, ?)");
@@ -29,8 +26,6 @@ public class EmployerScoreDao {
 			
 			pstmt.executeUpdate(); //쿼리문 실행
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -78,10 +73,8 @@ public class EmployerScoreDao {
 		int startPage = (currentPage - 1) * pagePerRow; //처음 보는 글
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-				
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=utf-8", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//직원점수테이블과 직원테이블을 조인(join)해서 두 테이블의 컬럼값들을 리스트 처리할수있도록 쿼리문 준비(조건 : 지정한 숫자대로 테이블의 열을 보여준다)
 			pstmt = conn.prepareStatement("select e.employer_no, e.employer_name, e.employer_age, es.score from employer_score es inner join employer e on es.employer_no=e.employer_no order by employer_no desc limit ?, ?");
@@ -107,8 +100,6 @@ public class EmployerScoreDao {
 				employerJoin.add(employerAndScore); //한번씩 반복될때마다 조인객체의 주소값을 인덱스에 저장
 			}
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -140,10 +131,8 @@ public class EmployerScoreDao {
 		int lastPage = 0; //마지막 페이지를 담을 변수
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-			
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//직원 테이블의 전체행의 값을 구하는 쿼리문 준비
 			pstmt = conn.prepareStatement("select count(*) from employer_score");
@@ -161,8 +150,6 @@ public class EmployerScoreDao {
 				lastPage = (totalRow / pagePerRow) + 1;
 			}
 				
-		} catch (ClassNotFoundException e) { //예외가 일어났을경우의 처리
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally { //모든 처리가 끝나면 반드시 나중에 열린 객체 순서대로 닫아준다.
@@ -204,18 +191,12 @@ public class EmployerScoreDao {
 		
 		int startPage = (currentPage - 1) * pagePerRow; //처음 보는 글
 		
-		String driver = "com.mysql.jdbc.Driver";
-		String url = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=utf-8";
-		String user = "dev28id";
-		String password = "dev28pw";
 		//직원 테이블과 직원 점수 테이블을 조인해서 no와 점수, 이름을 검색하면서 평균 점수보다 높은 점수를 가진 직원만 출력하도록 조건을 주는 쿼리문 준비 (조건 : 점수가 가장 높은 직원이 맨 위로, 지정한 숫자대로 테이블의 열을 보여준다)
 		String sql = "select e.employer_no, e.employer_name, es.score from employer e inner join employer_score es on e.employer_no=es.employer_no where score >= (select avg(score) from employer_score) order by score desc limit ?, ?";
 		
 		try {
-			Class.forName(driver); //드라이버 로딩
-				
-			conn = DriverManager.getConnection(url, user, password); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement(sql); //쿼리문 준비
 			
@@ -239,8 +220,6 @@ public class EmployerScoreDao {
 				employerAvg.add(employerAndScore); //한번씩 반복될때마다 조인객체의 주소값을 인덱스에 저장
 			}
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -270,18 +249,12 @@ public class EmployerScoreDao {
 		
 		int avg = 0; //평균점수를 저장할 변수
 		
-		String driver = "com.mysql.jdbc.Driver";
-		String url = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=utf-8";
-		String user = "dev28id";
-		String password = "dev28pw";
 		//직원점수 테이블에서 집합함수를 사용해서 평균점수를 검색
 		String sql = "select avg(score) from employer_score order by score desc";
 		
 		try {
-			Class.forName(driver); //드라이버 로딩
-				
-			conn = DriverManager.getConnection(url, user, password); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement(sql); //쿼리문 준비
 			
@@ -291,8 +264,6 @@ public class EmployerScoreDao {
 				avg = rs.getInt("avg(score)");
 			}
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -329,10 +300,8 @@ public class EmployerScoreDao {
 		ResultSet rs = null;
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-			
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//직원점수 테이블에서 직원번호를 통해 점수번호, 직원번호, 직원점수 데이터를 찾는 쿼리문 준비
 			pstmt = conn.prepareStatement("select employer_score_no, employer_no, score from employer_score where employer_no=?");
@@ -347,8 +316,6 @@ public class EmployerScoreDao {
 				employerScore.setScore(rs.getInt("score"));
 			}
 			
-		} catch (ClassNotFoundException e) { //예외가 일어났을경우의 처리
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally { //모든 처리가 끝나면 반드시 나중에 열린 객체 순서대로 닫아준다.
@@ -376,10 +343,8 @@ public class EmployerScoreDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-				
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//직원점수 테이블의 직원번호를 통해 직원점수를 수정하는 쿼리문 준비
 			pstmt = conn.prepareStatement("update employer_score set score=? where employer_no=?");
@@ -389,8 +354,6 @@ public class EmployerScoreDao {
 			
 			pstmt.executeUpdate(); //쿼리문 실행
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -417,10 +380,8 @@ public class EmployerScoreDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-				
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//직원 테이블에서 직원번호가 들어간 행을 전체 삭제
 			pstmt = conn.prepareStatement("delete from employer_score where employer_no=?");
@@ -429,8 +390,6 @@ public class EmployerScoreDao {
 			
 			pstmt.executeUpdate(); //쿼리문 실행
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

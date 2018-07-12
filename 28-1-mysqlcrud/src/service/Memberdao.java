@@ -2,7 +2,6 @@
 package service; // 패키지 앞의 이름은 소문자를 적어주어야한다(대문자는 왠만하면 사용 안하는것이 좋다.)
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,16 +16,8 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			PreparedStatement pstmt = null;
 			
 		try {
-			
-			Class.forName("com.mysql.jdbc.Driver");
-			// Class 클래스의 forName()함수를 이용하여 해당 클래스 메모리를 로드한다("동적로딩")
-			
-			
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement("insert into member (member_name, member_age) values(?,?)");
 			
@@ -38,12 +29,6 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 		} catch (SQLException e) {
 			e.printStackTrace(); // 
 			
-		
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace(); // 
-		 /* try문안에 Class 클래스에서 forName 메소드를 호출할 때 오류가 발생할 경우 catch문으로 넘어와
-			Class 클래스에서 forName 메소드를 호출할 때  발생하는 예외인 ClassNotFoundException 객체 안에
-			단계별로 발생한 에러를 출력한다.*/
 		
 		} finally {
 			if (pstmt != null)
@@ -71,16 +56,8 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 		try {
-			
-			Class.forName("com.mysql.jdbc.Driver");
-			// Class 클래스의 forName()함수를 이용하여 해당 클래스 메모리를 로드한다("동적로딩")
-			
-			
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement("delete from member where member_no=?");
 			
@@ -90,12 +67,6 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 		} catch (SQLException e) {
 			e.printStackTrace(); // 
 			
-		
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace(); // 
-		 /* try문안에 Class 클래스에서 forName 메소드를 호출할 때 오류가 발생할 경우 catch문으로 넘어와
-			Class 클래스에서 forName 메소드를 호출할 때  발생하는 예외인 ClassNotFoundException 객체 안에
-			단계별로 발생한 에러를 출력한다.*/
 		
 		} finally {
 			if (pstmt != null)
@@ -121,16 +92,8 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 		try {
-			
-			Class.forName("com.mysql.jdbc.Driver");
-			// Class 클래스의 forName()함수를 이용하여 해당 클래스 메모리를 로드한다("동적로딩")
-			
-			
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement("delete from member_addr where member_no=?");
 			
@@ -140,12 +103,6 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 		} catch (SQLException e) {
 			e.printStackTrace(); // 
 			
-		
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace(); // 
-		 /* try문안에 Class 클래스에서 forName 메소드를 호출할 때 오류가 발생할 경우 catch문으로 넘어와
-			Class 클래스에서 forName 메소드를 호출할 때  발생하는 예외인 ClassNotFoundException 객체 안에
-			단계별로 발생한 에러를 출력한다.*/
 		
 		} finally {
 			if (pstmt != null)
@@ -171,16 +128,8 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 		try {
-			
-			Class.forName("com.mysql.jdbc.Driver");
-			// Class 클래스의 forName()함수를 이용하여 해당 클래스 메모리를 로드한다("동적로딩")
-			
-			
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement("delete from member_score where member_no=?");
 			
@@ -190,12 +139,6 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 		} catch (SQLException e) {
 			e.printStackTrace(); // 
 			
-		
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace(); // 
-		 /* try문안에 Class 클래스에서 forName 메소드를 호출할 때 오류가 발생할 경우 catch문으로 넘어와
-			Class 클래스에서 forName 메소드를 호출할 때  발생하는 예외인 ClassNotFoundException 객체 안에
-			단계별로 발생한 에러를 출력한다.*/
 		
 		} finally {
 			if (pstmt != null)
@@ -224,16 +167,8 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			Member m = null;
 			
 		try {
-			
-			Class.forName("com.mysql.jdbc.Driver");
-			// Class 클래스의 forName()함수를 이용하여 해당 클래스 메모리를 로드한다("동적로딩")
-			
-			
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement("select * from member where member_no=?");
 			pstmt.setString(1, Id);
@@ -248,12 +183,6 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 		} catch (SQLException e) {
 			e.printStackTrace(); // 
 			
-		
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace(); // 
-		 /* try문안에 Class 클래스에서 forName 메소드를 호출할 때 오류가 발생할 경우 catch문으로 넘어와
-			Class 클래스에서 forName 메소드를 호출할 때  발생하는 예외인 ClassNotFoundException 객체 안에
-			단계별로 발생한 에러를 출력한다.*/
 		
 		} finally {
 			if (pstmt != null)
@@ -281,16 +210,8 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			ResultSet rs = null;
 			Member m = null;
 		try {
-			
-			Class.forName("com.mysql.jdbc.Driver");
-			// Class 클래스의 forName()함수를 이용하여 해당 클래스 메모리를 로드한다("동적로딩")
-			
-			
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement("select member_no, member_name, member_age from member where member_no=?");
 			pstmt.setString(1, no);
@@ -305,12 +226,6 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 		} catch (SQLException e) {
 			e.printStackTrace(); // 
 			
-		
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace(); // 
-		 /* try문안에 Class 클래스에서 forName 메소드를 호출할 때 오류가 발생할 경우 catch문으로 넘어와
-			Class 클래스에서 forName 메소드를 호출할 때  발생하는 예외인 ClassNotFoundException 객체 안에
-			단계별로 발생한 에러를 출력한다.*/
 		
 		} finally {
 			if (pstmt != null)
@@ -335,16 +250,8 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 		try {
-			
-			Class.forName("com.mysql.jdbc.Driver");
-			// Class 클래스의 forName()함수를 이용하여 해당 클래스 메모리를 로드한다("동적로딩")
-			
-			
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement("update member set member_name=? , member_age=? where member_no=?");
 			pstmt.setString(1, name);
@@ -356,12 +263,6 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 		} catch (SQLException e) {
 			e.printStackTrace(); // 
 			
-		
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace(); // 
-		 /* try문안에 Class 클래스에서 forName 메소드를 호출할 때 오류가 발생할 경우 catch문으로 넘어와
-			Class 클래스에서 forName 메소드를 호출할 때  발생하는 예외인 ClassNotFoundException 객체 안에
-			단계별로 발생한 에러를 출력한다.*/
 		
 		} finally {
 			if (pstmt != null)
@@ -390,15 +291,9 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 		int startPage = (currentpage -1) * pagePerRow;
 	try {
 			
-			Class.forName("com.mysql.jdbc.Driver");
-			// Class 클래스의 forName()함수를 이용하여 해당 클래스 메모리를 로드한다("동적로딩"
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
-			
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
 			Member m = null;
 			
 			pstmt = conn.prepareStatement("select member_no, member_name, member_age from member order by member_no limit ?,?");
@@ -422,9 +317,6 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			e.printStackTrace();
 			
 		
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			
 		} finally {
 			if (pstmt != null)
 				try { 
@@ -452,13 +344,8 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 		int lastPage = 0;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			
-			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUser = "dev28id";
-			String dbPass = "dev28pw";
-			
-			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement("select count(*) from member");
 			
@@ -476,9 +363,6 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 		
 		} catch (SQLException e) {
 				e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			
 		} finally {
 			if (pstmt != null)
 				try { 
