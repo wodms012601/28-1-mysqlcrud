@@ -24,7 +24,7 @@ public class MemberAddrDao {
 			pstmt.executeUpdate();
 			
 		} catch(SQLException e) {
-			
+			e.printStackTrace();
 		} finally {
 			if (pstmt != null)
 				try { 
@@ -70,7 +70,7 @@ public class MemberAddrDao {
 					list.add(m1);
 				}
 			} catch(SQLException e) {
-					
+				e.printStackTrace();	
 			} finally {
 				if (pstmt != null)
 					try { 
@@ -124,7 +124,7 @@ public class MemberAddrDao {
 					list1.add(m1);
 				}
 			} catch(SQLException e) {
-					
+				e.printStackTrace();	
 			} finally {
 				if (pstmt != null)
 					try { 

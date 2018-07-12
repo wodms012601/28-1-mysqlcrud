@@ -27,9 +27,7 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace(); // 
-			
-		
+			e.printStackTrace(); 
 		} finally {
 			if (pstmt != null)
 				try { 
@@ -66,8 +64,6 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace(); // 
-			
-		
 		} finally {
 			if (pstmt != null)
 				try { 
@@ -101,9 +97,7 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace(); // 
-			
-		
+			e.printStackTrace(); 
 		} finally {
 			if (pstmt != null)
 				try { 
@@ -137,9 +131,7 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace(); // 
-			
-		
+			e.printStackTrace(); 
 		} finally {
 			if (pstmt != null)
 				try { 
@@ -181,9 +173,7 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			}	
 			
 		} catch (SQLException e) {
-			e.printStackTrace(); // 
-			
-		
+			e.printStackTrace(); 
 		} finally {
 			if (pstmt != null)
 				try { 
@@ -224,9 +214,7 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 				m.setMember_age(Integer.parseInt(rs.getString("member_age")));
 			}	
 		} catch (SQLException e) {
-			e.printStackTrace(); // 
-			
-		
+			e.printStackTrace(); 
 		} finally {
 			if (pstmt != null)
 				try { 
@@ -261,9 +249,7 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			e.printStackTrace(); // 
-			
-		
+			e.printStackTrace();
 		} finally {
 			if (pstmt != null)
 				try { 
@@ -315,8 +301,6 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 		
 		} catch (SQLException e) {
 			e.printStackTrace();
-			
-		
 		} finally {
 			if (pstmt != null)
 				try { 
