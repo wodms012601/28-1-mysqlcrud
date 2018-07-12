@@ -16,10 +16,8 @@ public class EmployerAddrDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-				
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//직원 주소 테이블에서 직원번호와 직원주소를 저장하는 쿼리문 준비
 			pstmt = conn.prepareStatement("insert into employer_addr (employer_no, employer_addr_content) values (?, ?)");
@@ -30,8 +28,6 @@ public class EmployerAddrDao {
 			pstmt.executeUpdate(); //쿼리문 실행
 			System.out.println("실행 확인");
 				
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -51,7 +47,7 @@ public class EmployerAddrDao {
 			}
 		}
 	}
-	
+
 	/*
 	--------------------------------------------
 	employer_addr_no | employer_no | employer_addr_content
@@ -79,10 +75,8 @@ public class EmployerAddrDao {
 		int startPage = (currentPage - 1) * pagePerRow; //처음 보는 글
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-			
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			if(word.equals("")) { //검색이 없을 경우 그대로 리스트 처리
 				//직원주소 테이블에서 직원번호와 직원주소번호, 직원주소를 검색하는 쿼리문 준비(조건 : 직원번호를 기점으로 오름차순, 지정한 숫자대로 테이블의 열을 보여준다)
@@ -111,8 +105,6 @@ public class EmployerAddrDao {
 				employerAddrList.add(addr); //한번씩 반복될때마다 직원 주소객체의 주소값을 인덱스에 저장
 			}
 			
-		} catch (ClassNotFoundException e) { //예외가 일어났을경우의 처리
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally { //모든 처리가 끝나면 반드시 나중에 열린 객체 순서대로 닫아준다.
@@ -149,10 +141,8 @@ public class EmployerAddrDao {
 		ResultSet rs = null;
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-			
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//직원주소 테이블에서 직원번호를 통해 직원주소번호, 직원번호, 직원주소 데이터를 찾는 쿼리문 준비
 			pstmt = conn.prepareStatement("select employer_addr_no, employer_no, employer_addr_content from employer_addr where employer_no=?");
@@ -167,8 +157,6 @@ public class EmployerAddrDao {
 				employerAddr.setEmployerAddrContent(rs.getString("employer_addr_content"));
 			}
 			
-		} catch (ClassNotFoundException e) { //예외가 일어났을경우의 처리
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally { //모든 처리가 끝나면 반드시 나중에 열린 객체 순서대로 닫아준다.
@@ -200,10 +188,8 @@ public class EmployerAddrDao {
 		int lastPage = 0; //마지막 페이지를 담을 변수
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-			
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//직원 테이블의 전체행의 값을 구하는 쿼리문 준비
 			pstmt = conn.prepareStatement("select count(*) from employer");
@@ -221,8 +207,6 @@ public class EmployerAddrDao {
 				lastPage = (totalRow / pagePerRow) + 1;
 			}
 			
-		} catch (ClassNotFoundException e) { //예외가 일어났을경우의 처리
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally { //모든 처리가 끝나면 반드시 나중에 열린 객체 순서대로 닫아준다.
@@ -250,10 +234,8 @@ public class EmployerAddrDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-				
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//직원 주소테이블의 직원번호를 통해 직원주소 데이터를 수정하는 쿼리문 준비
 			pstmt = conn.prepareStatement("update employer_addr set employer_addr_content=? where employer_no=?");
@@ -263,8 +245,6 @@ public class EmployerAddrDao {
 			
 			pstmt.executeUpdate(); //쿼리문 실행
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -291,10 +271,8 @@ public class EmployerAddrDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
-				
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
-			System.out.println("연결 확인");
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//직원 주소 테이블에서 직원번호가 들어간 행을 전체 삭제
 			pstmt = conn.prepareStatement("delete from employer_addr where employer_no=?");
@@ -303,8 +281,6 @@ public class EmployerAddrDao {
 			
 			pstmt.executeUpdate(); //쿼리문 실행
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
