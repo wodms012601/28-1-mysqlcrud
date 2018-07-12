@@ -1,4 +1,4 @@
-//탁재은, 2018.07.09
+//탁재은, 2018.07.12
 package service;
 
 import java.sql.Connection;
@@ -262,7 +262,7 @@ public class StudentScoreDao {
 		return studentAvg; //조인객체의 주소값들이 저장된 배열객체의 주소값을 리턴
 	}
 	
-	//평균점수를 구하는 메서드
+	//학생 점수테이블의 평균점수를 구하는 메서드
 	public int selectScoreAvg() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -312,5 +312,142 @@ public class StudentScoreDao {
 			}
 		}
 		return avg; //검색한 평균점수의 값을 담은 변수를 리턴
+	}
+	
+	/*
+	--------------------------------------------
+	student_score_no | student_no | score
+	--------------------------------------------
+	 	1 |	 1	 |	95
+	--------------------------------------------
+	*/
+	//학생점수 테이블에서 한명의 학생점수 검색
+	public StudentScore selectStudentScore(int studentNo) {
+		StudentScore studentScore = new StudentScore(); //StudentScore클래스를 통해 객체를 생성
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
+			
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
+			System.out.println("연결 확인");
+			
+			//학생점수 테이블에서 학생번호를 통해 점수번호, 학생번호, 학생점수 데이터를 찾는 쿼리문 준비
+			pstmt = conn.prepareStatement("select student_score_no, student_no, score from student_score where student_no=?");
+			
+			pstmt.setInt(1, studentNo);
+			
+			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
+			
+			if(rs.next()) {
+				studentScore.setStudentScoreNo(rs.getInt("student_score_no")); //ResultSet객체에서 꺼내온 데이터들을  학생점수 객체의 주소값을 통해 데이터 저장 
+				studentScore.setStudentNo(rs.getInt("student_no"));
+				studentScore.setScore(rs.getInt("score"));
+			}
+			
+		} catch (ClassNotFoundException e) { //예외가 일어났을경우의 처리
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally { //모든 처리가 끝나면 반드시 나중에 열린 객체 순서대로 닫아준다.
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return studentScore; //학생점수 객체의 주소값을 리턴값으로한다
+	}
+	
+	//학생점수 테이블 데이터 수정
+	public void updateStudentScore(StudentScore stuScore) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
+				
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
+			System.out.println("연결 확인");
+			
+			//학생점수 테이블의 학생번호를 통해 학생점수를 수정하는 쿼리문 준비
+			pstmt = conn.prepareStatement("update student_score set score=? where student_no=?");
+			
+			pstmt.setInt(1, stuScore.getScore()); //학생점수
+			pstmt.setInt(2, stuScore.getStudentNo()); //학생번호
+			
+			pstmt.executeUpdate(); //쿼리문 실행
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	//학생점수 데이터 삭제
+	public void deleteStudentScore(int studentNo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
+				
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
+			System.out.println("연결 확인");
+			
+			//학생 테이블에서 학생번호가 들어간 행을 전체 삭제
+			pstmt = conn.prepareStatement("delete from student_score where student_no=?");
+			
+			pstmt.setInt(1, studentNo);
+			
+			pstmt.executeUpdate(); //쿼리문 실행
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 }

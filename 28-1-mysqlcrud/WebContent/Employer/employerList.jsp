@@ -28,7 +28,7 @@
 %>
 <html>
 	<head>
-		<title>고용주 리스트</title>
+		<title>직원점수 리스트</title>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 	</head>
 	<body>
@@ -50,12 +50,13 @@
 			<table border="1">
 				<thead>
 					<tr>
-						<th>고용주번호</th>
-						<th>고용주이름</th>
-						<th>고용주나이</th>
+						<th>직원번호</th>
+						<th>직원이름</th>
+						<th>직원나이</th>
 						<th>수정</th>
 						<th>삭제</th>
 						<th>점수입력</th>
+						<th>점수보기</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -68,7 +69,22 @@
 						<td><%=empList.get(i).getEmployerAge() %></td>
 						<td><a href="<%=request.getContextPath() %>/Employer/updateEmployerForm.jsp?no=<%=empList.get(i).getEmployerNo() %>">수정</a></td>
 						<td><a href="<%=request.getContextPath() %>/Employer/deleteEmployer.jsp?no=<%=empList.get(i).getEmployerNo() %>">삭제</a></td>
+					<%
+						EmployerScoreDao employerScoreDao = new EmployerScoreDao();
+						/*직원 번호를 매개변수로 직원점수를 검색하는 메서드 호출한다
+						그리고 직원 점수데이터가 있는 객체의 주소값을 리턴받는다*/
+						EmployerScore employerNo = employerScoreDao.selectEmployerScore(empList.get(i).getEmployerNo());
+						if(employerNo.getEmployerNo() == 0){ //직원점수가 입력되지않은 상태면 리턴값으로 0이 나온다.
+					%>
 						<td><a href="<%=request.getContextPath() %>/Employer/insertEmployerScoreForm.jsp?no=<%=empList.get(i).getEmployerNo() %>">점수입력</a></td>
+					<%
+						} else {
+					%>
+						<td><a href="<%=request.getContextPath() %>/Employer/updateEmployerScoreForm.jsp?no=<%=empList.get(i).getEmployerNo() %>">점수수정</a></td>
+					<%
+						}
+					%>
+						<td><a href="<%=request.getContextPath() %>/Employer/selectEmployerScore.jsp?no=<%=empList.get(i).getEmployerNo() %>">점수보기</a></td>
 					</tr>
 				<%
 					}

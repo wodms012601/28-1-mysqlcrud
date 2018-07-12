@@ -1,34 +1,34 @@
-<!-- Å¹ÀçÀº, 2018.07.09 -->
-<%@ page language = "java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<!-- íƒìž¬ì€, 2018.07.12 -->
+<%@ page language = "java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "service.*"  %>
 <!DOCTYPE html>
 <%
-	//EUC-KR·Î ÀÎÄÚµù
-	request.setCharacterEncoding("EUC-KR");
+	//UTF-8ë¡œ ì¸ì½”ë”©
+	request.setCharacterEncoding("UTF-8");
 
-	int studentNo = Integer.parseInt(request.getParameter("no")); //¼öÁ¤Æû ÆäÀÌÁö¿¡¼­ ³Ñ°Ü¹ÞÀº ÇÐ»ý ¹øÈ£ µ¥ÀÌÅÍ¸¦ º¯¼ö¿¡ ÀúÀå
+	int studentNo = Integer.parseInt(request.getParameter("no")); //ìˆ˜ì •í¼ íŽ˜ì´ì§€ì—ì„œ ë„˜ê²¨ë°›ì€ í•™ìƒ ë²ˆí˜¸ ë°ì´í„°ë¥¼ ë³€ìˆ˜ì— ì €ìž¥
 
-	//ÇÐ»ý °´Ã¼ »ý¼º ¹× set¸Þ¼Òµå¸¦ ÅëÇØ µ¥ÀÌÅÍ »ðÀÔ
+	//í•™ìƒ ê°ì²´ ìƒì„± ë° setë©”ì†Œë“œë¥¼ í†µí•´ ë°ì´í„° ì‚½ìž…
 	Student stu = new Student();
-	stu.setStudentNo(studentNo); //ÇÐ»ý ¹øÈ£
-	stu.setStudentName(request.getParameter("studentName")); //ÇÐ»ýÀÌ¸§
-	stu.setStudentAge(Integer.parseInt(request.getParameter("studentAge"))); //ÇÐ»ý³ªÀÌ
-	System.out.println("ÀÌ¸§,³ªÀÌ ¼öÁ¤ ¿Ï·á");
+	stu.setStudentNo(studentNo); //í•™ìƒ ë²ˆí˜¸
+	stu.setStudentName(request.getParameter("studentName")); //í•™ìƒì´ë¦„
+	stu.setStudentAge(Integer.parseInt(request.getParameter("studentAge"))); //í•™ìƒë‚˜ì´
+	System.out.println("ì´ë¦„,ë‚˜ì´ ìˆ˜ì • ì™„ë£Œ");
 	
-	//ÇÐ»ý Å×ÀÌºí¿¡ ¼öÁ¤
+	//í•™ìƒ í…Œì´ë¸”ì— ìˆ˜ì •
 	StudentDao stuDao = new StudentDao();
-	stuDao.updateStudent(stu); //ÇÐ»ý¹øÈ£¿Í ÇÐ»ýÀÌ¸§, ³ªÀÌ µ¥ÀÌÅÍ°¡ ÀúÀåµÈ ÇÐ»ý °´Ã¼ÀÇ ÁÖ¼Ò°ªÀ» ¸Å°³º¯¼ö·Î ´ëÀÔ
+	stuDao.updateStudent(stu); //í•™ìƒë²ˆí˜¸ì™€ í•™ìƒì´ë¦„, ë‚˜ì´ ë°ì´í„°ê°€ ì €ìž¥ëœ í•™ìƒ ê°ì²´ì˜ ì£¼ì†Œê°’ì„ ë§¤ê°œë³€ìˆ˜ë¡œ ëŒ€ìž…
 	
 	
-	//ÁÖ¼Ò´Â ´Ù¸¥ Å×ÀÌºí¿¡ ÀúÀåÇÏ±âÀ§ÇØ ÇÐ»ý ÁÖ¼Ò°´Ã¼ »ý¼º
+	//ì£¼ì†ŒëŠ” ë‹¤ë¥¸ í…Œì´ë¸”ì— ì €ìž¥í•˜ê¸°ìœ„í•´ í•™ìƒ ì£¼ì†Œê°ì²´ ìƒì„±
 	StudentAddr addr = new StudentAddr();
-	addr.setStudentNo(studentNo); //ÇÐ»ý ¹øÈ£ µ¥ÀÌÅÍ
-	addr.setStudentAddrContent(request.getParameter("studentAddrContent")); //ÇÐ»ý ÁÖ¼Òµ¥ÀÌÅÍ
-	System.out.println("ÁÖ¼Ò ¼öÁ¤ ¿Ï·á");
+	addr.setStudentNo(studentNo); //í•™ìƒ ë²ˆí˜¸ ë°ì´í„°
+	addr.setStudentAddrContent(request.getParameter("studentAddrContent")); //í•™ìƒ ì£¼ì†Œë°ì´í„°
+	System.out.println("ì£¼ì†Œ ìˆ˜ì • ì™„ë£Œ");
 	
-	//ÇÐ»ýÁÖ¼Ò Å×ÀÌºí¿¡ ¼öÁ¤
+	//í•™ìƒì£¼ì†Œ í…Œì´ë¸”ì— ìˆ˜ì •
 	StudentAddrDao addrDao = new StudentAddrDao();
-	addrDao.updateStudentAddr(addr); //ÇÐ»ý ¹øÈ£µ¥ÀÌÅÍ¿Í ÇÐ»ý ÁÖ¼Ò µ¥ÀÌÅÍ°¡ ÀúÀåµÈ ÇÐ»ý ÁÖ¼Ò°´Ã¼ ÁÖ¼Ò°ªÀ» ¸Å°³º¯¼ö·Î ´ëÀÔ
+	addrDao.updateStudentAddr(addr); //í•™ìƒ ë²ˆí˜¸ë°ì´í„°ì™€ í•™ìƒ ì£¼ì†Œ ë°ì´í„°ê°€ ì €ìž¥ëœ í•™ìƒ ì£¼ì†Œê°ì²´ ì£¼ì†Œê°’ì„ ë§¤ê°œë³€ìˆ˜ë¡œ ëŒ€ìž…
 	
-	response.sendRedirect(request.getContextPath()+"/Student/studentList.jsp"); //¸ðµç Ã³¸®°¡ ³¡³ª¸é ¸®½ºÆ®ÆäÀÌÁö·Î ÀÌµ¿
+	response.sendRedirect(request.getContextPath()+"/Student/studentList.jsp"); //ëª¨ë“  ì²˜ë¦¬ê°€ ëë‚˜ë©´ ë¦¬ìŠ¤íŠ¸íŽ˜ì´ì§€ë¡œ ì´ë™
 %>

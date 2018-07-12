@@ -312,5 +312,142 @@ public class EmployerScoreDao {
 			}
 		}
 		return avg; //검색한 평균점수의 값을 담은 변수를 리턴
-	}	
+	}
+	
+	/*
+	--------------------------------------------
+	employer_score_no | employer_no | score
+	--------------------------------------------
+	 	1 |	 1	 |	90
+	--------------------------------------------
+	*/
+	//직원점수 테이블에서 한명의 직원점수 검색
+	public EmployerScore selectEmployerScore(int employerNo) {
+		EmployerScore employerScore = new EmployerScore(); //EmployerScore클래스를 통해 객체를 생성
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
+			
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
+			System.out.println("연결 확인");
+			
+			//직원점수 테이블에서 직원번호를 통해 점수번호, 직원번호, 직원점수 데이터를 찾는 쿼리문 준비
+			pstmt = conn.prepareStatement("select employer_score_no, employer_no, score from employer_score where employer_no=?");
+			
+			pstmt.setInt(1, employerNo);
+			
+			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
+			
+			if(rs.next()) {
+				employerScore.setEmployerScoreNo(rs.getInt("employer_score_no")); //ResultSet객체에서 꺼내온 데이터들을  직원점수 객체의 주소값을 통해 데이터 저장 
+				employerScore.setEmployerNo(rs.getInt("employer_no"));
+				employerScore.setScore(rs.getInt("score"));
+			}
+			
+		} catch (ClassNotFoundException e) { //예외가 일어났을경우의 처리
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally { //모든 처리가 끝나면 반드시 나중에 열린 객체 순서대로 닫아준다.
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return employerScore; //직원점수 객체의 주소값을 리턴값으로한다
+	}
+	
+	//직원점수 테이블 데이터 수정
+	public void updateEmployerScore(EmployerScore empScore) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
+				
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
+			System.out.println("연결 확인");
+			
+			//직원점수 테이블의 직원번호를 통해 직원점수를 수정하는 쿼리문 준비
+			pstmt = conn.prepareStatement("update employer_score set score=? where employer_no=?");
+		
+			pstmt.setInt(1, empScore.getScore()); //직원점수
+			pstmt.setInt(2, empScore.getEmployerNo()); //직원번호
+			
+			pstmt.executeUpdate(); //쿼리문 실행
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	//직원점수 데이터 삭제
+	public void deleteEmployerScore(int employerNo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver"); //드라이버 로딩
+				
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
+			System.out.println("연결 확인");
+			
+			//직원 테이블에서 직원번호가 들어간 행을 전체 삭제
+			pstmt = conn.prepareStatement("delete from employer_score where employer_no=?");
+			
+			pstmt.setInt(1, employerNo);
+			
+			pstmt.executeUpdate(); //쿼리문 실행
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }

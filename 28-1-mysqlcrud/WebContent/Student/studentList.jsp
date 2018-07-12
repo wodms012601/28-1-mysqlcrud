@@ -1,4 +1,4 @@
-<!-- 탁재은, 2018.07.09 -->
+<!-- 탁재은, 2018.07.12 -->
 <%@ page language = "java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "service.*" %>
 <%@ page import = "java.util.ArrayList" %>
@@ -55,6 +55,7 @@
 						<th>수정</th><!-- 수정페이지로 -->
 						<th>삭제</th><!-- 삭제하고 바로 리스트로 이동 -->
 						<th>점수입력</th>
+						<th>점수보기</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -67,7 +68,22 @@
 						<td><%=studentList.get(i).getStudentAge() %></td>
 						<td><a href="<%=request.getContextPath() %>/Student/updateStudentForm.jsp?no=<%=studentList.get(i).getStudentNo() %>">수정</a></td>
 						<td><a href="<%=request.getContextPath() %>/Student/deleteStudent.jsp?no=<%=studentList.get(i).getStudentNo() %>">삭제</a></td>
+					<%
+						StudentScoreDao studentScoreDao = new StudentScoreDao();
+						/*학생 번호를 매개변수로 학생점수를 검색하는 메서드 호출한다
+						그리고 학생 점수데이터가 있는 객체의 주소값을 리턴받는다*/
+						StudentScore studentNo = studentScoreDao.selectStudentScore(studentList.get(i).getStudentNo());
+						if(studentNo.getStudentNo() == 0){ //학생점수가 입력되지않은 상태면 리턴값으로 0이 나온다.
+					%>
 						<td><a href="<%=request.getContextPath() %>/Student/insertStudentScoreForm.jsp?no=<%=studentList.get(i).getStudentNo() %>">점수입력</a></td>
+					<%
+						} else {
+					%>
+						<td><a href="<%=request.getContextPath() %>/Student/updateStudentScoreForm.jsp?no=<%=studentList.get(i).getStudentNo() %>">점수수정</a></td>
+					<%
+						}
+					%>
+						<td><a href="<%=request.getContextPath() %>/Student/selectStudentScore.jsp?no=<%=studentList.get(i).getStudentNo() %>">점수보기</a></td>
 					</tr>
 				<%
 					}
