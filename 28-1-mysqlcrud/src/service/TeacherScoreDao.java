@@ -17,14 +17,10 @@ public class TeacherScoreDao {
 		int AVG = 0;
 
 		try{ // 예외 발생 가능성이 있는 문장
-			Class.forName("com.mysql.jdbc.Driver");
-
-			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";		
-			String dbUserId = "dev28id";
-			String dbPassword = "dev28pw";
+			Database database = new Database();
+			conn = database.databaseConnect();
+			
 			String sql = "SELECT AVG(score) FROM teacher_score ORDER BY score DESC";
-
-			conn = DriverManager.getConnection(URL, dbUserId, dbPassword);
 
 			System.out.println("데이터 베이스 연결");
 
@@ -36,7 +32,7 @@ public class TeacherScoreDao {
 				AVG = resultSet.getInt("AVG(score)");
 			}
 
-		} catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
+		} catch(SQLException a) { // 예외 타입과 매개변수 명
 			System.out.println(a.getMessage() + "<-- catch");
 
 		} finally{ // 항상 수행할 필요가 있는 문장
@@ -60,15 +56,8 @@ public class TeacherScoreDao {
 		String sql = "SELECT t.teacher_no, t.teacher_name, t.teacher_age, ts.score FROM teacher_score ts INNER JOIN teacher t ON ts.teacher_no = t.teacher_no WHERE score >= (SELECT AVG(score) FROM teacher_score) ORDER BY ts.score DESC LIMIT ?, ?";
 
 		try{ // 예외 발생 가능성이 있는 문장
-			Class.forName("com.mysql.jdbc.Driver");
-
-			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUserId = "dev28id";
-			String dbPassword = "dev28pw";
-
-			conn = DriverManager.getConnection(URL, dbUserId, dbPassword);
-
-			System.out.println("데이터 베이스 연결");
+	    	Database database = new Database();
+			conn = database.databaseConnect();
 
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, beginRow);
@@ -91,7 +80,7 @@ public class TeacherScoreDao {
 				
 				list.add(teacherAndScore);
 			}
-		} catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
+		} catch(SQLException a) { // 예외 타입과 매개변수 명
 			System.out.println(a.getMessage() + "<-- catch");
 
 		} finally{ // 항상 수행할 필요가 있는 문장
@@ -109,35 +98,28 @@ public class TeacherScoreDao {
 
 	public int selectTotalTeacherCountJoin() { // 조인 리스트 카운트 메서드
 	    int rowCount = 0;
-	    Connection connection = null;
+	    Connection conn = null;
 	    PreparedStatement statement = null;
 	    ResultSet resultset = null;
 	    String sql = "SELECT COUNT(*) FROM teacher_score ts INNER JOIN teacher t ON ts.teacher_no = t.teacher_no WHERE score >= (SELECT AVG(score) FROM teacher_score)";
 	    try { // 예외 발생 가능성이 있는 문장
-			Class.forName("com.mysql.jdbc.Driver");
-			 
-			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUserId = "dev28id";
-			String dbPassword = "dev28pw";
-			
-			connection = DriverManager.getConnection(URL, dbUserId, dbPassword);
-		
-			System.out.println("데이터 베이스 연결");
+	    	Database database = new Database();
+			conn = database.databaseConnect();
 
-	        statement = connection.prepareStatement(sql);
+	        statement = conn.prepareStatement(sql);
 	        resultset = statement.executeQuery();
 
 	        if(resultset.next()) {
 	            rowCount = resultset.getInt(1);
 	        }
-	    } catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
+	    } catch(SQLException a) { // 예외 타입과 매개변수 명
 			System.out.println(a.getMessage() + "<-- catch");
 
 	    } finally {	// 항상 수행할 필요가 있는 문장
 
 			try {
 				if(statement != null) statement.close();
-				if(connection != null) connection.close();
+				if(conn != null) conn.close();
 			}
 			catch(SQLException a) {
 				System.out.println(a.getMessage() + "<-- catch");
@@ -149,7 +131,7 @@ public class TeacherScoreDao {
 	public ArrayList<TeacherAndScore> selectTeacherAndScored(int beginRow, int pagePerRow) { //teacher테이블과 teacher_score테이블의 데이터를 조인/조회/페이징
 	//조회된 데이터를 ArrayList타입으로 객체배열의 주소값이 담긴 ArrayList객체 주소값을 리턴하는 메서드
 
-		Connection connection = null; 
+		Connection conn = null; 
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 
@@ -157,17 +139,10 @@ public class TeacherScoreDao {
 		String sql = "SELECT ts.teacher_score_no, ts.teacher_no, t.teacher_name, t.teacher_age, ts.score FROM teacher_score ts INNER JOIN teacher t ON ts.teacher_no = t.teacher_no ORDER BY ts.score DESC LIMIT ?, ? ";
 
 		try{ // 예외 발생 가능성이 있는 문장
-			Class.forName("com.mysql.jdbc.Driver");
+	    	Database database = new Database();
+			conn = database.databaseConnect();
 
-			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";		
-			String dbUserId = "dev28id";
-			String dbPassword = "dev28pw";
-
-			connection = DriverManager.getConnection(URL, dbUserId, dbPassword);
-
-			System.out.println("데이터 베이스 연결");
-
-			statement = connection.prepareStatement(sql);
+			statement = conn.prepareStatement(sql);
 			statement.setInt(1, beginRow);
 			statement.setInt(2, pagePerRow);
 
@@ -190,14 +165,14 @@ public class TeacherScoreDao {
 				arraylist.add(teacherAndScore);
 
 			}
-		} catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
+		} catch(SQLException a) { // 예외 타입과 매개변수 명
 			System.out.println(a.getMessage() + "<-- catch");
 
 		} finally{ // 항상 수행할 필요가 있는 문장
 
 			try {
 				if(statement != null) statement.close();
-				if(connection != null) connection.close();
+				if(conn != null) conn.close();
 			}
 			catch(SQLException a) {
 				System.out.println(a.getMessage() + "<-- catch");
@@ -208,35 +183,28 @@ public class TeacherScoreDao {
 
 	public int selectTotalTeacherCountJoin2() { // 리스트  페이징 메서드
 	    int rowCount = 0;
-	    Connection connection = null;
+	    Connection conn = null;
 	    PreparedStatement statement = null;
 	    ResultSet resultset = null;
 	    String sql = "SELECT COUNT(*) FROM teacher_score ts INNER JOIN teacher t ON ts.teacher_no = t.teacher_no";
 	    try { // 예외 발생 가능성이 있는 문장
-			Class.forName("com.mysql.jdbc.Driver");
+	    	Database database = new Database();
+			conn = database.databaseConnect();
 
-			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUserId = "dev28id";
-			String dbPassword = "dev28pw";
-
-			connection = DriverManager.getConnection(URL, dbUserId, dbPassword);
-
-			System.out.println("데이터 베이스 연결");
-
-	        statement = connection.prepareStatement(sql);
+	        statement = conn.prepareStatement(sql);
 	        resultset = statement.executeQuery();
 
 	        if(resultset.next()) {
 	            rowCount = resultset.getInt(1);
 	        }
-	    } catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
+	    } catch(SQLException a) { // 예외 타입과 매개변수 명
 			System.out.println(a.getMessage() + "<-- catch");
 			
 	    } finally {	// 항상 수행할 필요가 있는 문장
 	    	
 			try {
 				if(statement != null) statement.close();
-				if(connection != null) connection.close();
+				if(conn != null) conn.close();
 			}
 			catch(SQLException a) {
 				System.out.println(a.getMessage() + "<-- catch");
@@ -246,34 +214,27 @@ public class TeacherScoreDao {
 	}
 
 	public int insertTeacherScore(TeacherScore teacherScore) { // 점수 등록 메서드
-		Connection con = null;
+		Connection conn = null;
 		PreparedStatement pstmt = null;
 
 		try{ // 예외 발생 가능성이 있는 문장
-			Class.forName("com.mysql.jdbc.Driver");
+	    	Database database = new Database();
+			conn = database.databaseConnect();
 
-			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";		
-			String dbUserId = "dev28id";
-			String dbPassword = "dev28pw";
-
-			con = DriverManager.getConnection(URL, dbUserId, dbPassword);
-
-			System.out.println("데이터 베이스 연결");
-
-			pstmt = con.prepareStatement("INSERT INTO teacher_score(teacher_no, score) VALUES (?,?)");
+			pstmt = conn.prepareStatement("INSERT INTO teacher_score(teacher_no, score) VALUES (?,?)");
 			pstmt.setInt(1, teacherScore.getTeacherNo());
 			pstmt.setInt(2, teacherScore.getScore());
 
 			pstmt.executeUpdate();
 
-		} catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
+		} catch(SQLException a) { // 예외 타입과 매개변수 명
 			System.out.println(a.getMessage() + "<-- catch");
 
 		} finally{ // 항상 수행할 필요가 있는 문장
 			
 			try {
 				if(pstmt != null) pstmt.close();
-				if(con != null) con.close();
+				if(conn != null) conn.close();
 			}
 			catch(SQLException a) {
 				System.out.println(a.getMessage() + "<-- catch");
@@ -283,22 +244,16 @@ public class TeacherScoreDao {
 	}
 	
 	public TeacherScore infoTeacherScore(int TeacherScoreId) { // 점수 상세보기 메서드
-		Connection connection = null;
+		Connection conn = null;
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
 		TeacherScore teacherScore = null;
 
 		try { // 예외 발생 가능성이 있는 문장
-			Class.forName("com.mysql.jdbc.Driver");
-
-			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUserId = "dev28id";
-			String dbPassword = "dev28pw";
+	    	Database database = new Database();
+			conn = database.databaseConnect();
 			
-			connection = DriverManager.getConnection(URL, dbUserId, dbPassword);
-			
-			System.out.println("데이터 베이스 연결");
-			statement = connection.prepareStatement("SELECT * FROM teacher_score WHERE teacher_no=?");
+			statement = conn.prepareStatement("SELECT * FROM teacher_score WHERE teacher_no=?");
 			statement.setInt(1, TeacherScoreId);
 			resultset = statement.executeQuery();
 
@@ -308,14 +263,14 @@ public class TeacherScoreDao {
 			teacherScore.setTeacherNo(resultset.getInt("teacher_no"));
 			teacherScore.setScore(resultset.getInt("score"));
 		}
-		} catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
+		} catch(SQLException a) { // 예외 타입과 매개변수 명
 			System.out.println(a.getMessage() + "<-- catch");
 
 		} finally { // 항상 수행할 필요가 있는 문장
 
 			try {
 				if(statement != null) statement.close();
-				if(connection != null) connection.close();
+				if(conn != null) conn.close();
 			}
 			catch(SQLException a) {
 				System.out.println(a.getMessage() + "<-- catch");
@@ -325,36 +280,29 @@ public class TeacherScoreDao {
 
 	}
 	
-	public void updateTeacherScore(TeacherScore teacherScore) { // 정보 수정 메서드
-		Connection connection = null;
+	public void updateTeacherScore(TeacherScore teacherScore) { // 점수 수정 메서드
+		Connection conn = null;
 		PreparedStatement statement = null;
 
         try { // 예외 발생 가능성이 있는 문장
-			Class.forName("com.mysql.jdbc.Driver");
+	    	Database database = new Database();
+			conn = database.databaseConnect();
 
-			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUserId = "dev28id";
-			String dbPassword = "dev28pw";
-
-			connection = DriverManager.getConnection(URL, dbUserId, dbPassword);
-
-			System.out.println("데이터 베이스 연결");
-
-			statement = connection.prepareStatement("UPDATE teacher_score SET score=? WHERE teacher_no=?");
+			statement = conn.prepareStatement("UPDATE teacher_score SET score=? WHERE teacher_no=?");
 			statement.setInt(1, teacherScore.getScore());
 			statement.setInt(2, teacherScore.getTeacherNo());
 			
 
 			statement.executeUpdate();
 
-		} catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
+		} catch(SQLException a) { // 예외 타입과 매개변수 명
 			System.out.println(a.getMessage() + "<-- catch");
 
 		} finally{ // 항상 수행할 필요가 있는 문장
 
 			try {
 				if(statement != null) statement.close();
-				if(connection != null) connection.close();
+				if(conn != null) conn.close();
 			}
 			catch(SQLException a) {
 				System.out.println(a.getMessage() + "<-- catch");
@@ -362,24 +310,17 @@ public class TeacherScoreDao {
 		}
 	}
 	
-	public TeacherScore selectForUpdateTeacherScore(String teacherScoreId) { // 정보 수정 전 기존의 정보를 불러오는 메서드
-		Connection connection = null;
+	public TeacherScore selectForUpdateTeacherScore(String teacherScoreId) { // 점수 수정 전 기존의 정보를 불러오는 메서드
+		Connection conn = null;
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
 		TeacherScore teacherScore = null;
 
         try { // 예외 발생 가능성이 있는 문장
-			Class.forName("com.mysql.jdbc.Driver");
+	    	Database database = new Database();
+			conn = database.databaseConnect();
 
-			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUserId = "dev28id";
-			String dbPassword = "dev28pw";
-
-			connection = DriverManager.getConnection(URL, dbUserId, dbPassword);
-
-			System.out.println("데이터 베이스 연결");
-
-			statement = connection.prepareStatement("SELECT * FROM teacher_score WHERE teacher_no=?");
+			statement = conn.prepareStatement("SELECT * FROM teacher_score WHERE teacher_no=?");
 			statement.setString(1, teacherScoreId);
 			resultset = statement.executeQuery();
 
@@ -389,14 +330,14 @@ public class TeacherScoreDao {
 				teacherScore.setTeacherNo(resultset.getInt("teacher_no"));
 				teacherScore.setScore(resultset.getInt("score"));
 			}
-		} catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
+		} catch(SQLException a) { // 예외 타입과 매개변수 명
 			System.out.println(a.getMessage() + "<-- catch");
 
 		} finally{ // 항상 수행할 필요가 있는 문장
 
 			try {
 				if(statement != null) statement.close();
-				if(connection != null) connection.close();
+				if(conn != null) conn.close();
 			}
 			catch(SQLException a) {
 				System.out.println(a.getMessage() + "<-- catch");
@@ -405,24 +346,17 @@ public class TeacherScoreDao {
 		return teacherScore; // 티쳐 객체의 주소값을 리턴
 	}
 	
-	public TeacherScore selectScoreCount(int teacherId) { // 정보 버튼 유동 메서드
-	    Connection connection = null;
+	public TeacherScore selectScoreCount(int teacherId) { // 점수 버튼 유동 메서드
+	    Connection conn = null;
 	    PreparedStatement statement = null;
 	    ResultSet resultset = null;
 	    TeacherScore teacherScore = new TeacherScore();
 	    String sql = "SELECT teacher_score_no, teacher_no, score FROM teacher_score WHERE teacher_no=?";
 	    try { // 예외 발생 가능성이 있는 문장
-			Class.forName("com.mysql.jdbc.Driver");
+	    	Database database = new Database();
+			conn = database.databaseConnect();
 
-			String URL = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
-			String dbUserId = "dev28id";
-			String dbPassword = "dev28pw";
-
-			connection = DriverManager.getConnection(URL, dbUserId, dbPassword);
-
-			System.out.println("데이터 베이스 연결");
-
-	        statement = connection.prepareStatement(sql);
+	        statement = conn.prepareStatement(sql);
 	        statement.setInt(1, teacherId);
 	        resultset = statement.executeQuery();
 	        
@@ -431,14 +365,14 @@ public class TeacherScoreDao {
 				teacherScore.setTeacherNo(resultset.getInt("teacher_no"));
 				teacherScore.setScore(resultset.getInt("score"));
 			}
-	    } catch(SQLException | ClassNotFoundException a) { // 예외 타입과 매개변수 명
+	    } catch(SQLException a) { // 예외 타입과 매개변수 명
 			System.out.println(a.getMessage() + "<-- catch");
 
 	    } finally {	// 항상 수행할 필요가 있는 문장
 
 			try {
 				if(statement != null) statement.close();
-				if(connection != null) connection.close();
+				if(conn != null) conn.close();
 			}
 			catch(SQLException a) {
 				System.out.println(a.getMessage() + "<-- catch");

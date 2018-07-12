@@ -82,10 +82,9 @@
 <%
 						TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
 						TeacherScore teacherId = teacherScoreDao.selectScoreCount(teacherList.get(i).getTeacher_no());
-						System.out.println(teacherId.getTeacherNo() + "--이거");
 						if(teacherId.getTeacherNo() == 0) {
 %>
-	                    <td><a href="insertTeacherScoreForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">점수입력</a></td>
+						<td><a href="insertTeacherScoreForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">점수입력</a></td>
 <%
 						} else {
 %>	           
@@ -93,9 +92,9 @@
 <%
 						}
 %>						    
-	                    <td><a href="deleteTeacherAction.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">삭제</a></td>
-	                    <td><a href="updateTeacherForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">수정</a></td>
-	                    <td><a href="scoreInfo.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">점수보기</a></td>
+						<td><a href="deleteTeacherAction.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">삭제</a></td>
+						<td><a href="updateTeacherForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">수정</a></td>
+						<td><a href="scoreInfo.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">점수보기</a></td>
 	                    
 	                </tr>
 <%
