@@ -9,12 +9,12 @@
 		%>			
 <html>
 	<head>
-		<title>회원 리스트</title>
+		<title>전체회원 점수 리스트</title>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 	</head>
 	<body>
 		<div id="header">
-			<h1>회원 리스트</h1>
+			<h1>전체회원 점수 리스트</h1>
 		</div>
 		<div id="sidebar_a">
 			<ul>

@@ -6,8 +6,6 @@
 
 <!DOCTYPE html>
 <%
-	request.setCharacterEncoding("EUC_KR");
-	
 	int pagePerRow = 4; //한화면당 나오는 행의 갯수
 	int currentPage = 1; //첫페이지
 	if(request.getParameter("currentPage") != null){ 
@@ -36,9 +34,6 @@
 			</ul>
 		</div>
 		<div id="content">
-			<form action="<%=request.getContextPath() %>/Member/studentList.jsp" method="post">
-				<div>검색 : &nbsp;<input type="text" name="word"> &nbsp; <input type="submit" value="검색"></div> <!-- 검색입력폼 -->
-			</form><br>
 			<table border="1">
 				<thead>
 					<tr>
@@ -48,8 +43,7 @@
 						<th>주소입력</th>
 						<th>점수입력</th>
 						<th>수정</th><!-- 수정페이지로 -->
-						<th>삭제</th><!-- 삭제하고 바로 리스트로 이동 -->
-						
+						<th>삭제</th><!-- 삭제하고 바로 리스트로 이동 -->		
 					</tr>
 				</thead>
 				<tbody>
@@ -70,7 +64,7 @@
 				<%
 					}
 				%>		
-					</tbody>
+				</tbody>
 			</table>
 			<div>
 			<%
@@ -88,8 +82,9 @@
 				}
 			%>
 			</div><br>
-		<div><a href="<%=request.getContextPath() %>/Member/insertMemberForm.jsp">학생 정보 입력 페이지</a></div>
+			<div><a href="<%=request.getContextPath() %>/Member/insertMemberForm.jsp">학생 정보 입력 페이지</a></div>
 		</div>
+		
 		<div id="footer">
 				COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
 		</div>

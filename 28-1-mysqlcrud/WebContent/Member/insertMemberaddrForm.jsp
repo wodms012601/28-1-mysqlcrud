@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Insert title here</title>
+		<title>회원 주소 입력창</title>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 	</head>
 	<body>
@@ -25,20 +25,25 @@
 	%>
 	
 		<div id="content">	
-			<form action = "<%= request.getContextPath() %>/Teacher/insertTeacherAddrAction.jsp" method="post">
+			<form action = "<%= request.getContextPath() %>/Member/insertMemberaddrAction.jsp" method="post">
 				<fieldset id = "box">
 					<legend><h2>회원 주소 입력창</h2></legend>
-						<br>
-						<br>
-						<label for="1">member_no</label>
-						<input type = "text" name = "Member_no" value=<%=no%> readonly="readonly"> <br/>
-
-						<label for="2">member_addr_content</label>
-						<input type = "text" name = "Member_addr_content" required > <br/> <br/>
-
+						<table>
+							<tr>
+								<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
+								<td>Member_no :&nbsp;</td>
+								<td><input type = "text" name = "Member_no" value=<%=no%> readonly="readonly"></td>
+							</tr>
+							<tr><!-- 주소 -->
+								<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
+								<td>Member_addr_content :&nbsp;</td>
+								<td>
+									<input type="text" name="Member_addr_content" size="40" id="addr" onkeyup="addrCheck()" required>
+									<span id="addrSpan"></span>
+								</td>
+							</tr>
+						</table>
 						<input type = "submit" value = "insert">
-						<br>
-						<br>
 				</fieldset>
 			</form>
 		</div>
@@ -46,5 +51,7 @@
 		<div id="footer">
 			COPYRIGHT(C) 1조 프로젝트  All Rights Reserved.
 		</div>
+		<script src="<%= request.getContextPath() %>/script/main.js"></script>
 	</body>
 </html>
+						

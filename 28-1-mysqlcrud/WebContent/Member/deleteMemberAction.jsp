@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="service.*" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -9,11 +9,13 @@
 	<body>
 		<%
 			String no = request.getParameter("no");
+			System.out.println(no + "<--넘겨받은 번호값");	
 		
-			Memberdao dao7 = new Memberdao();
-			dao7.deleteAddrMember(no);
-			dao7.deleteMember(no);
-			
+			Memberdao dao = new Memberdao();
+			dao.deleteScoreMember(no);
+			dao.deleteAddrMember(no);
+			dao.deleteMember(no);
+		
 			response.sendRedirect(request.getContextPath() + "/Member/memberList.jsp");
 		%>
 	</body>

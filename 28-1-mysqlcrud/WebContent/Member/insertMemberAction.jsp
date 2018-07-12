@@ -1,33 +1,33 @@
-<!-- 2018-06-26 28±â ¼Û¿ø¹Î ¸ðµ¨1 insert ÀÛ¾÷ -->
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<!-- 2018-06-26 28ê¸° ì†¡ì›ë¯¼ ëª¨ë¸1 insert ìž‘ì—… -->
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="service.*" %>
 
 <!DOCTYPE html>
 
-<% request.setCharacterEncoding("euc-kr"); %>
-<!-- (1) jsp:useBean À» »ç¿ëÇÑ ¹æ½Ä 
+<% request.setCharacterEncoding("utf-8"); %>
+<!-- (1) jsp:useBean ì„ ì‚¬ìš©í•œ ë°©ì‹ 
 
 <jsp:useBean id="m" class="service.Member"/> ====> Member m = new Member();
 
 <jsp:setProperty name="m" property="member_no" param="no"/>
 <jsp:setProperty name="m" property="member_name" param="name"/>
 <jsp:setProperty name="m" property="member_age" param="age"/> 
-11 ~ 13Çà : id¿Í nameÀº ¼­·Î °°Àº ¼Ó¼º ±×¸®°í property¿Í param ÀÇ ÀúÀåÇÒ °ªµéÀÌ ¼­·Î ´Ù¸£¹Ç·Î µû·Î ½áÁØ´Ù. ¸¸¾à¿¡ °°´Ù¸é property¸¸ ¾´´Ù.
+11 ~ 13í–‰ : idì™€ nameì€ ì„œë¡œ ê°™ì€ ì†ì„± ê·¸ë¦¬ê³  propertyì™€ param ì˜ ì €ìž¥í•  ê°’ë“¤ì´ ì„œë¡œ ë‹¤ë¥´ë¯€ë¡œ ë”°ë¡œ ì¨ì¤€ë‹¤. ë§Œì•½ì— ê°™ë‹¤ë©´ propertyë§Œ ì“´ë‹¤.
 
-16Çà : property(ÀÚ¹Ùºó Å¬·¡½ºÀÌ¸§) => private int member_no; ,private String member_name; , private int member_age;
-17Çà~18Çà : param(jspÀÇ name °ªµé) => no, name, age 
-		  ex) <input type="text" name="name"(ÀÌ°ªÀÌ param)>
+16í–‰ : property(ìžë°”ë¹ˆ í´ëž˜ìŠ¤ì´ë¦„) => private int member_no; ,private String member_name; , private int member_age;
+17í–‰~18í–‰ : param(jspì˜ name ê°’ë“¤) => no, name, age 
+		  ex) <input type="text" name="name"(ì´ê°’ì´ param)>
 -->
 
 
-<!-- (2) »õ·Î¿î °´Ã¼»ý¼ºÇÏ¿© »ç¿ëÇÑ ¹æ½Ä -->
+<!-- (2) ìƒˆë¡œìš´ ê°ì²´ìƒì„±í•˜ì—¬ ì‚¬ìš©í•œ ë°©ì‹ -->
 
 <%	
 	Member abc = new Member();
-	/*  1. new ¿¬»êÀÚ°¡ abc°´Ã¼¿¡ ÀúÀåµÉ ¸Þ·Î¸® °ø°£¿¡ ÇÒ´çÇÏ°í
-		2. »ý¼ºÀÚ("Member()"")°¡ abc°´Ã¼¸¦ ÃÊ±âÈ­ ½ÃÅ²´Ù
-		3. new ¿¬»êÀÚ°¡ »õ·Î »ý¼ºµÈ ÁÖ¼Ò¸¦ °´Ã¼ ÂüÁ¶º¯¼ö abc¿¡ º¯¼ö¿¡ ÀúÀå
-		4. abc¸¦ ÅëÇØ Member¿¡ Á¢±ÙÀÌ °¡´ÉÇØÁý´Ï´Ù.*/
+	/*  1. new ì—°ì‚°ìžê°€ abcê°ì²´ì— ì €ìž¥ë  ë©”ë¡œë¦¬ ê³µê°„ì— í• ë‹¹í•˜ê³ 
+		2. ìƒì„±ìž("Member()"")ê°€ abcê°ì²´ë¥¼ ì´ˆê¸°í™” ì‹œí‚¨ë‹¤
+		3. new ì—°ì‚°ìžê°€ ìƒˆë¡œ ìƒì„±ëœ ì£¼ì†Œë¥¼ ê°ì²´ ì°¸ì¡°ë³€ìˆ˜ abcì— ë³€ìˆ˜ì— ì €ìž¥
+		4. abcë¥¼ í†µí•´ Memberì— ì ‘ê·¼ì´ ê°€ëŠ¥í•´ì§‘ë‹ˆë‹¤.*/
 	abc.setMember_name(request.getParameter("name"));
 	abc.setMember_age(Integer.parseInt(request.getParameter("age")));
 	
