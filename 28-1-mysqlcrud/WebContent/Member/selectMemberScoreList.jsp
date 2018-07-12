@@ -1,22 +1,21 @@
-<!-- join과 서브쿼리를 사용하여 평균 90이상인 학생들을 뽑아낸 화면 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="service.*" %>
-<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
-		<%
-			MemberScoreDao dao3 = new MemberScoreDao();
-			
-			ArrayList<MemberAndScore> result3= dao3.overSelectMemberList();
-			int a = dao3.selectScoreAvg();
-		%>
+<%
+	int no = Integer.parseInt(request.getParameter("no"));
+	String name = request.getParameter("name");
+	
+	MemberScoreDao dao = new MemberScoreDao();
+	MemberScore m = dao.selectScore(no);
+%>
 <html>
 	<head>
-		<title>회원점수 평균이상 리스트</title>
+		<title>회원점수 리스트</title>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 	</head>
 	<body>
 		<div id="header">
-			<h1>회원점수 평균이상 리스트</h1>
+			<h1>회원점수 리스트</h1>
 		</div>
 		<div id="sidebar_a">
 			<ul>
@@ -27,28 +26,21 @@
 			</ul>
 		</div>
 		<div id="content">
+			<div><h3><%=name %>님의 점수정보창 입니다.</h3></div>
 			<table border="1">
 				<thead>
 					<tr>
+						<th>회원점수번호</th>
 						<th>회원번호</th>
-						<th>회원이름</th>
 						<th>회원점수</th>
 					</tr>
 				</thead>
 				<tbody>
-				전체평균 :<%=a %>
-		<%	
-			for(int i=0; i<result3.size(); i++) {
-		%>
 					<tr>
-						<td><%=result3.get(i).getMember().getMember_no() %></td>
-						<td><%=result3.get(i).getMember().getMember_name() %></td>
-						<td><%=result3.get(i).getMemberScore().getScore() %></td>
+						<td><%=m.getMemberScoreNo()%></td>
+						<td><%=m.getMemberNo()%></td>
+						<td><%=m.getScore()%></td>
 					</tr>
-				
-		<%		
-			}
-		%>
 				</tbody>
 			</table>
 			<div>

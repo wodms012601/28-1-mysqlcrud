@@ -6,6 +6,8 @@
 
 <!DOCTYPE html>
 <%
+	String score = request.getParameter("score");
+	String no = request.getParameter("no");
 	int pagePerRow = 4; //한화면당 나오는 행의 갯수
 	int currentPage = 1; //첫페이지
 	if(request.getParameter("currentPage") != null){ 
@@ -42,6 +44,8 @@
 						<th>회원나이</th>
 						<th>주소입력</th>
 						<th>점수입력</th>
+						<th>점수수정</th>
+						<th>점수보기</th>
 						<th>수정</th><!-- 수정페이지로 -->
 						<th>삭제</th><!-- 삭제하고 바로 리스트로 이동 -->		
 					</tr>
@@ -56,7 +60,19 @@
 						<td><a href = "<%= request.getContextPath() %>/Member/memberAddrList.jsp?no=<%=result.get(i).getMember_no() %>"><%=result.get(i).getMember_name() %></a></td>
 						<td><%=result.get(i).getMember_age()%></td>
 						<td><a href = "<%= request.getContextPath() %>/Member/insertMemberaddrForm.jsp?no=<%=result.get(i).getMember_no() %>">주소입력</a></td>
-						<td><a href = "<%= request.getContextPath() %>/Member/insertMemberScoreForm.jsp?no=<%=result.get(i).getMember_no() %>">점수입력</a></td>
+					<%
+						if(no!=null &&score!=null) {
+					%>
+							<td></td>
+					<%		
+						} else {
+					%>
+							<td><a href = "<%= request.getContextPath() %>/Member/insertMemberScoreForm.jsp?no=<%=result.get(i).getMember_no() %>">점수입력</a></td>
+					<%		
+						}
+					%>		
+						<td><a href = "<%= request.getContextPath() %>/Member/updateMemberScoreForm.jsp?no=<%=result.get(i).getMember_no() %>&name=<%=result.get(i).getMember_name() %>">점수수정</a></td>
+						<td><a href = "<%= request.getContextPath() %>/Member/selectMemberScoreList.jsp?no=<%=result.get(i).getMember_no() %>&name=<%=result.get(i).getMember_name() %>">점수보기</a></td>
 						<td><a href = "<%= request.getContextPath() %>/Member/updateMemberForm.jsp?no=<%=result.get(i).getMember_no() %>">수정</a></td>
 						<td><a href = "<%= request.getContextPath() %>/Member/deleteMemberAction.jsp?no=<%=result.get(i).getMember_no() %>">삭제</a></td>
 						<!-- updateMemberForm -> updateMemberAction-->

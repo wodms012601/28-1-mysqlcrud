@@ -16,7 +16,7 @@
 			MemberScoreDao Dao2 = new MemberScoreDao();
 			Dao2.insertScore(no, score);
 			
-			response.sendRedirect(request.getContextPath() + "/Member/memberList.jsp");
+			response.sendRedirect(request.getContextPath() + "/Member/memberList.jsp?score="+score+"&no="+no);
 		%>
 	</body>
 </html>

@@ -281,6 +281,142 @@ public class MemberScoreDao {
 		return list;
 	}
 	
+	public void updateScore(int score, int no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
+			String dbUser = "dev28id";
+			String dbPass = "dev28pw";
+			
+			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			
+			pstmt = conn.prepareStatement("update member_score set score=? where member_no=?");
+			pstmt.setInt(1, score);
+			pstmt.setInt(2, no);
+			
+			pstmt.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null)
+				try { 
+					pstmt.close(); 
+				}
+				catch(SQLException e) {
+					e.printStackTrace();
+				}
+		    if (conn != null) 
+		    	try {
+		    		conn.close(); 
+		    	} catch(SQLException e) {
+		    		e.printStackTrace();	
+		    	}
+		} 
+	}
+	
+	public MemberScore selectUpdateScore(int no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		MemberScore m = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
+			String dbUser = "dev28id";
+			String dbPass = "dev28pw";
+			
+			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			
+			pstmt = conn.prepareStatement("select score from member_score where member_no=?");
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				m = new MemberScore();
+				m.setScore(Integer.parseInt(rs.getString("score")));;
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null)
+				try { 
+					pstmt.close(); 
+				}
+				catch(SQLException e) {
+					e.printStackTrace();
+				}
+		    if (conn != null) 
+		    	try {
+		    		conn.close(); 
+		    	} catch(SQLException e) {
+		    		e.printStackTrace();	
+		    	}
+		} 
+		return m;
+	}
+	
+	public MemberScore selectScore(int no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		MemberScore ms = null;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			String jdbcDriver = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr";
+			String dbUser = "dev28id";
+			String dbPass = "dev28pw";
+			
+			conn = DriverManager.getConnection(jdbcDriver, dbUser, dbPass);
+			
+			pstmt = conn.prepareStatement("select member_score_no, member_no, score from member_score where member_no=?");
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				ms = new MemberScore();
+				ms.setMemberScoreNo(Integer.parseInt(rs.getString("member_score_no")));;
+				ms.setMemberNo(Integer.parseInt(rs.getString("member_no")));;
+				ms.setScore(Integer.parseInt(rs.getString("score")));;
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null)
+				try { 
+					pstmt.close(); 
+				}
+				catch(SQLException e) {
+					e.printStackTrace();
+				}
+		    if (conn != null) 
+		    	try {
+		    		conn.close(); 
+		    	} catch(SQLException e) {
+		    		e.printStackTrace();	
+		    	}
+		} 
+		return ms;
+	}
+	
 	public int paging(int pagePerRow) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
