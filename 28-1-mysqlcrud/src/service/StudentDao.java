@@ -119,14 +119,14 @@ public class StudentDao {
 			
 			if(word.equals("")) { //검색이 없을 경우 그대로 리스트 처리
 				//학생 테이블에서 학생번호와 학생이름, 학생나이를 검색하는 쿼리문 준비(조건 : 학생번호를 기점으로 오름차순, 지정한 숫자대로 테이블의 열을 보여준다)
-				pstmt = conn.prepareStatement("select student_no, student_name, student_age from student order by student_no limit ?, ?");
+				pstmt = conn.prepareStatement("select student_no, student_name, student_age from student order by student_no desc limit ?, ?");
 				
-				pstmt.setInt(1, startPage);
-				pstmt.setInt(2, pagePerRow);
+				pstmt.setInt(1, startPage); //시작지점
+				pstmt.setInt(2, pagePerRow); //열의 갯수
 				
 			} else { //검색이 있을경우 검색한 문자가 포함된 결과를 리스트로 처리
 				//학생 테이블에서 학생번호와 학생이름, 학생나이를 검색하는 쿼리문 준비(조건 : 학생이름컬럼에서 지정한 문자가 들어가있는 열을 검색)
-				pstmt = conn.prepareStatement("select student_no, student_name, student_age from student where student_name like ? order by student_no limit ?, ?");
+				pstmt = conn.prepareStatement("select student_no, student_name, student_age from student where student_name like ? order by student_no desc limit ?, ?");
 				
 				pstmt.setString(1, "%"+word+"%");
 				pstmt.setInt(2, startPage);

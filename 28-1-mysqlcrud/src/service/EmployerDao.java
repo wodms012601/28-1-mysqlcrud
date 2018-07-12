@@ -1,4 +1,4 @@
-//탁재은, 2018.07.11
+//탁재은, 2018.07.12
 package service;
 
 import java.sql.Connection;
@@ -10,14 +10,14 @@ import java.util.ArrayList;
 
 public class EmployerDao {
 	
-	/*db연결 및 고용주 테이블에 데이터 상입
+	/*db연결 및 직원 테이블에 데이터 상입
 	--------------------------------------------
 	employer_no | employer_name | employer_age
 	--------------------------------------------
 	 	1 |	 최윤석	 |	24
 	--------------------------------------------
 	*/
-	//db의 고용주테이블에 데이터 저장 및 주소테이블의 employer_no컬럼에 고용주테이블의 employer_no값을 저장하기위해 고용주번호 검색
+	//db의 직원테이블에 데이터 저장 및 직원주소테이블의 employer_no컬럼에 직원테이블의 employer_no값을 저장하기위해 직원번호 검색
 	public Employer insertEmployer(Employer emp) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -30,25 +30,25 @@ public class EmployerDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			//고용주 테이블에서 고용주 이름과 고용주 번호를 저장하기위한 쿼리문 준비
+			//직원 테이블에서 직원 이름과 직원 번호를 저장하기위한 쿼리문 준비
 			pstmt = conn.prepareStatement("insert into employer (employer_name, employer_age) values (?, ?)");
 			
 			/*각 테이블의 기본키를 auto_increment로 주었기때문에
-			고용주테이블에 먼저 데이터를 입력한 후 추가된 auto_increment를
+			직원테이블에 먼저 데이터를 입력한 후 추가된 auto_increment를
 			select문으로 받아 저장했습니다.*/
-			//고용주 테이블의 고용주이름을 통해 고용주 번호를 검색하는 쿼리문 준비
+			//직원 테이블의 직원이름을 통해 직원 번호를 검색하는 쿼리문 준비
 			pstmt2 = conn.prepareStatement("select employer_no from employer where employer_name=?");
 			
-			pstmt.setString(1, emp.getEmployerName()); //고용주 이름
-			pstmt.setInt(2, emp.getEmployerAge()); //고용주 나이
+			pstmt.setString(1, emp.getEmployerName()); //직원 이름
+			pstmt.setInt(2, emp.getEmployerAge()); //직원 나이
 			
-			pstmt2.setString(1, emp.getEmployerName()); //고용주 이름으로 검색
+			pstmt2.setString(1, emp.getEmployerName()); //직원 이름으로 검색
 			
 			pstmt.executeUpdate(); //쿼리문 실행
-			System.out.println("고용주테이블저장");
+			System.out.println("직원테이블저장");
 			
 			rs = pstmt2.executeQuery(); //쿼리문 실행
-			System.out.println("고용주테이블select");
+			System.out.println("직원테이블select");
 			
 			if(rs.next()) {
 				emp.setEmployerNo(rs.getInt("employer_no")); //넘버데이터 가져와서 변수에 저장
@@ -101,7 +101,7 @@ public class EmployerDao {
 	 	6 |	 이광재	 |	27
 	--------------------------------------------
 	*/
-	//고용주리스트 작업
+	//직원리스트 작업
 	public ArrayList<Employer> selectEmployerByPage(int currentPage, int pagePerRow, String word){
 		ArrayList<Employer> employerList = new ArrayList<Employer>(); //ArrayList클래스를 통해 배열객체 생성
 		Connection conn = null;
@@ -117,15 +117,15 @@ public class EmployerDao {
 			System.out.println("연결 확인");
 			
 			if(word.equals("")) { //검색이 없을 경우 그대로 리스트 처리
-				//고용주 테이블에서 고용주번호와 고용주이름, 고용주나이를 검색하는 쿼리문 준비(조건 : 고용주번호를 기점으로 오름차순, 지정한 숫자대로 테이블의 열을 보여준다)
-				pstmt = conn.prepareStatement("select employer_no, employer_name, employer_age from employer order by employer_no limit ?, ?");
+				//직원 테이블에서 직원번호와 직원이름, 직원나이를 검색하는 쿼리문 준비(조건 : 직원번호를 기점으로 오름차순, 지정한 숫자대로 테이블의 열을 보여준다)
+				pstmt = conn.prepareStatement("select employer_no, employer_name, employer_age from employer order by employer_no desc limit ?, ?");
 				
-				pstmt.setInt(1, startPage);
-				pstmt.setInt(2, pagePerRow);
+				pstmt.setInt(1, startPage); //시작지점
+				pstmt.setInt(2, pagePerRow); //열의 갯수
 				
 			} else { //검색이 있을경우 검색한 문자가 포함된 결과를 리스트로 처리
-				//고용주 테이블에서 고용주번호와 고용주이름, 고용주나이를 검색하는 쿼리문 준비(조건 : 고용주이름컬럼에서 지정한 문자가 들어가있는 열을 검색)
-				pstmt = conn.prepareStatement("select employer_no, employer_name, employer_age from employer where employer_name like ? order by employer_no limit ?, ?");
+				//직원 테이블에서 직원번호와 직원이름, 직원나이를 검색하는 쿼리문 준비(조건 : 직원이름 컬럼에서 지정한 문자가 들어가있는 열을 검색)
+				pstmt = conn.prepareStatement("select employer_no, employer_name, employer_age from employer where employer_name like ? order by employer_no desc limit ?, ?");
 				
 				pstmt.setString(1, "%"+word+"%");
 				pstmt.setInt(2, startPage);
@@ -163,10 +163,10 @@ public class EmployerDao {
 				}
 			}
 		}
-		return employerList; //고용주 객체의 주소값담은 배열객체의 주소값을 리턴
+		return employerList; //직원 객체의 주소값담은 배열객체의 주소값을 리턴
 	}
 	
-	//고용주페이징 작업
+	//직원리스트페이징 작업
 	public int paging(int pagePerRow) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -181,7 +181,7 @@ public class EmployerDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			//고용주 테이블의 전체행의 값을 구하는 쿼리문 준비
+			//직원 테이블의 전체행의 값을 구하는 쿼리문 준비
 			pstmt = conn.prepareStatement("select count(*) from employer");
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
@@ -220,7 +220,7 @@ public class EmployerDao {
 		return lastPage;
 	}
 	
-	//고용주주소를 수정하기위해 리스트에 저장되어있는 데이터 찾기
+	//직원주소를 수정하기위해 리스트에 저장되어있는 데이터 찾기
 	public Employer selectEmployer(int employerNo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -234,7 +234,7 @@ public class EmployerDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			//고용주테이블의 고용주번호를 통해 고용주이름과 고용주나이를 검색하는 쿼리문 준비
+			//직원테이블의 직원번호를 통해 직원이름과 직원나이를 검색하는 쿼리문 준비
 			pstmt = conn.prepareStatement("select employer_name, employer_age from employer where employer_no=?");
 			
 			pstmt.setInt(1, employerNo);
@@ -242,7 +242,7 @@ public class EmployerDao {
 			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
 			
 			if(rs.next()) {
-				employer.setEmployerName(rs.getString("employer_name")); //ResultSet객체에서 꺼내온 데이터들을 고용주 객체의 주소값을 통해 데이터 저장 
+				employer.setEmployerName(rs.getString("employer_name")); //ResultSet객체에서 꺼내온 데이터들을 직원 객체의 주소값을 통해 데이터 저장 
 				employer.setEmployerAge(rs.getInt("employer_age"));
 			}
 			
@@ -266,10 +266,10 @@ public class EmployerDao {
 				}
 			}
 		}
-		return employer; //고용주 객체의 주소값을 리턴값으로한다
+		return employer; //직원 객체의 주소값을 리턴값으로한다
 	}
 	
-	//고용주 테이블 데이터 수정
+	//직원 테이블 데이터 수정
 	public void updateEmployer(Employer emp) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -280,12 +280,12 @@ public class EmployerDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			//고용주 테이블의 고용주번호를 통해 고용주이름과 고용주나이 데이터를 수정하는 쿼리문 준비
+			//직원 테이블의 직원번호를 통해 직원이름과 직원나이 데이터를 수정하는 쿼리문 준비
 			pstmt = conn.prepareStatement("update employer set employer_name=?, employer_age=? where employer_no=?");
 			
-			pstmt.setString(1, emp.getEmployerName()); //고용주이름
-			pstmt.setInt(2, emp.getEmployerAge()); //고용주나이
-			pstmt.setInt(3, emp.getEmployerNo()); //고용주번호
+			pstmt.setString(1, emp.getEmployerName()); //직원 이름
+			pstmt.setInt(2, emp.getEmployerAge()); //직원 나이
+			pstmt.setInt(3, emp.getEmployerNo()); //직원 번호
 			
 			pstmt.executeUpdate(); //쿼리문 실행
 
@@ -311,7 +311,7 @@ public class EmployerDao {
 		}
 	}
 	
-	//고용주 데이터 삭제
+	//직원 데이터 삭제
 	public void deleteEmployer(int employerNo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -322,10 +322,10 @@ public class EmployerDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			//고용주 테이블에서 고용주번호가 들어간 행을 전체 삭제
+			//직원 테이블에서 직원번호가 들어간 행을 전체 삭제
 			pstmt = conn.prepareStatement("delete from employer where employer_no=?");
 			
-			pstmt.setInt(1, employerNo);
+			pstmt.setInt(1, employerNo); //직원번호
 			
 			pstmt.executeUpdate(); //쿼리문 실행
 

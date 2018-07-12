@@ -1,4 +1,4 @@
-//탁재은, 2018.07.11
+//탁재은, 2018.07.12
 package service;
 
 import java.sql.Connection;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class EmployerScoreDao {
 	
-	//db의 고용주점수 테이블에 고용주점수 저장
+	//db의 직원점수 테이블에 직원점수 저장
 	public void insertScore(EmployerScore employerScore) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -21,11 +21,11 @@ public class EmployerScoreDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			//고용주점수 테이블에 고용주번호와 점수를 저장하는 쿼리문 준비
+			//직원점수 테이블에 직원번호와 점수를 저장하는 쿼리문 준비
 			pstmt = conn.prepareStatement("insert into employer_score (employer_no, score) values (?, ?)");
 			
-			pstmt.setInt(1, employerScore.getEmployerNo()); //고용주 번호
-			pstmt.setInt(2, employerScore.getScore()); //고용주 점수
+			pstmt.setInt(1, employerScore.getEmployerNo()); //직원 번호
+			pstmt.setInt(2, employerScore.getScore()); //직원 점수
 			
 			pstmt.executeUpdate(); //쿼리문 실행
 			
@@ -51,7 +51,7 @@ public class EmployerScoreDao {
 		}
 	}
 	
-	//점수 테이블과 고용주 테이블 조인해서 리스트화
+	//직원점수 테이블과 직원 테이블 조인해서 리스트화
 	/*
 	---------------------------------------------------------------
 	employer_no | employer_name | employer_age	|	score
@@ -83,26 +83,26 @@ public class EmployerScoreDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=utf-8", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			//점수테이블과 고용주테이블을 조인(join)해서 두 테이블의 컬럼값들을 리스트 처리할수있도록 쿼리문 준비(조건 : 지정한 숫자대로 테이블의 열을 보여준다)
-			pstmt = conn.prepareStatement("select e.employer_no, e.employer_name, e.employer_age, es.score from employer_score es inner join employer e on es.employer_no=e.employer_no order by employer_no limit ?, ?");
+			//직원점수테이블과 직원테이블을 조인(join)해서 두 테이블의 컬럼값들을 리스트 처리할수있도록 쿼리문 준비(조건 : 지정한 숫자대로 테이블의 열을 보여준다)
+			pstmt = conn.prepareStatement("select e.employer_no, e.employer_name, e.employer_age, es.score from employer_score es inner join employer e on es.employer_no=e.employer_no order by employer_no desc limit ?, ?");
 			
-			pstmt.setInt(1, startPage);
-			pstmt.setInt(2, pagePerRow);
+			pstmt.setInt(1, startPage); //시작지점
+			pstmt.setInt(2, pagePerRow); //열의 갯수
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행
 			
 			while(rs.next()) {
-				Employer employer = new Employer(); //고용주 테이블의 데이터를 저장하기위한 고용주 객체
-				employer.setEmployerNo(rs.getInt("e.employer_no")); //고용주번호
-				employer.setEmployerName(rs.getString("e.employer_name")); //고용주이름
-				employer.setEmployerAge(rs.getInt("e.employer_age")); //고용주나이
+				Employer employer = new Employer(); //직원 테이블의 데이터를 저장하기위한 직원 객체
+				employer.setEmployerNo(rs.getInt("e.employer_no")); //직원 번호
+				employer.setEmployerName(rs.getString("e.employer_name")); //직원 이름
+				employer.setEmployerAge(rs.getInt("e.employer_age")); //직원 나이
 				
-				EmployerScore employerScore = new EmployerScore(); //점수 테이블의 데이터를 저장하기위한 점수 객체
-				employerScore.setScore(rs.getInt("es.score")); //고용주점수
+				EmployerScore employerScore = new EmployerScore(); //직원점수 테이블의 데이터를 저장하기위한 직원점수 객체
+				employerScore.setScore(rs.getInt("es.score")); //직원점수
 				
-				EmployerAndScore employerAndScore = new EmployerAndScore(); //고용주 객체와 점수 객체의 주소값을 저장하는 조인객체
-				employerAndScore.setEmployer(employer); //고용주 객체
-				employerAndScore.setEmployerScore(employerScore); //점수 객체
+				EmployerAndScore employerAndScore = new EmployerAndScore(); //직원 객체와 직원점수 객체의 주소값을 저장하는 조인객체
+				employerAndScore.setEmployer(employer); //직원 객체
+				employerAndScore.setEmployerScore(employerScore); //직원점수 객체
 				
 				employerJoin.add(employerAndScore); //한번씩 반복될때마다 조인객체의 주소값을 인덱스에 저장
 			}
@@ -130,7 +130,7 @@ public class EmployerScoreDao {
 		return employerJoin; //조인객체의 주소값들이 저장된 배열객체의 주소값을 리턴
 	}
 	
-	//고용주점수리스트 페이징 작업
+	//직원점수리스트 페이징 작업
 	public int paging(int pagePerRow) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -145,7 +145,7 @@ public class EmployerScoreDao {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=euckr", "dev28id", "dev28pw"); //db연결
 			System.out.println("연결 확인");
 			
-			//고용주 테이블의 전체행의 값을 구하는 쿼리문 준비
+			//직원 테이블의 전체행의 값을 구하는 쿼리문 준비
 			pstmt = conn.prepareStatement("select count(*) from employer_score");
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
@@ -184,7 +184,7 @@ public class EmployerScoreDao {
 		return lastPage;
 	}
 	
-	//고용주 테이블과 고용주 점수 테이블을 조인해서 평균점수를 넘은 고용주만 검색하는 메서드
+	//직원 테이블과 직원 점수 테이블을 조인해서 평균점수를 넘은 직원만 검색하는 메서드
 	/*
 	---------------------------------------------------------------
 	employer_no | employer_name 	|	score
@@ -208,7 +208,7 @@ public class EmployerScoreDao {
 		String url = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=utf-8";
 		String user = "dev28id";
 		String password = "dev28pw";
-		//고용주 테이블과 고용주 점수 테이블을 조인해서 no와 점수, 이름을 검색하면서 평균 점수보다 높은 점수를 가진 고용주만 출력하도록 조건을 주는 쿼리문 준비 (조건 : 점수가 가장 높은 고용주이 맨 위로 지정한 숫자대로 테이블의 열을 보여준다)
+		//직원 테이블과 직원 점수 테이블을 조인해서 no와 점수, 이름을 검색하면서 평균 점수보다 높은 점수를 가진 직원만 출력하도록 조건을 주는 쿼리문 준비 (조건 : 점수가 가장 높은 직원이 맨 위로, 지정한 숫자대로 테이블의 열을 보여준다)
 		String sql = "select e.employer_no, e.employer_name, es.score from employer e inner join employer_score es on e.employer_no=es.employer_no where score >= (select avg(score) from employer_score) order by score desc limit ?, ?";
 		
 		try {
@@ -219,22 +219,22 @@ public class EmployerScoreDao {
 			
 			pstmt = conn.prepareStatement(sql); //쿼리문 준비
 			
-			pstmt.setInt(1, startPage);
-			pstmt.setInt(2, pagePerRow);
+			pstmt.setInt(1, startPage); //시작지점
+			pstmt.setInt(2, pagePerRow); //열의 갯수
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행
 			
 			while(rs.next()) {
-				Employer employer = new Employer(); //고용주 테이블의 데이터를 저장하기위한 고용주 객체
-				employer.setEmployerNo(rs.getInt("e.employer_no")); //고용주번호
-				employer.setEmployerName(rs.getString("e.employer_name")); //고용주이름
+				Employer employer = new Employer(); //직원 테이블의 데이터를 저장하기위한 직원 객체
+				employer.setEmployerNo(rs.getInt("e.employer_no")); //직원번호
+				employer.setEmployerName(rs.getString("e.employer_name")); //직원이름
 				
-				EmployerScore employerScore = new EmployerScore(); //점수 테이블의 데이터를 저장하기위한 점수 객체
-				employerScore.setScore(rs.getInt("es.score")); //고용주점수
+				EmployerScore employerScore = new EmployerScore(); //직원점수 테이블의 데이터를 저장하기위한 직원점수 객체
+				employerScore.setScore(rs.getInt("es.score")); //직원점수
 				
-				EmployerAndScore employerAndScore = new EmployerAndScore(); //고용주 객체와 점수 객체의 주소값을 저장하는 조인객체
-				employerAndScore.setEmployer(employer); //고용주 객체
-				employerAndScore.setEmployerScore(employerScore); //점수 객체
+				EmployerAndScore employerAndScore = new EmployerAndScore(); //직원 객체와 직원점수 객체의 주소값을 저장하는 조인객체
+				employerAndScore.setEmployer(employer); //직원 객체
+				employerAndScore.setEmployerScore(employerScore); //직원점수 객체
 				
 				employerAvg.add(employerAndScore); //한번씩 반복될때마다 조인객체의 주소값을 인덱스에 저장
 			}
@@ -262,7 +262,7 @@ public class EmployerScoreDao {
 		return employerAvg; //조인객체의 주소값들이 저장된 배열객체의 주소값을 리턴
 	}
 	
-	//평균점수를 구하는 메서드
+	//직원점수 테이블의 평균점수를 구하는 메서드
 	public int selectScoreAvg() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -274,7 +274,7 @@ public class EmployerScoreDao {
 		String url = "jdbc:mysql://localhost:3306/dev28db?useUnicode=true&characterEncoding=utf-8";
 		String user = "dev28id";
 		String password = "dev28pw";
-		//고용주 점수테이블에서 집합함수를 사용해서 평균점수를 검색
+		//직원점수 테이블에서 집합함수를 사용해서 평균점수를 검색
 		String sql = "select avg(score) from employer_score order by score desc";
 		
 		try {

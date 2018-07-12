@@ -1,0 +1,3 @@
+db¸í : dev28db
+id : dev28id
+password : dev28pw 

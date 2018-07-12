@@ -42,10 +42,10 @@
 					</tr>
 				</thead>
 				<tbody>
+				전체평균 :<%=a %>
 		<%	
 			for(int i=0; i<result3.size(); i++) {
 		%>
-					전체평균 :<%=a %>
 					<tr>
 						<td><%=result3.get(i).getMember().getMember_no() %></td>
 						<td><%=result3.get(i).getMember().getMember_name() %></td>

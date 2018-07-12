@@ -84,10 +84,10 @@ public class StudentScoreDao {
 			System.out.println("연결 확인");
 			
 			//점수테이블과 학생테이블을 조인(join)해서 두 테이블의 컬럼값들을 리스트 처리할수있도록 쿼리문 준비(조건 : 지정한 숫자대로 테이블의 열을 보여준다)
-			pstmt = conn.prepareStatement("select student.student_no, student.student_name, student.student_age, student_score.score from student_score inner join student on student_score.student_no=student.student_no order by student_no limit ?, ?");
+			pstmt = conn.prepareStatement("select student.student_no, student.student_name, student.student_age, student_score.score from student_score inner join student on student_score.student_no=student.student_no order by student_no desc limit ?, ?");
 			
-			pstmt.setInt(1, startPage);
-			pstmt.setInt(2, pagePerRow);
+			pstmt.setInt(1, startPage); //시작지점
+			pstmt.setInt(2, pagePerRow); //열의 갯수
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행
 			
@@ -219,8 +219,8 @@ public class StudentScoreDao {
 			
 			pstmt = conn.prepareStatement(sql); //쿼리문 준비
 			
-			pstmt.setInt(1, startPage);
-			pstmt.setInt(2, pagePerRow);
+			pstmt.setInt(1, startPage); //시작지점
+			pstmt.setInt(2, pagePerRow); //열의 갯수
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행
 			

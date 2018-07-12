@@ -93,7 +93,7 @@
 				}
 			%>
 			</div><br>
-		<div><a href="<%=request.getContextPath() %>/Student/insertStudentForm.jsp">학생 정보 입력 페이지</a></div>
+			<div><a href="<%=request.getContextPath() %>/Student/insertStudentForm.jsp">학생 정보 입력 페이지</a></div>
 		</div>
 		<div id="footer">
 			COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.

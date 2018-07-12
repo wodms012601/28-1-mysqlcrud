@@ -13,7 +13,7 @@
 %>
 <html>
 	<head>
-		<title>학생 수정 폼</title>
+		<title>학생 정보 수정 페이지</title>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 	</head>
 	<body>
@@ -30,7 +30,7 @@
 							<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
 							<td>이름 :&nbsp;</td>
 							<td>
-								<input type="text" name="studentName" value="<%=student.getStudentName() %>" onkeyup="nameCheck()" required>
+								<input type="text" name="studentName" id="name" value="<%=student.getStudentName() %>" onkeyup="nameCheck()" required>
 								<span id="nameSpan"></span>
 							</td>
 						</tr>
@@ -47,7 +47,7 @@
 							<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
 							<td>주소 :&nbsp;</td>
 							<td>
-								<input type="text" name="studentAddrContent" size="40" value="<%=studentAddr.getStudentAddrContent() %>" onkeyup="addrCheck()" required>
+								<input type="text" name="studentAddrContent" size="40" id="addr" value="<%=studentAddr.getStudentAddrContent() %>" onkeyup="addrCheck()" required>
 								<span id="addrSpan"></span>
 							</td>
 						</tr>
