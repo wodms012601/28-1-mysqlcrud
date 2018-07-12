@@ -8,50 +8,13 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Select Teacher List</title>
-<style>
-body {
-width:800px;
-margin:0 auto;
-}
-
-#header {
-margin:0 0 10px 0;
-padding:10px;
-border:1px solid #000;
-background-color:#DAD9FF;
-width:800px;
-}
-
-#content {
-float:left;
-padding:10px;
-background-color:#D4F4FA;
-border:1px solid #000;
-width:800px;
-margin-bottom:10px;
-}
-
-#sidebar_a {
-float:left;
-padding:10px;
-border:1px solid #000;
-width:800px;
-background-color:#D9E5FF;
-}
-
-#footer {
-clear:both;
-padding:10px;
-border:1px solid #000;
-background-color:#E8D9FF;
-width:800px;
-}
-</style>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 </head>
 <body>
 <%
 	request.setCharacterEncoding("UTF-8");
 	
+	// 페이징
 	int currentPage = 1;
 	int pagePerRow = 10;
 	
@@ -59,9 +22,9 @@ width:800px;
 	    currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
 	
-	String keyword = "";
+	String keyword = ""; // 키워드 초기값
 
-	// 검색 키워드 세션
+	// 검색 키워드 세션 검색 결과 페이지 유지
 	if(request.getParameter("keyword") != null){
 
 		keyword = request.getParameter("keyword");
@@ -77,7 +40,7 @@ width:800px;
 	TeacherDao teacherDao = new TeacherDao();
 	ArrayList<Teacher> teacherList = teacherDao.selectTeacherByPage(currentPage, pagePerRow, keyword);
 	
-	int lastPage = teacherDao.teacherPaging(pagePerRow);
+	int lastPage = teacherDao.teacherPaging(pagePerRow); // 마지막 페이지 값 리턴
 
 %>
  	<div id="header">

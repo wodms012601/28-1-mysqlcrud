@@ -10,7 +10,8 @@ import java.util.ArrayList;
 
 public class TeacherDao {
 
-	public ArrayList<Teacher> selectTeacherByPage(int currentPage, int pagePerRow, String keyword){ // like 연산자를 이용한 키워드 검색 및 페이징 메서드
+	public ArrayList<Teacher> selectTeacherByPage(int currentPage, int pagePerRow, String keyword){ // like 연산자를 이용한 키워드 검색 및 리스트 메서드
+		//조회된 데이터를 ArrayList타입으로 객체배열의 주소값이 담긴 ArrayList객체 주소값을 리턴하는 메서드
 		ArrayList<Teacher> teacherList = new ArrayList<Teacher>();
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -66,7 +67,7 @@ public class TeacherDao {
 				System.out.println(a.getMessage() + "<-- catch");
 			}
 		}
-		return teacherList;
+		return teacherList; // Teacher 객체의 주소값들이 저장된 배열객체의 주소값을 리턴
 	}
 
 	public void updateTeacher(Teacher t) { // 정보 수정 메서드
@@ -146,7 +147,7 @@ public class TeacherDao {
 				System.out.println(a.getMessage() + "<-- catch");
 			}
 		}
-		return t;
+		return t; // 티쳐 객체의 주소값을 리턴
 	}
 
 	public void deleteTeacher(String teacherId) { // 정보 삭제 메서드
@@ -183,13 +184,13 @@ public class TeacherDao {
 		}
 	}
 
-	public int teacherPaging(int pagePerRow) { // 티쳐리스트 카운트 메서드
+	public int teacherPaging(int pagePerRow) { // 티쳐리스트 페이징 메서드
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
 
-		int totalRow = 0;
-		int lastPage = 0;
+		int totalRow = 0; // 모든 행 갯수의 변수
+		int lastPage = 0; // 마지막 페이지 변수
 
 		try{ // 예외 발생 가능성이 있는 문장
 			Class.forName("com.mysql.jdbc.Driver");

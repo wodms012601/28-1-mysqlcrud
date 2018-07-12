@@ -5,47 +5,10 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Insert Teacher Addr Form</title>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 <style type = "text/css">
 #box {width:300px;}
 #box label {display:black; width:100px; float:left;}
-	
-body {
-width:800px;
-margin:0 auto;
-}
-
-#header {
-margin:0 0 10px 0;
-padding:10px;
-border:1px solid #000;
-background-color:#DAD9FF;
-width:800px;
-}
-
-#content {
-float:left;
-padding:10px;
-background-color:#D4F4FA;
-border:1px solid #000;
-width:800px;
-margin-bottom:10px;
-}
-
-#sidebar_a {
-float:left;
-padding:10px;
-border:1px solid #000;
-width:800px;
-background-color:#D9E5FF;
-}
-
-#footer {
-clear:both;
-padding:10px;
-border:1px solid #000;
-background-color:#E8D9FF;
-width:800px;
-}
 </style>
 </head>
 <body>
