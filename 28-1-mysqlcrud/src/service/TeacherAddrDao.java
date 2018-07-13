@@ -236,7 +236,7 @@ public class TeacherAddrDao {
 		return teacherAddr; // 티쳐 객체의 주소값을 리턴
 	}
 
-	public TeacherAddr selectAddrCount(int teacherAddrId) { // 점수 버튼 유동 메서드
+	public TeacherAddr selectAddrCount(int teacherAddrId) { // 주소 버튼 유동 메서드
 	    Connection conn = null;
 	    PreparedStatement statement = null;
 	    ResultSet resultset = null;

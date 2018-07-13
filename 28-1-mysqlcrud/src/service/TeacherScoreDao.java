@@ -277,7 +277,7 @@ public class TeacherScoreDao {
 			Database database = new Database();
 			conn = database.databaseConnect();
 			
-			statement = conn.prepareStatement("SELECT teacher_no, score FROM teacher_score WHERE teacher_no=?");
+			statement = conn.prepareStatement("SELECT * FROM teacher_score WHERE teacher_no=?");
 			statement.setInt(1, TeacherScoreId);
 			resultset = statement.executeQuery();
 
