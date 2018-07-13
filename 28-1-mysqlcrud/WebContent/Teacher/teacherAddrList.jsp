@@ -6,12 +6,12 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Teacher Addr List</title>
+	<title>선생님주소 리스트</title>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 </head>
 <body>
 	<div id="header">
-		<h1>Teacher Addr List</h1>
+		<h1>선생님주소 리스트</h1>
 	</div>
 	
 	<div id="sidebar_a">
@@ -103,11 +103,7 @@
 			<%	
 				}
 			%>
-	</div>
-	    <br>
-	    <br>
-	    <br>
-	    <a href="<%=request.getContextPath() %>/Teacher/teacherList.jsp">돌아가기</a>
+		</div>
 	</div>
 
 	<div id="footer">

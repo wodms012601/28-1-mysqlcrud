@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Teacher List</title>
+	<title>선생님 리스트</title>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 </head>
 <body>
@@ -44,7 +44,7 @@
 
 %>
  	<div id="header">
-		<h1>Teacher List</h1>
+		<h1>선생님 리스트</h1>
 	</div>
 
 	<div id="sidebar_a">
@@ -81,7 +81,20 @@
 	                    <td><%=teacherList.get(i).getTeacherAge()%></td>
 						<td><a href="updateTeacherForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">수정</a></td>
 						<td><a href="deleteTeacher.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">삭제</a></td>
+<%
+						TeacherAddrDao teacherAddrDao = new TeacherAddrDao();
+						TeacherAddr teacherAddrId = teacherAddrDao.selectAddrCount(teacherList.get(i).getTeacher_no());
+						if(teacherAddrId.getTeacher_no() == 0) {
+%>
 	                    <td><a href="insertTeacherAddrForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">주소입력</a></td>
+	                    
+<%
+						} else {
+%>	 
+						<td><a href="updateTeacherAddrForm.jsp?send_id=<%=teacherList.get(i).getTeacher_no()%>">주소수정</a></td>
+<%
+						}
+%>
 <%
 						TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
 						TeacherScore teacherId = teacherScoreDao.selectScoreCount(teacherList.get(i).getTeacher_no());

@@ -5,18 +5,18 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Select Teacher Score</title>
+	<title>선생님 개인 점수 검색</title>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 </head>
 <body>
  	<div id="header">
-		<h1>Select Teacher Score</h1>
+		<h1>선생님 개인 점수 검색</h1>
 	</div>
 
 <%					
 	int send_id = Integer.parseInt(request.getParameter("send_id"));
 	TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
-	TeacherScore teacherScore = teacherScoreDao.infoTeacherScore(send_id);
+	TeacherScore teacherScore = teacherScoreDao.selectTeacherScore(send_id);
 %>	
 	<div id="content">
 		<table border="1">
@@ -34,16 +34,10 @@
 				<td><%=teacherScore.getScore()%></td>
 			</tr>
 		</table>
-		<br>
-		<br>
-		<br>
-		<a href="<%=request.getContextPath() %>/Teacher/teacherList.jsp">돌아가기</a>
 	</div>
 
 	<div id="footer">
 		COPYRIGHT(C) 1조 프로젝트 최윤석 All Rights Reserved.
 	</div>
-</body>
-</html>
 </body>
 </html>

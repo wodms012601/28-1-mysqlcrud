@@ -5,12 +5,12 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Select Teacher Addr</title>
+	<title>선생님 개인 주소 검색</title>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 </head>
 <body>
  	<div id="header">
-		<h1>Select Teacher Addr</h1>
+		<h1>선생님 개인 주소 검색</h1>
 	</div>
 	
 <%					
@@ -35,10 +35,6 @@
 				<td><%=ta.getTeacher_addr_content()%></td>
 			</tr>
 		</table>
-		<br>
-		<br>
-		<br>
-		<a href="<%=request.getContextPath() %>/Teacher/teacherList.jsp">돌아가기</a>
 	</div>
 
 	<div id="footer">

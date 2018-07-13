@@ -9,6 +9,36 @@ import java.util.ArrayList;
 
 public class TeacherAddrDao {
 	
+	public void updateTeacherAddr(TeacherAddr teacherAddr) { // 주소 수정 메서드
+		Connection conn = null;
+		PreparedStatement statement = null;
+
+        try { // 예외 발생 가능성이 있는 문장
+			Database database = new Database();
+			conn = database.databaseConnect();
+
+			statement = conn.prepareStatement("UPDATE teacher_addr SET teacher_addr_content=? WHERE teacher_no=?");
+			statement.setString(1, teacherAddr. getTeacher_addr_content());
+			statement.setInt(2, teacherAddr.getTeacher_no());
+			
+
+			statement.executeUpdate();
+
+		} catch(SQLException a) { // 예외 타입과 매개변수 명
+			System.out.println(a.getMessage() + "<-- catch");
+
+		} finally{ // 항상 수행할 필요가 있는 문장
+
+			try {
+				if(statement != null) statement.close();
+				if(conn != null) conn.close();
+			}
+			catch(SQLException a) {
+				System.out.println(a.getMessage() + "<-- catch");
+			}
+		}
+	}
+	
 	public ArrayList<TeacherAddr> selectTeacherAddrList(int currentPage, int pagePerRow, String addrKeyword){ // like 연산자를 이용한 키워드 검색 및 리스트 메서드
 		//조회된 데이터를 ArrayList타입으로 객체배열의 주소값이 담긴 ArrayList객체 주소값을 리턴하는 메서드
 		ArrayList<TeacherAddr> teacherAddrList = new ArrayList<TeacherAddr>();
@@ -169,4 +199,75 @@ public class TeacherAddrDao {
 		}
 		return 0;
 		}
+	
+	public TeacherAddr selectForUpdateTeacherAddr(String teacherAddrId) { // 주소 수정 전 기존의 정보를 불러오는 메서드
+		Connection conn = null;
+		PreparedStatement statement = null;
+		ResultSet resultset = null;
+		TeacherAddr teacherAddr = null;
+
+        try { // 예외 발생 가능성이 있는 문장
+			Database database = new Database();
+			conn = database.databaseConnect();
+
+			statement = conn.prepareStatement("SELECT * FROM teacher_addr WHERE teacher_no=?");
+			statement.setString(1, teacherAddrId);
+			resultset = statement.executeQuery();
+
+			if(resultset.next()) {
+				teacherAddr = new TeacherAddr();
+				teacherAddr.setTeacher_addr_no(resultset.getInt("teacher_addr_no"));
+				teacherAddr.setTeacher_no(resultset.getInt("teacher_no"));
+				teacherAddr.setTeacher_addr_content(resultset.getString("teacher_addr_content"));
+			}
+		} catch(SQLException a) { // 예외 타입과 매개변수 명
+			System.out.println(a.getMessage() + "<-- catch");
+
+		} finally{ // 항상 수행할 필요가 있는 문장
+
+			try {
+				if(statement != null) statement.close();
+				if(conn != null) conn.close();
+			}
+			catch(SQLException a) {
+				System.out.println(a.getMessage() + "<-- catch");
+			}
+		}
+		return teacherAddr; // 티쳐 객체의 주소값을 리턴
 	}
+
+	public TeacherAddr selectAddrCount(int teacherAddrId) { // 점수 버튼 유동 메서드
+	    Connection conn = null;
+	    PreparedStatement statement = null;
+	    ResultSet resultset = null;
+	    TeacherAddr teacherAddr = new TeacherAddr();
+	    String sql = "SELECT * FROM teacher_addr WHERE teacher_no=?";
+	    try { // 예외 발생 가능성이 있는 문장
+			Database database = new Database();
+			conn = database.databaseConnect();
+
+	        statement = conn.prepareStatement(sql);
+	        statement.setInt(1, teacherAddrId);
+	        resultset = statement.executeQuery();
+	        
+			if(resultset.next()) {
+				teacherAddr.setTeacher_addr_no(resultset.getInt("teacher_addr_no"));
+				teacherAddr.setTeacher_no(resultset.getInt("teacher_no"));
+				teacherAddr.setTeacher_addr_content(resultset.getString("teacher_addr_content"));
+			}
+	    } catch(SQLException a) { // 예외 타입과 매개변수 명
+			System.out.println(a.getMessage() + "<-- catch");
+
+	    } finally {	// 항상 수행할 필요가 있는 문장
+
+			try {
+				if(statement != null) statement.close();
+				if(conn != null) conn.close();
+			}
+			catch(SQLException a) {
+				System.out.println(a.getMessage() + "<-- catch");
+			}
+	    }
+	    return teacherAddr;
+	}
+}

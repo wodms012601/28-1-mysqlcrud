@@ -6,12 +6,12 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Teacher And Score Above Avg List</title>
+	<title>평균점수가 넘는 선생님 리스트</title>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 </head>
 <body>
 	<div id="header">
-		<h1>Teacher And Score Above Avg List</h1>
+		<h1>평균점수가 넘는 선생님 리스트</h1>
 	</div>
 	
 	<div id="sidebar_a">
@@ -85,10 +85,6 @@
 				}
 			%>
 	</div>
-		<br>
-		<br>
-		<br>
-		<a href="<%=request.getContextPath() %>/Teacher/teacherList.jsp">돌아가기</a>
 	</div>
 	
 	<div id="footer">

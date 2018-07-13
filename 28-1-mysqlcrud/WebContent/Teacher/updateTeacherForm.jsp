@@ -5,12 +5,12 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Update Teacher Form</title>
+	<title>선생님 정보 수정 페이지</title>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 </head>
 <body>
 	<div id="header">
-		<h1>Update Teacher Form</h1>
+		<h1>선생님 정보 수정 페이지</h1>
 	</div>
 	
 <%

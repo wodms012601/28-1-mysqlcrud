@@ -3,12 +3,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Insert Teacher Score Form</title>
+	<title>선생님 점수 입력 페이지</title>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 </head>
 <body>
 	<div id="header">
-		<h1>Insert Teacher Score Form</h1>
+		<h1>선생님 점수 입력 페이지</h1>
 	</div>
 
 <%

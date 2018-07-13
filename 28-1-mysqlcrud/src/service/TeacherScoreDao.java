@@ -66,7 +66,7 @@ public class TeacherScoreDao {
 				System.out.println(a.getMessage() + "<-- catch");
 			}
 		}
-		return teacherScoreList; // TeacherAddr 객체의 주소값들이 저장된 배열객체의 주소값을 리턴
+		return teacherScoreList; // TeacherAndScore 객체의 주소값들이 저장된 배열객체의 주소값을 리턴
 	}
 	
 	public int paging(int pagePerRow, String scoreKeyword) { // 티쳐점수리스트 페이징 메서드
@@ -147,7 +147,7 @@ public class TeacherScoreDao {
 		return AVG; // 평균점수 값을 담은 변수 리턴
 	}
 
-	public ArrayList<TeacherAndScore> selectTeacherListAboveAvg(int currentPage, int pagePerRow){ // like 연산자를 이용한 키워드 검색 및 리스트 메서드
+	public ArrayList<TeacherAndScore> selectTeacherListAboveAvg(int currentPage, int pagePerRow){
 		//조회된 데이터를 ArrayList타입으로 객체배열의 주소값이 담긴 ArrayList객체 주소값을 리턴하는 메서드
 		ArrayList<TeacherAndScore> teacherAndScoreList = new ArrayList<TeacherAndScore>();
 		Connection conn = null;
@@ -195,10 +195,10 @@ public class TeacherScoreDao {
 				System.out.println(a.getMessage() + "<-- catch");
 			}
 		}
-		return teacherAndScoreList; // TeacherAddr 객체의 주소값들이 저장된 배열객체의 주소값을 리턴
+		return teacherAndScoreList; // TeacherAndScore 객체의 주소값들이 저장된 배열객체의 주소값을 리턴
 	}
 
-	public int paging(int pagePerRow) { // 티쳐주소리스트 페이징 메서드
+	public int paging(int pagePerRow) { // 티쳐점수리스트 페이징 메서드
 		Connection conn = null;
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
@@ -267,7 +267,7 @@ public class TeacherScoreDao {
 		return 0;
 	}
 	
-	public TeacherScore infoTeacherScore(int TeacherScoreId) { // 점수 상세보기 메서드
+	public TeacherScore selectTeacherScore(int TeacherScoreId) { // 점수 상세보기 메서드
 		Connection conn = null;
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
@@ -277,7 +277,7 @@ public class TeacherScoreDao {
 			Database database = new Database();
 			conn = database.databaseConnect();
 			
-			statement = conn.prepareStatement("SELECT * FROM teacher_score WHERE teacher_no=?");
+			statement = conn.prepareStatement("SELECT teacher_no, score FROM teacher_score WHERE teacher_no=?");
 			statement.setInt(1, TeacherScoreId);
 			resultset = statement.executeQuery();
 
