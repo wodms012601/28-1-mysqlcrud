@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Insert title here</title>
+	<title>update Teacher Action</title>
 	
 <%	
 	Teacher t = new Teacher();
@@ -17,5 +17,5 @@
 	TeacherDao teacherDao = new TeacherDao();
 	
 	teacherDao.updateTeacher(t);
-	response.sendRedirect(request.getContextPath() + "/Teacher/selectTeacherList.jsp");
+	response.sendRedirect(request.getContextPath() + "/Teacher/teacherList.jsp");
 %>

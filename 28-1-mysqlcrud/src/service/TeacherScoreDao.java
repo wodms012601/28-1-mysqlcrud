@@ -56,7 +56,7 @@ public class TeacherScoreDao {
 		String sql = "SELECT t.teacher_no, t.teacher_name, t.teacher_age, ts.score FROM teacher_score ts INNER JOIN teacher t ON ts.teacher_no = t.teacher_no WHERE score >= (SELECT AVG(score) FROM teacher_score) ORDER BY ts.score DESC LIMIT ?, ?";
 
 		try{ // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 
 			stmt = conn.prepareStatement(sql);
@@ -103,7 +103,7 @@ public class TeacherScoreDao {
 	    ResultSet resultset = null;
 	    String sql = "SELECT COUNT(*) FROM teacher_score ts INNER JOIN teacher t ON ts.teacher_no = t.teacher_no WHERE score >= (SELECT AVG(score) FROM teacher_score)";
 	    try { // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 
 	        statement = conn.prepareStatement(sql);
@@ -139,7 +139,7 @@ public class TeacherScoreDao {
 		String sql = "SELECT ts.teacher_score_no, ts.teacher_no, t.teacher_name, t.teacher_age, ts.score FROM teacher_score ts INNER JOIN teacher t ON ts.teacher_no = t.teacher_no ORDER BY ts.score DESC LIMIT ?, ? ";
 
 		try{ // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 
 			statement = conn.prepareStatement(sql);
@@ -188,7 +188,7 @@ public class TeacherScoreDao {
 	    ResultSet resultset = null;
 	    String sql = "SELECT COUNT(*) FROM teacher_score ts INNER JOIN teacher t ON ts.teacher_no = t.teacher_no";
 	    try { // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 
 	        statement = conn.prepareStatement(sql);
@@ -218,7 +218,7 @@ public class TeacherScoreDao {
 		PreparedStatement pstmt = null;
 
 		try{ // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 
 			pstmt = conn.prepareStatement("INSERT INTO teacher_score(teacher_no, score) VALUES (?,?)");
@@ -250,7 +250,7 @@ public class TeacherScoreDao {
 		TeacherScore teacherScore = null;
 
 		try { // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 			
 			statement = conn.prepareStatement("SELECT * FROM teacher_score WHERE teacher_no=?");
@@ -285,7 +285,7 @@ public class TeacherScoreDao {
 		PreparedStatement statement = null;
 
         try { // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 
 			statement = conn.prepareStatement("UPDATE teacher_score SET score=? WHERE teacher_no=?");
@@ -317,7 +317,7 @@ public class TeacherScoreDao {
 		TeacherScore teacherScore = null;
 
         try { // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 
 			statement = conn.prepareStatement("SELECT * FROM teacher_score WHERE teacher_no=?");
@@ -353,7 +353,7 @@ public class TeacherScoreDao {
 	    TeacherScore teacherScore = new TeacherScore();
 	    String sql = "SELECT teacher_score_no, teacher_no, score FROM teacher_score WHERE teacher_no=?";
 	    try { // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 
 	        statement = conn.prepareStatement(sql);

@@ -17,7 +17,7 @@ public class TeacherAddrDao {
 	    TeacherAddr ta = null;
 
 	    try { // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 			
 			statement = conn.prepareStatement("SELECT * FROM teacher_addr WHERE teacher_no=?");
@@ -54,7 +54,7 @@ public class TeacherAddrDao {
 	    ResultSet resultset = null;
 	    String sql = "SELECT COUNT(*) FROM teacher_addr";
 	    try { // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 
 	        statement = conn.prepareStatement(sql);
@@ -87,7 +87,7 @@ public class TeacherAddrDao {
 		ResultSet resultset = null;
 		String sql = "SELECT teacher_addr_no, teacher_no, teacher_addr_content FROM teacher_addr ORDER BY teacher_addr_no DESC LIMIT ?, ?";
 		try { // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 
 	        statement = conn.prepareStatement(sql);
@@ -123,7 +123,7 @@ public class TeacherAddrDao {
 		PreparedStatement pstmt = null;
 
 		try{ // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 
 			pstmt = conn.prepareStatement("INSERT INTO teacher_addr(teacher_no,teacher_addr_content) VALUES (?,?)");

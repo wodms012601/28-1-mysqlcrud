@@ -9,15 +9,16 @@
 </head>
 <body>
  	<div id="header">
-		<h1>Teacher Score List</h1>
+		<h1>Select Teacher Score</h1>
 	</div>
 	
 	<div id="sidebar_a">
 		<ul>
-			<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp">선생님 리스트</a></li>
-			<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherAddrList.jsp">주소 리스트</a></li>
+			<li><a href="<%=request.getContextPath() %>/index.jsp">메인페이지로</a></li>
+			<li><a href="<%=request.getContextPath() %>/Teacher/teacherList.jsp">선생님 리스트</a></li>
+			<li><a href="<%=request.getContextPath() %>/Teacher/teacherAddrList.jsp">주소 리스트</a></li>
 			<li><a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreList.jsp">점수 리스트</a></li>
-			<li><a href="<%=request.getContextPath() %>/Teacher/teacherListAboveAvg.jsp">평균점수 이상 리스트</a></li>
+			<li><a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreAboveAvgList.jsp">평균점수 이상 리스트</a></li>
 		</ul>
 	</div>
 	
@@ -27,26 +28,26 @@
 	TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
 	TeacherScore teacherScore = teacherScoreDao.infoTeacherScore(send_id);
 %>	
-
 	<div id="content">
 		<table border="1">
+			<thead>
+				<tr>
+					<th>점수번호</th>
+					<th>선생님번호</th>
+					<th>선생님점수</th>
+				</tr>
+			</thead>
+			<tbody>
 			<tr>
-				<th>teacher_addr_no</th>
 				<td><%=teacherScore.getTeacherScoreNo()%></td>
-			</tr>
-			<tr>
-				<th>teacher_no</th>
 				<td><%=teacherScore.getTeacherNo()%></td>
-			</tr>
-			<tr>
-				<th>teacher_addr_content</th>
 				<td><%=teacherScore.getScore()%></td>
 			</tr>
 		</table>
 		<br>
 		<br>
 		<br>
-		<a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp">돌아가기</a>
+		<a href="<%=request.getContextPath() %>/Teacher/teacherList.jsp">돌아가기</a>
 	</div>
 
 	<div id="footer">

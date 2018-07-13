@@ -15,5 +15,5 @@
 	
 	TeacherDao tdao = new TeacherDao();
 	tdao.insertTeacher(t);
-	response.sendRedirect(request.getContextPath() + "/Teacher/selectTeacherList.jsp");
+	response.sendRedirect(request.getContextPath() + "/Teacher/teacherList.jsp");
 %>

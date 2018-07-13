@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Update Score Action</title>
+	<title>Update Teacher Score Action</title>
 	
 <%	
 	TeacherScore teacherScore = new TeacherScore();
@@ -15,5 +15,5 @@
 	TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
 	
 	teacherScoreDao.updateTeacherScore(teacherScore);
-	response.sendRedirect(request.getContextPath() + "/Teacher/selectTeacherList.jsp");
+	response.sendRedirect(request.getContextPath() + "/Teacher/teacherList.jsp");
 %>

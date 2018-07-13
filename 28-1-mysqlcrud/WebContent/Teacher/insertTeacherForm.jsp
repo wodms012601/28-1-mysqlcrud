@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Insert Teacher Addr Form</title>
+	<title>Insert Teacher Form</title>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 <style type = "text/css">
 	#box {width:300px;}
@@ -17,10 +17,11 @@
 
 	<div id="sidebar_a">
 		<ul>
-			<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp">선생님 리스트</a></li>
-			<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherAddrList.jsp">주소 리스트</a></li>
+			<li><a href="<%=request.getContextPath() %>/index.jsp">메인페이지로</a></li>
+			<li><a href="<%=request.getContextPath() %>/Teacher/teacherList.jsp">선생님 리스트</a></li>
+			<li><a href="<%=request.getContextPath() %>/Teacher/teacherAddrList.jsp">주소 리스트</a></li>
 			<li><a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreList.jsp">점수 리스트</a></li>
-			<li><a href="<%=request.getContextPath() %>/Teacher/teacherListAboveAvg.jsp">평균점수 이상 리스트</a></li>
+			<li><a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreAboveAvgList.jsp">평균점수 이상 리스트</a></li>
 		</ul>
 	</div>
 

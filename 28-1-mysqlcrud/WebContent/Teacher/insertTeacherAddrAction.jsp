@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Insert title here</title>
+	<title>Insert Teacher Addr Action</title>
 <%
 	TeacherAddr t = new TeacherAddr();
 	t.setTeacher_no(Integer.parseInt(request.getParameter("teacher_no")));
@@ -14,5 +14,5 @@
 		
 	TeacherAddrDao teacherAddrDao = new TeacherAddrDao();
 	teacherAddrDao.insertTeacherAdd(t);
-	response.sendRedirect(request.getContextPath() + "/Teacher/selectTeacherList.jsp");
+	response.sendRedirect(request.getContextPath() + "/Teacher/teacherList.jsp");
 %>

@@ -8,5 +8,5 @@
 	String send_id = request.getParameter("send_id");
 	TeacherDao teacherdao = new TeacherDao();
 	teacherdao.deleteTeacher(send_id);
-	response.sendRedirect(request.getContextPath() + "/Teacher/selectTeacherList.jsp");
+	response.sendRedirect(request.getContextPath() + "/Teacher/teacherList.jsp");
 %>

@@ -20,8 +20,8 @@ public class TeacherDao {
 		int firstPage = (currentPage-1)*pagePerRow;
 
         try { // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
-			conn = database.databaseConnect();
+				Database database = new Database();
+				conn = database.databaseConnect();
 
 			if(keyword.equals("")) { // 키워드가 없을 경우
 				statement = conn.prepareStatement("SELECT teacher_no, teacher_name, teacher_age FROM teacher ORDER BY teacher_no DESC LIMIT ?, ?");
@@ -68,7 +68,7 @@ public class TeacherDao {
 		PreparedStatement statement = null;
 
         try { // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 
 			statement = conn.prepareStatement("UPDATE teacher SET teacher_name=?,teacher_age=? WHERE teacher_no=?");
@@ -100,7 +100,7 @@ public class TeacherDao {
 		Teacher t = null;
 
         try { // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 
 			statement = conn.prepareStatement("SELECT * FROM teacher WHERE teacher_no=?");
@@ -134,7 +134,7 @@ public class TeacherDao {
 		PreparedStatement statement = null;
 
         try { // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 
 			statement = conn.prepareStatement("DELETE FROM teacher WHERE teacher_no =?");
@@ -165,7 +165,7 @@ public class TeacherDao {
 		int lastPage = 0; // 마지막 페이지 변수
 
 		try{ // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 
 			statement = conn.prepareStatement("SELECT count(*) FROM teacher where teacher_name LIKE ?");
@@ -202,7 +202,7 @@ public class TeacherDao {
 		PreparedStatement pstmt = null;
 
 		try{ // 예외 발생 가능성이 있는 문장
-	    	Database database = new Database();
+			Database database = new Database();
 			conn = database.databaseConnect();
 
 			pstmt = conn.prepareStatement("INSERT INTO teacher(teacher_name, teacher_age) VALUES (?,?)");

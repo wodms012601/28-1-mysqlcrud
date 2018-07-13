@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Update Score Form</title>
+	<title>Update Teacher Score Form</title>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 <style>
 #box {width:300px;}
@@ -13,15 +13,16 @@
 </head>
 <body>
 	<div id="header">
-		<h1>Update Teacher Form</h1>
+		<h1>Update Teacher Score Form</h1>
 	</div>
 	
 	<div id="sidebar_a">
 		<ul>
-			<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp">선생님 리스트</a></li>
-			<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherAddrList.jsp">주소 리스트</a></li>
+			<li><a href="<%=request.getContextPath() %>/index.jsp">메인페이지로</a></li>
+			<li><a href="<%=request.getContextPath() %>/Teacher/teacherList.jsp">선생님 리스트</a></li>
+			<li><a href="<%=request.getContextPath() %>/Teacher/teacherAddrList.jsp">주소 리스트</a></li>
 			<li><a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreList.jsp">점수 리스트</a></li>
-			<li><a href="<%=request.getContextPath() %>/Teacher/teacherListAboveAvg.jsp">평균점수 이상 리스트</a></li>
+			<li><a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreAboveAvgList.jsp">평균점수 이상 리스트</a></li>
 		</ul>
 	</div>
 <%
@@ -32,7 +33,7 @@
 %>
 
 	<div id="content">
-		<form action="<%=request.getContextPath()%>/Teacher/updateScoreAction.jsp" method="post" >
+		<form action="<%=request.getContextPath()%>/Teacher/updateTeacherScoreAction.jsp" method="post" >
 			<fieldset id = "box">
 				<legend><h3>Update Teacher Form</h3></legend>
 					<br>
