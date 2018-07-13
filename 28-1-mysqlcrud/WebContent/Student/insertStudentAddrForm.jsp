@@ -20,6 +20,7 @@
 						<div><img src="<%=request.getContextPath() %>/image/check_icon.gif"> 주소 :&nbsp;</div>
 						<div><!-- 학생점수 -->
 							<input type="text" name="studentAddrContent" id="name" onkeyup="nameCheck()" required>
+							<span id="nameSpan"></span>
 						</div>
 						<input type="hidden" name="studentNo" value="<%=studentNo %>"> <!-- 학생 번호 데이터 -->
 				</fieldset><br>

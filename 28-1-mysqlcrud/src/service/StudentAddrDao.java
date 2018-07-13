@@ -70,7 +70,7 @@ public class StudentAddrDao {
 	--------------------------------------------
 	*/
 	//주소리스트 작업
-	public ArrayList<StudentAddr> selectStudentAddrList(int currentPage, int pagePerRow, String word) {
+	public ArrayList<StudentAddr> selectStudentAddrList(int currentPage, int pagePerRow, String addrKeyword) {
 		ArrayList<StudentAddr> studentAddrList = new ArrayList<StudentAddr>(); //학생 주소객체의 주소값을 저장할 배열객체 생성
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -82,7 +82,7 @@ public class StudentAddrDao {
 			Database database = new Database();
 			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
-			if(word.equals("")) { //검색이 없을 경우 그대로 리스트 처리
+			if(addrKeyword.equals("")) { //검색이 없을 경우 그대로 리스트 처리
 				//학생주소 테이블에서 학생번호와 학생주소번호, 학생주소를 검색하는 쿼리문 준비(조건 : 학생번호를 기점으로 오름차순, 지정한 숫자대로 테이블의 열을 보여준다)
 				pstmt = conn.prepareStatement("select student_addr_no, student_no, student_addr_content from student_addr order by student_addr_no desc limit ?, ?");
 				
@@ -93,7 +93,7 @@ public class StudentAddrDao {
 				//학생 테이블에서 학생번호와 학생주소번호, 학생주소를 검색하는 쿼리문 준비(조건 : 학생이름컬럼에서 지정한 문자가 들어가있는 열을 검색)
 				pstmt = conn.prepareStatement("select student_addr_no, student_no, student_addr_content from student_addr where student_addr_content like ? order by student_addr_no desc limit ?, ?");
 				
-				pstmt.setString(1, "%"+word+"%");
+				pstmt.setString(1, "%"+addrKeyword+"%");
 				pstmt.setInt(2, startPage);
 				pstmt.setInt(3, pagePerRow);
 			}
@@ -183,7 +183,7 @@ public class StudentAddrDao {
 	}
 	
 	//학생주소 페이징 작업
-	public int paging(int pagePerRow) {
+	public int paging(int pagePerRow, String addrKeyword) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -196,7 +196,9 @@ public class StudentAddrDao {
 			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//학생 주소테이블의 전체행의 값을 구하는 쿼리문 준비
-			pstmt = conn.prepareStatement("select count(*) from student_addr");
+			pstmt = conn.prepareStatement("select count(*) from student_addr where student_addr_content like ? ");
+			
+			pstmt.setString(1, "%"+addrKeyword+"%");
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
 			
@@ -233,7 +235,7 @@ public class StudentAddrDao {
 	}
 	
 	//학생주소 테이블 데이터 수정
-	public void updateStudentAddr(StudentAddr addr) {
+	public void updateStudentAddr(StudentAddr stuAddr) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
@@ -244,8 +246,8 @@ public class StudentAddrDao {
 			//학생 주소테이블의 학생번호를 통해 학생주소 데이터를 수정하는 쿼리문 준비
 			pstmt = conn.prepareStatement("update student_addr set student_addr_content=? where student_no=?");
 			
-			pstmt.setString(1, addr.getStudentAddrContent());
-			pstmt.setInt(2, addr.getStudentNo());
+			pstmt.setString(1, stuAddr.getStudentAddrContent());
+			pstmt.setInt(2, stuAddr.getStudentNo());
 			
 			pstmt.executeUpdate(); //쿼리문 실행
 			

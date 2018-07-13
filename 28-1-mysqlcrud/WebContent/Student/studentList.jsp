@@ -15,21 +15,21 @@
 	}
 	
 	//검색 작업
-	String keyword = ""; //검색 초기값 공백
-	if(request.getParameter("keyword") != null){
-		keyword = request.getParameter("keyword"); //검색값이 들어오면 변수에 저장
+	String nameKeyword = ""; //검색 초기값 공백
+	if(request.getParameter("nameKeyword") != null){
+		nameKeyword = request.getParameter("nameKeyword"); //검색값이 들어오면 변수에 저장
 		
-		request.getSession().setAttribute("keyword", keyword);
-	} else if(request.getSession().getAttribute("keyword") != null){ 
+		request.getSession().setAttribute("nameKeyword", nameKeyword);
+	} else if(request.getSession().getAttribute("nameKeyword") != null){ 
 
-		keyword = (String)request.getSession().getAttribute("keyword");
+		nameKeyword = (String)request.getSession().getAttribute("nameKeyword");
 
 	}
 	
 	StudentDao studentDao = new StudentDao();
-	ArrayList<Student> studentList = studentDao.selectStudentByPage(currentPage, pagePerRow, keyword); //리스트 작업 후 배열객체의 주소값을 리턴
+	ArrayList<Student> studentList = studentDao.selectStudentByPage(currentPage, pagePerRow, nameKeyword); //리스트 작업 후 배열객체의 주소값을 리턴
 	
-	int lastPage = studentDao.paging(pagePerRow, keyword); //페이징 작업 후 마지막 페이지값을 리턴
+	int lastPage = studentDao.paging(pagePerRow, nameKeyword); //페이징 작업 후 마지막 페이지값을 리턴
 %>
 <html>
 	<head>
@@ -43,15 +43,13 @@
 		<div id="sidebar_a">
 			<ul>
 				<li><a href="<%=request.getContextPath() %>/index.jsp">메인페이지로</a></li>
+				<li><a href="<%=request.getContextPath() %>/Student/studentList.jsp">학생 리스트</a></li>
 				<li><a href="<%=request.getContextPath() %>/Student/studentAddrList.jsp">학생주소 리스트</a></li>
 				<li><a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp">학생점수 리스트</a></li>
 				<li><a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp">평균점수이상의 학생 리스트</a></li>
 			</ul>
 		</div>
 		<div id="content">
-			<form action="<%=request.getContextPath() %>/Student/studentList.jsp" method="post">
-				<div>이름검색 : &nbsp;<input type="text" name="keyword"> &nbsp; <input type="submit" value="검색"></div> <!-- 검색입력폼 -->
-			</form><br>
 			<table border="1">
 				<thead>
 					<tr>
@@ -75,8 +73,20 @@
 						<td><%=studentList.get(i).getStudentAge() %></td>
 						<td><a href="<%=request.getContextPath() %>/Student/updateStudentForm.jsp?no=<%=studentList.get(i).getStudentNo() %>">수정</a></td>
 						<td><a href="<%=request.getContextPath() %>/Student/deleteStudent.jsp?no=<%=studentList.get(i).getStudentNo() %>">삭제</a></td>
+					<%
+						StudentAddrDao studentAddrDao = new StudentAddrDao();
+						/*학생 번호를 매개변수로 학생주소를 검색하는 메서드 호출한다
+						그리고 학생 주소데이터가 있는 객체의 주소값을 리턴받는다*/
+						StudentAddr studentAddr = studentAddrDao.selectStudentAddr(studentList.get(i).getStudentNo());
+						if(studentAddr.getStudentAddrNo() == 0){
+					%>
 						<td><a href="<%=request.getContextPath() %>/Student/insertStudentAddrForm.jsp?no=<%=studentList.get(i).getStudentNo() %>">주소입력</a></td>
 					<%
+						} else {
+					%>
+						<td><a href="<%=request.getContextPath() %>/Student/updateStudentAddrForm.jsp?no=<%=studentList.get(i).getStudentNo() %>">주소수정</a></td>
+					<%
+						}
 						StudentScoreDao studentScoreDao = new StudentScoreDao();
 						/*학생 번호를 매개변수로 학생점수를 검색하는 메서드 호출한다
 						그리고 학생 점수데이터가 있는 객체의 주소값을 리턴받는다*/
@@ -97,7 +107,10 @@
 					}
 				%>
 				</tbody>
-			</table>
+			</table><br>
+			<form action="<%=request.getContextPath() %>/Student/studentList.jsp" method="post">
+				<div><input type="text" name="nameKeyword"> &nbsp; <input type="submit" value="이름검색"></div> <!-- 검색입력폼 -->
+			</form>
 			<div>
 			<%
 				if(currentPage > 1){

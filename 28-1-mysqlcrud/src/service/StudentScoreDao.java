@@ -64,7 +64,7 @@ public class StudentScoreDao {
 	 	6 |	 이길이	 |	20	|	97
 	---------------------------------------------------------------
 	*/
-	public ArrayList<StudentAndScore> studentScoreJoin(int currentPage, int pagePerRow){
+	public ArrayList<StudentAndScore> studentScoreJoin(int currentPage, int pagePerRow, String scoreKeyword){
 		ArrayList<StudentAndScore> studentJoin = new ArrayList<StudentAndScore>(); //join한 데이터들을 담은 객체의 주소값을 저장하기위한 배열객체 생성
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -76,11 +76,21 @@ public class StudentScoreDao {
 			Database database = new Database();
 			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
-			//점수테이블과 학생테이블을 조인(join)해서 두 테이블의 컬럼값들을 리스트 처리할수있도록 쿼리문 준비(조건 : 지정한 숫자대로 테이블의 열을 보여준다)
-			pstmt = conn.prepareStatement("select student.student_no, student.student_name, student.student_age, student_score.score from student_score inner join student on student_score.student_no=student.student_no order by student_no desc limit ?, ?");
-			
-			pstmt.setInt(1, startPage); //시작지점
-			pstmt.setInt(2, pagePerRow); //열의 갯수
+			if(scoreKeyword.equals("")) { //검색이 없을 경우 그대로 리스트 처리
+				//점수테이블과 학생테이블을 조인(join)해서 두 테이블의 컬럼값들을 리스트 처리할수있도록 쿼리문 준비(조건 : 지정한 숫자대로 테이블의 열을 보여준다)
+				pstmt = conn.prepareStatement("select student.student_no, student.student_name, student.student_age, student_score.score from student_score inner join student on student_score.student_no=student.student_no order by student_no desc limit ?, ?");
+				
+				pstmt.setInt(1, startPage); //시작지점
+				pstmt.setInt(2, pagePerRow); //열의 갯수
+				
+			} else { //검색이 있을경우 검색한 문자가 포함된 결과를 리스트로 처리
+				//점수테이블과 학생테이블을 조인(join)해서 검색한결과의 값들을 리스트 처리할수있도록 쿼리문 준비(조건 : 지정한 숫자대로 테이블의 열을 보여준다)
+				pstmt = conn.prepareStatement("select student.student_no, student.student_name, student.student_age, student_score.score from student_score inner join student on student_score.student_no=student.student_no where score like ? order by student_no desc limit ?, ?");
+				
+				pstmt.setString(1, "%"+scoreKeyword+"%");
+				pstmt.setInt(2, startPage);
+				pstmt.setInt(3, pagePerRow);
+			}
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행
 			
@@ -122,6 +132,58 @@ public class StudentScoreDao {
 	}
 	
 	//학생점수리스트 페이징 작업
+	public int paging(int pagePerRow, String scoreKeyword) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		int totalRow = 0; //모든 행의 갯수를 담을 변수
+		int lastPage = 0; //마지막 페이지를 담을 변수
+		
+		try {
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
+			
+			//학생 테이블의 전체행의 값을 구하는 쿼리문 준비
+			pstmt = conn.prepareStatement("select count(*) from student_score inner join student on student_score.student_no=student.student_no where score like ?");
+			
+			pstmt.setString(1, "%"+scoreKeyword+"%");
+			
+			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
+			
+			if(rs.next()) {
+				//전체 행의 갯수를 totalRow에 대입
+				totalRow = rs.getInt("count(*)");
+			}
+			
+			if(totalRow % pagePerRow == 0){
+				lastPage = totalRow / pagePerRow;
+			} else{
+				lastPage = (totalRow / pagePerRow) + 1;
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally { //모든 처리가 끝나면 반드시 나중에 열린 객체 순서대로 닫아준다.
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lastPage;
+	}
+	
+	//학생점수리스트 페이징 작업
 	public int paging(int pagePerRow) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -135,7 +197,7 @@ public class StudentScoreDao {
 			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//학생 테이블의 전체행의 값을 구하는 쿼리문 준비
-			pstmt = conn.prepareStatement("select count(*) from student_score");
+			pstmt = conn.prepareStatement("select count(*) from student_score where score >= (select avg(score) from student_score)");
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
 			
@@ -192,7 +254,7 @@ public class StudentScoreDao {
 		int startPage = (currentPage - 1) * pagePerRow; //처음 보는 글
 		
 		//학생 테이블과 학생 점수 테이블을 조인해서 no와 점수, 이름을 검색하면서 평균 점수보다 높은 점수를 가진 학생만 출력하도록 조건을 주는 쿼리문 준비 (조건 : 점수가 가장 높은 학생이 맨 위로 지정한 숫자대로 테이블의 열을 보여준다)
-		String sql = "select s.student_no, s.student_name, ss.score from student s inner join student_score ss on s.student_no=ss.student_no where score >= (select avg(score) from student_score) order by score desc limit ?, ?";
+		String sql = "select s.student_no, s.student_name, s.student_age, ss.score from student s inner join student_score ss on s.student_no=ss.student_no where score >= (select avg(score) from student_score) order by score desc limit ?, ?";
 		
 		try {
 			Database database = new Database();
@@ -209,6 +271,7 @@ public class StudentScoreDao {
 				Student student = new Student(); //학생 테이블의 데이터를 저장하기위한 학생 객체
 				student.setStudentNo(rs.getInt("s.student_no")); //학생번호
 				student.setStudentName(rs.getString("s.student_name")); //학생이름
+				student.setStudentAge(rs.getInt("s.student_age")); //학생나이
 				
 				StudentScore studentScore = new StudentScore(); //점수 테이블의 데이터를 저장하기위한 점수 객체
 				studentScore.setScore(rs.getInt("ss.score")); //학생점수

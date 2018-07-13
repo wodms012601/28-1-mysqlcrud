@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <%
 	//페이징 작업
-	int pagePerRow = 5; //한 페이지당 보는 갯수
+	int pagePerRow = 7; //한 페이지당 보는 갯수
 	int currentPage = 1; //현재 페이지
 	if(request.getParameter("currentPage") != null){ //페이지 이동 후 currentPage가 String타입이 되기때문에 int 데이터타입으로 변경
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -33,6 +33,7 @@
 				<li><a href="<%=request.getContextPath() %>/Student/studentList.jsp">학생 리스트</a></li>
 				<li><a href="<%=request.getContextPath() %>/Student/studentAddrList.jsp">학생주소 리스트</a></li>
 				<li><a href="<%=request.getContextPath() %>/Student/studentAndScoreList.jsp">학생점수 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Student/studentAndScoreAboveAvgList.jsp">평균점수이상의 학생 리스트</a></li>
 			</ul>
 		</div>
 		<div id="content">
@@ -41,6 +42,7 @@
 				<tr>
 					<th>학생번호</th>
 					<th>학생이름</th>
+					<th>학생나이</th>
 					<th>학생점수</th>
 				</tr>
 			<%
@@ -49,6 +51,7 @@
 				<tr>
 					<td><%=studentAvg.get(i).getStudent().getStudentNo() %></td>
 					<td><%=studentAvg.get(i).getStudent().getStudentName() %></td>
+					<td><%=studentAvg.get(i).getStudent().getStudentAge() %></td>
 					<td><%=studentAvg.get(i).getStudentScore().getScore() %></td>
 				</tr>
 			<%

@@ -1,65 +1,57 @@
-<!-- Å¹ÀçÀº, 2018.07.09 -->
-<%@ page language = "java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<!-- íƒì¬ì€, 2018.07.09 -->
+<%@ page language = "java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "service.*" %>
 <!DOCTYPE html>
 <%
-	int studentNo = Integer.parseInt(request.getParameter("no")); //¸®½ºÆ® ÆäÀÌÁö¿¡¼­ ³Ñ°Ü¹ŞÀº ÇĞ»ı ¹øÈ£ µ¥ÀÌÅÍ¸¦ º¯¼ö¿¡ ÀúÀå
+	int studentNo = Integer.parseInt(request.getParameter("no")); //ë¦¬ìŠ¤íŠ¸ í˜ì´ì§€ì—ì„œ ë„˜ê²¨ë°›ì€ í•™ìƒ ë²ˆí˜¸ ë°ì´í„°ë¥¼ ë³€ìˆ˜ì— ì €ì¥
 	StudentDao studentDao = new StudentDao();
-	Student student = studentDao.selectStudent(studentNo); //ÇĞ»ı ¹øÈ£ µ¥ÀÌÅÍ¸¦ ¸Å°³º¯¼ö·Î ÇĞ»ı ¸®½ºÆ® °Ë»ö ¸Ş¼­µå¸¦ È£Ãâ, ÇĞ»ıÀÌ¸§°ú ÇĞ»ı³ªÀÌ°¡ ÀúÀåµÈ ÇĞ»ı °´Ã¼ÀÇ ÁÖ¼Ò°ªÀ» ¸®ÅÏ¹Ş´Â´Ù.
+	Student student = studentDao.selectStudent(studentNo); //í•™ìƒ ë²ˆí˜¸ ë°ì´í„°ë¥¼ ë§¤ê°œë³€ìˆ˜ë¡œ í•™ìƒ ë¦¬ìŠ¤íŠ¸ ê²€ìƒ‰ ë©”ì„œë“œë¥¼ í˜¸ì¶œ, í•™ìƒì´ë¦„ê³¼ í•™ìƒë‚˜ì´ê°€ ì €ì¥ëœ í•™ìƒ ê°ì²´ì˜ ì£¼ì†Œê°’ì„ ë¦¬í„´ë°›ëŠ”ë‹¤.
 	
 	StudentAddrDao studentAddrDao = new StudentAddrDao();
-	//ÇĞ»ı ¹øÈ£ µ¥ÀÌÅÍ¸¦ ¸Å°³º¯¼ö·Î ÇĞ»ıÁÖ¼Ò ¸®½ºÆ® °Ë»ö ¸Ş¼­µå¸¦ È£Ãâ, ÇĞ»ı ÁÖ¼Ò°¡ ÀúÀåµÈ ÇĞ»ıÁÖ¼Ò °´Ã¼ÀÇ ÁÖ¼Ò°ªÀ» ¸®ÅÏ¹Ş´Â´Ù.
+	//í•™ìƒ ë²ˆí˜¸ ë°ì´í„°ë¥¼ ë§¤ê°œë³€ìˆ˜ë¡œ í•™ìƒì£¼ì†Œ ë¦¬ìŠ¤íŠ¸ ê²€ìƒ‰ ë©”ì„œë“œë¥¼ í˜¸ì¶œ, í•™ìƒ ì£¼ì†Œê°€ ì €ì¥ëœ í•™ìƒì£¼ì†Œ ê°ì²´ì˜ ì£¼ì†Œê°’ì„ ë¦¬í„´ë°›ëŠ”ë‹¤.
 	StudentAddr studentAddr = studentAddrDao.selectStudentAddr(studentNo);
 %>
 <html>
 	<head>
-		<title>ÇĞ»ı Á¤º¸ ¼öÁ¤ ÆäÀÌÁö</title>
+		<title>í•™ìƒ ì •ë³´ ìˆ˜ì • í˜ì´ì§€</title>
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 	</head>
 	<body>
 		<div id="header">
-			<h1>ÇĞ»ı ¸®½ºÆ®</h1>
+			<h1>í•™ìƒ ì •ë³´ ìˆ˜ì • í˜ì´ì§€</h1>
 		</div>
 		<div id="content">
-			<!-- ¼öÁ¤ÆäÀÌÁö -->
+			<!-- ìˆ˜ì •í˜ì´ì§€ -->
 			<form action="<%= request.getContextPath()%>/Student/updateStudentAction.jsp?no=<%=studentNo %>" method="post">
 				<fieldset>
-					<legend>°³ÀÎ Á¤º¸</legend>
+					<legend>ê°œì¸ ì •ë³´</legend>
 					<table>
-						<tr><!-- ÀÌ¸§ -->
+						<tr><!-- ì´ë¦„ -->
 							<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
-							<td>ÀÌ¸§ :&nbsp;</td>
+							<td>ì´ë¦„ :&nbsp;</td>
 							<td>
 								<input type="text" name="studentName" id="name" value="<%=student.getStudentName() %>" onkeyup="nameCheck()" required>
 								<span id="nameSpan"></span>
 							</td>
 						</tr>
-						<tr><!-- ³ªÀÌ -->
+						<tr><!-- ë‚˜ì´ -->
 							<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
-							<td>³ªÀÌ :&nbsp;</td>
+							<td>ë‚˜ì´ :&nbsp;</td>
 							<td>
 								<input type="text" name="studentAge" value="<%=student.getStudentAge() %>" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' onfocusout='removeChar(event)' required>
-								<!-- onkeydown = Å°¸¦ ´­·¶À» ¶§ ¹ß»ıÇÏ´Â ÀÌº¥Æ® / onkeyup = ´­·¶´ø Å°¸¦ ¶§¸é ¹ß»ıÇÏ´Â ÀÌº¥Æ® -->
-								<!-- onkeydown="return showKeyCode(event)" °ú °°ÀÌ ÇÏ¸é showKeyDown ÇÔ¼ö¸¦ È£ÃâÇØ¼­ °á°ú°¡ trueÀÌ¸é º»·¡ÀÇ µ¿ÀÛÀ» ±×´ë·Î ¼öÇàÇÏ°í falseÀÌ¸é º»·¡ÀÇ µ¿ÀÛÀ» Áß´Ü½ÃÅ²´Ù -->
-							</td>
-						</tr>
-						<tr><!-- ÁÖ¼Ò -->
-							<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
-							<td>ÁÖ¼Ò :&nbsp;</td>
-							<td>
-								<input type="text" name="studentAddrContent" size="40" id="addr" value="<%=studentAddr.getStudentAddrContent() %>" onkeyup="addrCheck()" required>
-								<span id="addrSpan"></span>
+								<!-- onkeydown = í‚¤ë¥¼ ëˆŒë €ì„ ë•Œ ë°œìƒí•˜ëŠ” ì´ë²¤íŠ¸ / onkeyup = ëˆŒë €ë˜ í‚¤ë¥¼ ë•Œë©´ ë°œìƒí•˜ëŠ” ì´ë²¤íŠ¸ -->
+								<!-- onkeydown="return showKeyCode(event)" ê³¼ ê°™ì´ í•˜ë©´ showKeyDown í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•´ì„œ ê²°ê³¼ê°€ trueì´ë©´ ë³¸ë˜ì˜ ë™ì‘ì„ ê·¸ëŒ€ë¡œ ìˆ˜í–‰í•˜ê³  falseì´ë©´ ë³¸ë˜ì˜ ë™ì‘ì„ ì¤‘ë‹¨ì‹œí‚¨ë‹¤ -->
 							</td>
 						</tr>
 					</table>
 				</fieldset><br>
 				<fieldset>
-					<input type="submit" value="¼öÁ¤">
+					<input type="submit" value="ìˆ˜ì •">
 				</fieldset>
 			</form>
 		</div>
 		<div id="footer">
-			COPYRIGHT&copy; 1Á¶ ÇÁ·ÎÁ§Æ®  All Rights Reserved.
+			COPYRIGHT&copy; 1ì¡° í”„ë¡œì íŠ¸  All Rights Reserved.
 		</div>
 		<script src="<%= request.getContextPath() %>/script/main.js"></script>
 	</body>

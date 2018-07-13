@@ -71,7 +71,7 @@ public class StudentDao {
 	--------------------------------------------
 	*/
 	//학생리스트 작업
-	public ArrayList<Student> selectStudentByPage(int currentPage, int pagePerRow, String keyword){
+	public ArrayList<Student> selectStudentByPage(int currentPage, int pagePerRow, String nameKeyword){
 		ArrayList<Student> studentList = new ArrayList<Student>(); //ArrayList클래스를 통해 배열객체 생성
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -83,7 +83,7 @@ public class StudentDao {
 			Database database = new Database();
 			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
-			if(keyword.equals("")) { //검색이 없을 경우 그대로 리스트 처리
+			if(nameKeyword.equals("")) { //검색이 없을 경우 그대로 리스트 처리
 				//학생 테이블에서 학생번호와 학생이름, 학생나이를 검색하는 쿼리문 준비(조건 : 학생번호를 기점으로 오름차순, 지정한 숫자대로 테이블의 열을 보여준다)
 				pstmt = conn.prepareStatement("select student_no, student_name, student_age from student order by student_no desc limit ?, ?");
 				
@@ -94,7 +94,7 @@ public class StudentDao {
 				//학생 테이블에서 학생번호와 학생이름, 학생나이를 검색하는 쿼리문 준비(조건 : 학생이름컬럼에서 지정한 문자가 들어가있는 열을 검색)
 				pstmt = conn.prepareStatement("select student_no, student_name, student_age from student where student_name like ? order by student_no desc limit ?, ?");
 				
-				pstmt.setString(1, "%"+keyword+"%");
+				pstmt.setString(1, "%"+nameKeyword+"%");
 				pstmt.setInt(2, startPage);
 				pstmt.setInt(3, pagePerRow);
 			}
@@ -132,7 +132,7 @@ public class StudentDao {
 	}
 	
 	//학생페이징 작업
-	public int paging(int pagePerRow, String keyword) {
+	public int paging(int pagePerRow, String nameKeyword) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -147,7 +147,7 @@ public class StudentDao {
 			//학생 테이블의 전체행의 값을 구하는 쿼리문 준비
 			pstmt = conn.prepareStatement("select count(*) from student where student_name like ? ");
 			
-			pstmt.setString(1, "%"+keyword+"%");
+			pstmt.setString(1, "%"+nameKeyword+"%");
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
 			
