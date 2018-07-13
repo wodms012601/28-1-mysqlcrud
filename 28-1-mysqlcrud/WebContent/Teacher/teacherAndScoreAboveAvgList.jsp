@@ -1,4 +1,4 @@
-<!-- 28th Choi Yun-Seok, 2018.07.11 -->
+<!-- 28th Choi Yun-Seok, 2018.07.13 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 <%@ page import="service.*" %>
@@ -24,18 +24,19 @@
 		</ul>
 	</div>
 <%
-	int currentPage = 1; // 현재 페이지
+	int currentPage = 1;
+	int pagePerRow = 7;
+	
 	if(request.getParameter("currentPage") != null) {
-	    currentPage = Integer.parseInt(request.getParameter("currentPage")); // 인트 변환
-	}	
-	int pagePerRow = 7; // 한 페이지당 보이는 수
-	int beginRow = (currentPage-1)*pagePerRow;
+	    currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
 	
 	TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
 	int scoreAvg = teacherScoreDao.selectScoreAvg();
-	int totalRowCount = teacherScoreDao.selectTotalTeacherCountJoin(); // 전체 행의 수
 	
-	ArrayList<TeacherAndScore> list = teacherScoreDao.selectTeacherListAboveAVG(beginRow, pagePerRow);
+	ArrayList<TeacherAndScore> teacherAndScoreList = teacherScoreDao.selectTeacherListAboveAvg(currentPage, pagePerRow);
+	
+	int lastPage = teacherScoreDao.paging(pagePerRow);
 %>
 	<div id="content">
 			<div>
@@ -52,39 +53,37 @@
 					</thead>
 					<tbody>
 <%
-					for(int i=0; i<list.size(); i++) {
+					for(int i=0; i<teacherAndScoreList.size(); i++) {
 %>
 					<tr>
-						<td><%=list.get(i).getTeacher().getTeacher_no()%></td>
-						<td><%=list.get(i).getTeacher().getTeacherName()%></td>
-						<td><%=list.get(i).getTeacher().getTeacherAge()%></td>
-						<td><%=list.get(i).getTeacherScore().getScore()%></td>
+						<td><%=teacherAndScoreList.get(i).getTeacher().getTeacher_no()%></td>
+						<td><%=teacherAndScoreList.get(i).getTeacher().getTeacherName()%></td>
+						<td><%=teacherAndScoreList.get(i).getTeacher().getTeacherAge()%></td>
+						<td><%=teacherAndScoreList.get(i).getTeacherScore().getScore()%></td>
 					</tr>
 <%
 					}
 %>
 					</tbody>
 				</table>
-<%
-    int lastPage = totalRowCount/pagePerRow; // 마지막 페이지
-    if(totalRowCount%pagePerRow != 0) {
-        lastPage++;
-    }
-%>
     <div>
-<%
-        if(currentPage>1) {
-%>
-            <a href="<%=request.getContextPath()%>/Teacher/teacherAndScoreAboveAvgList.jsp?currentPage=<%=currentPage-1%>">이전</a>
-<%
-        }
-        if(currentPage<lastPage) {
-%>
- 
-            <a href="<%=request.getContextPath()%>/Teacher/teacherAndScoreAboveAvgList.jsp?currentPage=<%=currentPage+1%>">다음</a>
-<%
-        }
-%>
+			<%
+				if(currentPage > 1){
+			%>
+				<a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreAboveAvgList.jsp?currentPage=<%=currentPage-1 %>">이전</a>
+			<%
+				}
+				for(int L=1; L<=lastPage; L++){
+			%>
+				<a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreAboveAvgList.jsp?currentPage=<%=L%>"><%=L%></a>
+			<%
+				}
+				if(currentPage < lastPage){
+			%>
+				<a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreAboveAvgList.jsp?currentPage=<%=currentPage+1 %>">다음</a>
+			<%	
+				}
+			%>
 	</div>
 		<br>
 		<br>

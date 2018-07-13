@@ -1,4 +1,4 @@
-<!-- 28th Choi Yun-Seok, 2018.07.11 -->
+<!-- 28th Choi Yun-Seok, 2018.07.13 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 <%@ page import="service.*" %>
@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Select Teacher List</title>
+	<title>Teacher List</title>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 </head>
 <body>
@@ -40,11 +40,11 @@
 	TeacherDao teacherDao = new TeacherDao();
 	ArrayList<Teacher> teacherList = teacherDao.selectTeacherByPage(currentPage, pagePerRow, keyword);
 	
-	int lastPage = teacherDao.teacherPaging(pagePerRow, keyword); // 마지막 페이지 값 리턴
+	int lastPage = teacherDao.paging(pagePerRow, keyword); // 마지막 페이지 값 리턴
 
 %>
  	<div id="header">
-		<h1>Select Teacher List</h1>
+		<h1>Teacher List</h1>
 	</div>
 
 	<div id="sidebar_a">

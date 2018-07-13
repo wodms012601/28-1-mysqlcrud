@@ -1,3 +1,4 @@
+<!-- 28th Choi Yun-Seok, 2018.07.13 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "service.*" %>
 <!DOCTYPE html">
@@ -15,16 +16,7 @@
 	<div id="header">
 		<h1>Update Teacher Score Form</h1>
 	</div>
-	
-	<div id="sidebar_a">
-		<ul>
-			<li><a href="<%=request.getContextPath() %>/index.jsp">메인페이지로</a></li>
-			<li><a href="<%=request.getContextPath() %>/Teacher/teacherList.jsp">선생님 리스트</a></li>
-			<li><a href="<%=request.getContextPath() %>/Teacher/teacherAddrList.jsp">주소 리스트</a></li>
-			<li><a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreList.jsp">점수 리스트</a></li>
-			<li><a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreAboveAvgList.jsp">평균점수 이상 리스트</a></li>
-		</ul>
-	</div>
+
 <%
 	String send_id = request.getParameter("send_id");
 	System.out.println(send_id);
@@ -34,26 +26,25 @@
 
 	<div id="content">
 		<form action="<%=request.getContextPath()%>/Teacher/updateTeacherScoreAction.jsp" method="post" >
-			<fieldset id = "box">
-				<legend><h3>Update Teacher Form</h3></legend>
-					<br>
-					<br>
-					<label for="1">teacher_no</label>
-					<input type="text" name="teacherNo" value=<%=teacherScore.getTeacherNo()%> readonly="readonly" required>
+				<fieldset>
+					<legend>점수입력</legend>
+						<div><img src="<%=request.getContextPath() %>/image/check_icon.gif"> 점수 :&nbsp;</div>
+						<div>
+							<input type="text" name="score" value=<%=teacherScore.getScore()%> onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' onfocusout='removeChar(event)' required>
+							<!-- onkeydown = 키를 눌렀을 때 발생하는 이벤트 / onkeyup = 눌렀던 키를 때면 발생하는 이벤트 -->
+							<!-- onkeydown="return showKeyCode(event)" 과 같이 하면 showKeyDown 함수를 호출해서 결과가 true이면 본래의 동작을 그대로 수행하고 false이면 본래의 동작을 중단시킨다 -->
+						</div>
+						<input type="hidden" name="teacherNo" value=<%=teacherScore.getTeacherNo()%> readonly="readonly" required> <br/>
+				</fieldset><br>
+				<fieldset>
+					 <input type="submit" value="점수수정">
+				</fieldset>
+			</form>
+		</div>
 
-					<label for="2">score</label>
-					<input type="text" name="score" value=<%=teacherScore.getScore()%> onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' onfocusout='removeChar(event)' required>
-
-				<input type="submit" value="수정">
-				<br>
-				<br>
-			</fieldset>
-		</form>
-	</div>
-
-	<div id="footer">
-		COPYRIGHT(C) 1조 프로젝트 최윤석 All Rights Reserved.
-	</div>
-	<script src="<%= request.getContextPath() %>/script/main.js"></script>
-</body>
+		<div id="footer">
+			COPYRIGHT(C) 1조 프로젝트 최윤석 All Rights Reserved.
+		</div>
+		<script src="<%= request.getContextPath() %>/script/main.js"></script>
+	</body>
 </html>

@@ -2,7 +2,6 @@
 package service;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -93,7 +92,7 @@ public class TeacherDao {
 		}
 	}
 
-	public Teacher selectForUpdateTeacher(String teacherId) { // 정보 수정 전 기존의 정보를 불러오는 메서드
+	public Teacher selectTeacher(String teacherId) { // 정보 수정 전 기존의 정보를 불러오는 메서드
 		Connection conn = null;
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
@@ -156,7 +155,7 @@ public class TeacherDao {
 		}
 	}
 
-	public int teacherPaging(int pagePerRow, String keyword) { // 티쳐리스트 페이징 메서드
+	public int paging(int pagePerRow, String keyword) { // 티쳐리스트 페이징 메서드
 		Connection conn = null;
 		PreparedStatement statement = null;
 		ResultSet resultset = null;
@@ -168,7 +167,7 @@ public class TeacherDao {
 			Database database = new Database();
 			conn = database.databaseConnect();
 
-			statement = conn.prepareStatement("SELECT count(*) FROM teacher where teacher_name LIKE ?");
+			statement = conn.prepareStatement("SELECT count(*) FROM teacher WHERE teacher_name LIKE ?");
 			statement.setString(1, "%"+keyword+"%");
 			resultset = statement.executeQuery();
 

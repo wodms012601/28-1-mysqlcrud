@@ -2,7 +2,6 @@
 package service;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +9,101 @@ import java.util.ArrayList;
 
 public class TeacherAddrDao {
 	
-	public TeacherAddr infoTeacherAddr(int TeacherAddrid) { // 주소 상세보기 메서드
+	public ArrayList<TeacherAddr> selectTeacherAddrList(int currentPage, int pagePerRow, String addrKeyword){ // like 연산자를 이용한 키워드 검색 및 리스트 메서드
+		//조회된 데이터를 ArrayList타입으로 객체배열의 주소값이 담긴 ArrayList객체 주소값을 리턴하는 메서드
+		ArrayList<TeacherAddr> teacherAddrList = new ArrayList<TeacherAddr>();
+		Connection conn = null;
+		PreparedStatement statement = null;
+		ResultSet resultset = null;
+
+		int firstPage = (currentPage-1)*pagePerRow;
+
+        try { // 예외 발생 가능성이 있는 문장
+				Database database = new Database();
+				conn = database.databaseConnect();
+
+			if(addrKeyword.equals("")) { // 키워드가 없을 경우
+				statement = conn.prepareStatement("SELECT teacher_addr_no, teacher_no, teacher_addr_content FROM teacher_addr ORDER BY teacher_addr_no DESC LIMIT ?, ?");
+
+				statement.setInt(1, firstPage);
+				statement.setInt(2, pagePerRow);
+
+			} else { // 키워드가 있을 경우
+				statement = conn.prepareStatement("SELECT teacher_addr_no, teacher_no, teacher_addr_content FROM teacher_addr WHERE teacher_addr_content LIKE ? ORDER BY teacher_addr_no DESC LIMIT ?, ?");
+
+				statement.setString(1, "%"+addrKeyword+"%");
+				statement.setInt(2, firstPage);
+				statement.setInt(3, pagePerRow);
+
+			}
+
+				resultset = statement.executeQuery();
+
+			while(resultset.next()) {
+				TeacherAddr teacherAddr = new TeacherAddr();
+				teacherAddr.setTeacher_addr_no(resultset.getInt("teacher_addr_no"));
+				teacherAddr.setTeacher_no(resultset.getInt("teacher_no"));
+				teacherAddr.setTeacher_addr_content(resultset.getString("teacher_addr_content"));
+				teacherAddrList.add(teacherAddr);
+			}
+		} catch(SQLException a) { // 예외 타입과 매개변수 명
+			System.out.println(a.getMessage() + "<-- catch");
+			
+		} finally{ // 항상 수행할 필요가 있는 문장
+			
+			try {
+				if(statement != null) statement.close();
+				if(conn != null) conn.close();
+			}
+			catch(SQLException a) {
+				System.out.println(a.getMessage() + "<-- catch");
+			}
+		}
+		return teacherAddrList; // TeacherAddr 객체의 주소값들이 저장된 배열객체의 주소값을 리턴
+	}
+	
+	public int Paging(int pagePerRow, String addrKeyword) { // 티쳐주소리스트 페이징 메서드
+		Connection conn = null;
+		PreparedStatement statement = null;
+		ResultSet resultset = null;
+
+		int totalRow = 0; // 모든 행 갯수의 변수
+		int lastPage = 0; // 마지막 페이지 변수
+
+		try{ // 예외 발생 가능성이 있는 문장
+			Database database = new Database();
+			conn = database.databaseConnect();
+
+			statement = conn.prepareStatement("SELECT count(*) FROM teacher_addr WHERE teacher_addr_content LIKE ?");
+			statement.setString(1, "%"+addrKeyword+"%");
+			resultset = statement.executeQuery();
+
+			if(resultset.next()) {
+				totalRow = resultset.getInt("count(*)");
+			}
+			
+			if(totalRow % pagePerRow == 0){
+				lastPage = totalRow / pagePerRow;
+			} else{
+				lastPage = (totalRow / pagePerRow) + 1;
+			}
+		} catch(SQLException a) { // 예외 타입과 매개변수 명
+			System.out.println(a.getMessage() + "<-- catch");
+			
+		} finally{ // 항상 수행할 필요가 있는 문장
+
+			try {
+				if(statement != null) statement.close();
+				if(conn != null) conn.close();
+			}
+			catch(SQLException a) {
+				System.out.println(a.getMessage() + "<-- catch");
+			}
+		}
+		return lastPage;
+	}
+	
+	public TeacherAddr selectTeacherAddr(int TeacherAddrid) { // 주소 상세보기 메서드
 	    Connection conn = null;
 	    PreparedStatement statement = null;
 	    ResultSet resultset = null;
@@ -47,78 +140,7 @@ public class TeacherAddrDao {
 
 	}
 
-	public int selectTotalTeacherCountAddr() { // 주소 리스트 페이징 메서드
-	    int rowCount = 0;
-	    Connection conn = null;
-	    PreparedStatement statement = null;
-	    ResultSet resultset = null;
-	    String sql = "SELECT COUNT(*) FROM teacher_addr";
-	    try { // 예외 발생 가능성이 있는 문장
-			Database database = new Database();
-			conn = database.databaseConnect();
-
-	        statement = conn.prepareStatement(sql);
-	        resultset = statement.executeQuery();
-
-	        if(resultset.next()) {
-	            rowCount = resultset.getInt(1);
-	        }
-	    } catch(SQLException a) { // 예외 타입과 매개변수 명
-			System.out.println(a.getMessage() + "<-- catch");
-
-	    } finally {	// 항상 수행할 필요가 있는 문장
-
-			try {
-				if(statement != null) statement.close();
-				if(conn != null) conn.close();
-			}
-			catch(SQLException a) {
-				System.out.println(a.getMessage() + "<-- catch");
-			}
-	    }
-	    return rowCount;
-	}
-
-	public ArrayList<TeacherAddr> selectTeacherAddr(int beginRow, int pagePerRow) { // 주소 리스트 메서드
-		//조회된 데이터를 ArrayList타입으로 객체배열의 주소값이 담긴 ArrayList객체 주소값을 리턴하는 메서드
-		ArrayList<TeacherAddr> list = new ArrayList<TeacherAddr>();
-		Connection conn = null;
-		PreparedStatement statement = null;
-		ResultSet resultset = null;
-		String sql = "SELECT teacher_addr_no, teacher_no, teacher_addr_content FROM teacher_addr ORDER BY teacher_addr_no DESC LIMIT ?, ?";
-		try { // 예외 발생 가능성이 있는 문장
-			Database database = new Database();
-			conn = database.databaseConnect();
-
-	        statement = conn.prepareStatement(sql);
-	        statement.setInt(1, beginRow);
-	        statement.setInt(2, pagePerRow);
-
-	        resultset = statement.executeQuery();
-
-	        while(resultset.next()) {
-				TeacherAddr teacheraddr = new TeacherAddr();
-				teacheraddr.setTeacher_addr_no(resultset.getInt("teacher_addr_no"));
-				teacheraddr.setTeacher_no(resultset.getInt("teacher_no"));
-				teacheraddr.setTeacher_addr_content(resultset.getString("teacher_addr_content"));
-				list.add(teacheraddr);
-	        }
-	    } catch(SQLException a) { // 예외 타입과 매개변수 명
-			System.out.println(a.getMessage() + "<-- catch"); 
-
-	    } finally {	// 항상 수행할 필요가 있는 문장
-			try {
-				if(statement != null) statement.close();
-				if(conn != null) conn.close();
-			}
-			catch(SQLException a) {
-				System.out.println(a.getMessage() + "<-- catch");
-			}
-	    }
-		return list; // 티쳐 주소 객체의 주소값을 담은 배열객체의 주소값 리턴
-	}
-
-	public int insertTeacherAdd(TeacherAddr t) { // 주소 등록 메서드
+	public int insertTeacherAddr(TeacherAddr t) { // 주소 등록 메서드
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 

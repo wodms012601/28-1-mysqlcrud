@@ -1,4 +1,4 @@
-<!-- 28th Choi Yun-Seok, 2018.07.11 -->
+<!-- 28th Choi Yun-Seok, 2018.07.13 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "service.*" %>
 <%@ page import = "java.util.*" %>
@@ -26,18 +26,35 @@
 
 <%
 	request.setCharacterEncoding("UTF-8");
-
-	int currentPage = 1; // 현재 페이지
+	
+	// 페이징
+	int currentPage = 1;
+	int pagePerRow = 7;
+	
 	if(request.getParameter("currentPage") != null) {
-	    currentPage = Integer.parseInt(request.getParameter("currentPage")); // 인트 변환
+	    currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+	
+	String scoreKeyword = ""; // 키워드 초기값
+
+	// 검색 키워드 세션 검색 결과 페이지 유지
+	if(request.getParameter("scoreKeyword") != null){
+
+		scoreKeyword = request.getParameter("scoreKeyword");
+
+		request.getSession().setAttribute("scoreKeyword", scoreKeyword);
+
+	}else if(request.getSession().getAttribute("scoreKeyword") != null){ 
+
+		scoreKeyword = (String)request.getSession().getAttribute("scoreKeyword");
+
 	}
 
-	int pagePerRow = 7; // 한 페이지당 보이는 수
-	int beginRow = (currentPage-1)*pagePerRow;
-
 	TeacherScoreDao teacherScoreDao = new TeacherScoreDao();
-	int totalRowCount = teacherScoreDao.selectTotalTeacherCountJoin2();
-	ArrayList<TeacherAndScore> arrayList = teacherScoreDao.selectTeacherAndScored(beginRow, pagePerRow);	
+	ArrayList<TeacherAndScore> teacherScoreList = teacherScoreDao.teacherScoreJoin(currentPage, pagePerRow, scoreKeyword);
+	
+	int lastPage = teacherScoreDao.paging(pagePerRow, scoreKeyword); // 마지막 페이지 값 리턴
+
 %>
 		
 	<div id="content">
@@ -52,40 +69,44 @@
 				</thead>
 				<tbody>
 <%
-				for(int i=0; i<arrayList.size(); i++){			
+					for(int i=0; i<teacherScoreList.size(); i++){		
 %>
 					<tr>
-						<td><%=arrayList.get(i).getTeacherScore().getTeacherNo()%></td>
-						<td><%=arrayList.get(i).getTeacher().getTeacherName()%></td>
-						<td><%=arrayList.get(i).getTeacher().getTeacherAge()%></td>
-						<td><%=arrayList.get(i).getTeacherScore().getScore()%></td>
+						<td><%=teacherScoreList.get(i).getTeacherScore().getTeacherNo()%></td>
+						<td><%=teacherScoreList.get(i).getTeacher().getTeacherName()%></td>
+						<td><%=teacherScoreList.get(i).getTeacher().getTeacherAge()%></td>
+						<td><%=teacherScoreList.get(i).getTeacherScore().getScore()%></td>
 					</tr>
 <%
 }
 %>
 				</tbody>
 			</table>
-<%
-    int lastPage = totalRowCount/pagePerRow; // 마지막 페이지
-    if(totalRowCount%pagePerRow != 0) {
-        lastPage++;
-	}
-%>
+	    <br>
+	    <form action="<%=request.getContextPath() %>/Teacher/teacherAndScoreList.jsp" method="get">
+	    		<input type = "text" name="scoreKeyword">
+	    		<input type="submit" value = "점수검색">
+	    	
+	    </form>
 
-	<div>
-<%
-        if(currentPage>1) {
-%>
-            <a href="<%=request.getContextPath()%>/Teacher/teacherAndScoreList.jsp?currentPage=<%=currentPage-1%>">이전</a>
-<%
-        }
-        if(currentPage<lastPage) {
-%>
- 
-            <a href="<%=request.getContextPath()%>/Teacher/teacherAndScoreList.jsp?currentPage=<%=currentPage+1%>">다음</a>
-<%
-		}
-%>
+	    <div>
+			<%
+				if(currentPage > 1){
+			%>
+				<a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreList.jsp?currentPage=<%=currentPage-1 %>&scoreKeyword=<%=scoreKeyword%>">이전</a>
+			<%
+				}
+				for(int L=1; L<=lastPage; L++){
+			%>
+				<a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreList.jsp?currentPage=<%=L%>&scoreKeyword=<%=scoreKeyword%>"><%=L%></a>
+			<%
+				}
+				if(currentPage < lastPage){
+			%>
+				<a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreList.jsp?currentPage=<%=currentPage+1 %>&scoreKeyword=<%=scoreKeyword%>">다음</a>
+			<%	
+				}
+			%>
 	</div>
 		<br>
 		<br>

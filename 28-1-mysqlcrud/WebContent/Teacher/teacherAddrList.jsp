@@ -1,4 +1,4 @@
-<!-- 28th Choi Yun-Seok, 2018.07.11 -->
+<!-- 28th Choi Yun-Seok, 2018.07.13 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 <%@ page import="service.*" %>
@@ -6,12 +6,12 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>teacher Addr List</title>
+	<title>Teacher Addr List</title>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/main.css">
 </head>
 <body>
 	<div id="header">
-		<h1>teacher Addr List</h1>
+		<h1>Teacher Addr List</h1>
 	</div>
 	
 	<div id="sidebar_a">
@@ -24,15 +24,36 @@
 		</ul>
 	</div>
 <%
-	int currentPage = 1; // 현재 페이지
+	request.setCharacterEncoding("UTF-8");
+	
+	// 페이징
+	int currentPage = 1;
+	int pagePerRow = 7;
+	
 	if(request.getParameter("currentPage") != null) {
-	    currentPage = Integer.parseInt(request.getParameter("currentPage")); // 인트 변환
+	    currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
-	TeacherAddrDao teacherDao = new TeacherAddrDao();
-	int totalRowCount = teacherDao.selectTotalTeacherCountAddr(); // 전체 행의 수
-	int pagePerRow = 7; // 한 페이지당 보이는 수
-	int beginRow = (currentPage-1)*pagePerRow;
-	ArrayList<TeacherAddr> list = teacherDao.selectTeacherAddr(beginRow, pagePerRow); // 주소값 리턴
+	
+	String addrKeyword = ""; // 키워드 초기값
+
+	// 검색 키워드 세션 검색 결과 페이지 유지
+	if(request.getParameter("addrKeyword") != null){
+
+		addrKeyword = request.getParameter("addrKeyword");
+
+		request.getSession().setAttribute("addrKeyword", addrKeyword);
+
+	}else if(request.getSession().getAttribute("addrKeyword") != null){ 
+
+		addrKeyword = (String)request.getSession().getAttribute("addrKeyword");
+
+	}
+
+	TeacherAddrDao teacherAddrDao = new TeacherAddrDao();
+	ArrayList<TeacherAddr> teacherAddrList = teacherAddrDao.selectTeacherAddrList(currentPage, pagePerRow, addrKeyword);
+	
+	int lastPage = teacherAddrDao.Paging(pagePerRow, addrKeyword); // 마지막 페이지 값 리턴
+
 %>
 	<div id="content">
 	    <table border="1">
@@ -45,38 +66,43 @@
 	        </thead>
 	        <tbody>
 <%
-          	  for(TeacherAddr a : list) {
+				   for(int i=0; i<teacherAddrList.size(); i++){
 %>
              	   <tr>
-           	         <td><%=a.getTeacher_addr_no()%></td>
-           	         <td><%=a.getTeacher_no()%></td>
-           	         <td><%=a.getTeacher_addr_content()%></td>
+           	         <td><%=teacherAddrList.get(i).getTeacher_addr_no()%></td>
+           	         <td><%=teacherAddrList.get(i).getTeacher_no()%></td>
+           	         <td><%=teacherAddrList.get(i).getTeacher_addr_content()%></td>
           	       </tr>
 <%        
             }
 %>
 	        </tbody>
 	    </table>
-<%
-    int lastPage = totalRowCount/pagePerRow; // 마지막 페이지
-    if(totalRowCount%pagePerRow != 0) {
-        lastPage++;
-    }
-%>
-    <div>
-<%
-        if(currentPage>1) {
-%>
-            <a href="<%=request.getContextPath()%>/Teacher/teacherAddrList.jsp?currentPage=<%=currentPage-1%>">이전</a>
-<%
-        }
-        if(currentPage<lastPage) {
-%>
- 
-            <a href="<%=request.getContextPath()%>/Teacher/teacherAddrList.jsp?currentPage=<%=currentPage+1%>">다음</a>
-<%
-        }
-%>
+	    <br>
+	    <form action="<%=request.getContextPath() %>/Teacher/teacherAddrList.jsp" method="get">
+	    		<input type = "text" name="addrKeyword">
+	    		<input type="submit" value = "주소검색">
+	    	
+	    </form>
+
+	    <div>
+			<%
+				if(currentPage > 1){
+			%>
+				<a href="<%=request.getContextPath() %>/Teacher/teacherAddrList.jsp?currentPage=<%=currentPage-1 %>&addrKeyword=<%=addrKeyword%>">이전</a>
+			<%
+				}
+				for(int L=1; L<=lastPage; L++){
+			%>
+				<a href="<%=request.getContextPath() %>/Teacher/teacherAddrList.jsp?currentPage=<%=L%>&addrKeyword=<%=addrKeyword%>"><%=L%></a>
+			<%
+				}
+				if(currentPage < lastPage){
+			%>
+				<a href="<%=request.getContextPath() %>/Teacher/teacherAddrList.jsp?currentPage=<%=currentPage+1 %>&addrKeyword=<%=addrKeyword%>">다음</a>
+			<%	
+				}
+			%>
 	</div>
 	    <br>
 	    <br>
