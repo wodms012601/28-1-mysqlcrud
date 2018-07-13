@@ -11,7 +11,7 @@
 			String dbage = request.getParameter("upage");
 			
 			Memberdao dao6 = new Memberdao();
-			dao6.UpdateNumber(dbname, dbage, dbno);
+			dao6.updateNumber(dbname, dbage, dbno);
 			
 			response.sendRedirect(request.getContextPath() + "/Member/memberList.jsp");
 		%>

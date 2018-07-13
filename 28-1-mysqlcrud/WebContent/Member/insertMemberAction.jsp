@@ -34,7 +34,7 @@
 	
 	
 	Memberdao a = new Memberdao();
-	a.InsertMember(abc);
+	a.insertMember(abc);
 	
 	response.sendRedirect(request.getContextPath() + "/Member/memberList.jsp");
 	

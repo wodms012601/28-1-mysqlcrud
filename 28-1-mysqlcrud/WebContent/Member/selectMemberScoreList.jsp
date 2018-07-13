@@ -20,9 +20,10 @@
 		<div id="sidebar_a">
 			<ul>
 				<li><a href="<%=request.getContextPath() %>/index.jsp">메인페이지로</a></li>
-				<li><a href="<%=request.getContextPath() %>/Member/allMemberAddrList.jsp">회원주소 리스트</a></li>
-				<li><a href="<%=request.getContextPath() %>/Member/allMemberAndScoreList.jsp">회원점수 리스트</a></li>
-				<li><a href="<%=request.getContextPath() %>/Member/overMemberScoreList.jsp">평균점수이상의 회원 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Member/memberList.jsp">회원 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Member/memberAddrList.jsp">회원주소 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Member/memberAndScoreList.jsp">회원점수 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Member/memberAndScoreAboveAvgList.jsp">평균점수이상의 회원 리스트</a></li>
 			</ul>
 		</div>
 		<div id="content">
