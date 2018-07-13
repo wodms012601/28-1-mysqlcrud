@@ -26,7 +26,7 @@
 			</ul>
 		</div>
 		<div id="content">
-			<div><h3><%=name %>님의 점수정보창 입니다.</h3></div>
+			<div><h3><%=name %>님의 점수정보 입니다.</h3></div>
 			<table border="1">
 				<thead>
 					<tr>

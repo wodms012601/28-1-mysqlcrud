@@ -323,6 +323,7 @@ public class MemberScoreDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		MemberScore ms = null;
+
 		
 		try {
 			Database database = new Database();
@@ -335,9 +336,9 @@ public class MemberScoreDao {
 			
 			if(rs.next()) {
 				ms = new MemberScore();
-				ms.setMemberScoreNo(Integer.parseInt(rs.getString("member_score_no")));;
-				ms.setMemberNo(Integer.parseInt(rs.getString("member_no")));;
-				ms.setScore(Integer.parseInt(rs.getString("score")));;
+				ms.setMemberScoreNo(Integer.parseInt(rs.getString("member_score_no")));
+				ms.setMemberNo(Integer.parseInt(rs.getString("member_no")));
+				ms.setScore(Integer.parseInt(rs.getString("score")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -21,9 +21,6 @@
 			</ul>
 		</div>
 		<div id="content">
-			<form action="<%=request.getContextPath() %>/Member/memberList" method="post">
-				<div>검색 : &nbsp;<input type="text" name="word"> &nbsp; <input type="submit" value="검색"></div> <!-- 검색입력폼 -->
-			</form><br>
 			<table border="1">
 				<tr>
 					<th>주소번호</th>
