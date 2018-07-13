@@ -33,14 +33,6 @@
 								<!-- onkeydown="return showKeyCode(event)" 과 같이 하면 showKeyDown 함수를 호출해서 결과가 true이면 본래의 동작을 그대로 수행하고 false이면 본래의 동작을 중단시킨다 -->
 							</td>
 						</tr>
-						<tr><!-- 주소 -->
-							<td><img src="<%=request.getContextPath() %>/image/check_icon.gif"></td>
-							<td>주소 :&nbsp;</td>
-							<td>
-								<input type="text" name="studentAddrContent" size="40" id="addr" onkeyup="addrCheck()" required>
-								<span id="addrSpan"></span>
-							</td>
-						</tr>
 					</table>
 				</fieldset><br>
 				<fieldset>

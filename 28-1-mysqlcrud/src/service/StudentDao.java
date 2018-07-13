@@ -16,12 +16,9 @@ public class StudentDao {
 	 	1 |	 송원민	 |	25
 	--------------------------------------------
 	*/
-	//db의 학생테이블에 데이터 저장 및 주소테이블의 student_no컬럼에 학생테이블의 student_no값을 저장하기위해 학생번호 검색
-	public Student insertStudent(Student stu) {
+	public void insertStudent(Student stu) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		PreparedStatement pstmt2 = null;
-		ResultSet rs = null;
 		
 		try {
 			Database database = new Database();
@@ -30,38 +27,15 @@ public class StudentDao {
 			//학생 테이블에서 학생 이름과 학생 번호를 저장하기위한 쿼리문 준비
 			pstmt = conn.prepareStatement("insert into student (student_name, student_age) values (?, ?)");
 			
-			/*각 테이블의 기본키를 auto_increment로 주었기때문에
-			학생테이블에 먼저 데이터를 입력한 후 추가된 auto_increment를
-			select문으로 받아 저장했습니다.*/
-			//학생 테이블의 학생이름을 통해 학생 번호를 검색하는 쿼리문 준비
-			pstmt2 = conn.prepareStatement("select student_no from student where student_name=?");
-			
 			pstmt.setString(1, stu.getStudentName());
 			pstmt.setInt(2, stu.getStudentAge());
 			
-			pstmt2.setString(1, stu.getStudentName());
-			
 			pstmt.executeUpdate(); //쿼리문 실행
 			System.out.println("학생테이블저장");
-			
-			rs = pstmt2.executeQuery(); //쿼리문 실행
-			System.out.println("학생테이블select");
-			
-			if(rs.next()) {
-				stu.setStudentNo(rs.getInt("student_no")); //넘버데이터 가져와서 변수에 저장
-				System.out.println(stu.getStudentNo() + "<--학생넘버");
-			}
-			
+		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if(pstmt2 != null) {
-				try {
-					pstmt2.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(pstmt != null) {
 				try {
 					pstmt.close();
@@ -77,7 +51,6 @@ public class StudentDao {
 				}
 			}
 		}
-		return stu;
 	}
 	
 	/*
@@ -98,7 +71,7 @@ public class StudentDao {
 	--------------------------------------------
 	*/
 	//학생리스트 작업
-	public ArrayList<Student> selectStudentByPage(int currentPage, int pagePerRow, String word){
+	public ArrayList<Student> selectStudentByPage(int currentPage, int pagePerRow, String keyword){
 		ArrayList<Student> studentList = new ArrayList<Student>(); //ArrayList클래스를 통해 배열객체 생성
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -110,7 +83,7 @@ public class StudentDao {
 			Database database = new Database();
 			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
-			if(word.equals("")) { //검색이 없을 경우 그대로 리스트 처리
+			if(keyword.equals("")) { //검색이 없을 경우 그대로 리스트 처리
 				//학생 테이블에서 학생번호와 학생이름, 학생나이를 검색하는 쿼리문 준비(조건 : 학생번호를 기점으로 오름차순, 지정한 숫자대로 테이블의 열을 보여준다)
 				pstmt = conn.prepareStatement("select student_no, student_name, student_age from student order by student_no desc limit ?, ?");
 				
@@ -121,7 +94,7 @@ public class StudentDao {
 				//학생 테이블에서 학생번호와 학생이름, 학생나이를 검색하는 쿼리문 준비(조건 : 학생이름컬럼에서 지정한 문자가 들어가있는 열을 검색)
 				pstmt = conn.prepareStatement("select student_no, student_name, student_age from student where student_name like ? order by student_no desc limit ?, ?");
 				
-				pstmt.setString(1, "%"+word+"%");
+				pstmt.setString(1, "%"+keyword+"%");
 				pstmt.setInt(2, startPage);
 				pstmt.setInt(3, pagePerRow);
 			}
@@ -159,7 +132,7 @@ public class StudentDao {
 	}
 	
 	//학생페이징 작업
-	public int paging(int pagePerRow) {
+	public int paging(int pagePerRow, String keyword) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -172,7 +145,9 @@ public class StudentDao {
 			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//학생 테이블의 전체행의 값을 구하는 쿼리문 준비
-			pstmt = conn.prepareStatement("select count(*) from student");
+			pstmt = conn.prepareStatement("select count(*) from student where student_name like ? ");
+			
+			pstmt.setString(1, "%"+keyword+"%");
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
 			

@@ -19,10 +19,10 @@
 			</ul>
 			<div><h3>선생님 리스트(최윤석)</h3></div>
 			<ul>
-				<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherList.jsp">선생님 리스트</a></li>
-				<li><a href="<%=request.getContextPath() %>/Teacher/selectTeacherAddrList.jsp">선생님주소 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Teacher/teacherList.jsp">선생님 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Teacher/teacherAddrList.jsp">선생님주소 리스트</a></li>
 				<li><a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreList.jsp">선생님점수 리스트</a></li>
-				<li><a href="<%=request.getContextPath() %>/Teacher/teacherListAboveAvg.jsp">평균점수 이상 선생님 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Teacher/teacherAndScoreAboveAvgList.jsp">평균점수 이상 선생님 리스트</a></li>
 			</ul>
 			<div><h3>직원 리스트(탁재은)</h3></div>
 			<ul>

@@ -9,7 +9,13 @@ import java.util.ArrayList;
 
 public class StudentAddrDao {
 	
-	//db의 학생주소테이블에 데이터 저장
+	/*db의 학생주소테이블에 데이터 저장
+	------------------------------------------------------------
+	student_addr_no | student_no | student_addr_content
+	------------------------------------------------------------
+	 	1 |	 1	 |	전주시 덕진구
+	------------------------------------------------------------
+	*/
 	public void insertStudentAddr(StudentAddr addr) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;

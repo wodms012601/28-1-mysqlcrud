@@ -3,6 +3,7 @@ package service;
 
 public class StudentAndScore {
 	private Student student;
+	private StudentAddr studentAddr;
 	private StudentScore studentScore;
 	
 	public Student getStudent() {
@@ -11,10 +12,17 @@ public class StudentAndScore {
 	public void setStudent(Student student) {
 		this.student = student;
 	}
+	public StudentAddr getStudentAddr() {
+		return studentAddr;
+	}
+	public void setStudentAddr(StudentAddr studentAddr) {
+		this.studentAddr = studentAddr;
+	}
 	public StudentScore getStudentScore() {
 		return studentScore;
 	}
 	public void setStudentScore(StudentScore studentScore) {
 		this.studentScore = studentScore;
 	}
+	
 }
