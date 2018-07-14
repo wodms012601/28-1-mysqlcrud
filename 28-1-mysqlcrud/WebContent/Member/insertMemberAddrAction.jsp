@@ -6,11 +6,11 @@
 <% request.setCharacterEncoding("UTF-8"); %>
 <%
 	MemberAddr dao1 = new MemberAddr();
-	dao1.setMember_no(Integer.parseInt(request.getParameter("Member_no")));
-	dao1.setMember_addr_content(request.getParameter("Member_addr_content"));
+	dao1.setMemberNo(Integer.parseInt(request.getParameter("Member_no")));
+	dao1.setMemberAddrContent(request.getParameter("Member_addr_content"));
 	
 	MemberAddrDao dao = new MemberAddrDao();
-	dao.insertaddrList(dao1);
+	dao.insertMemberAddr(dao1);
 	
 	response.sendRedirect(request.getContextPath() + "/Member/memberList.jsp");
 %>

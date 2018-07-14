@@ -8,7 +8,7 @@
 	//UTF-8로 인코딩
 	request.setCharacterEncoding("UTF-8");
 
-	int pagePerRow = 4; //한화면당 나오는 행의 갯수
+	int pagePerRow = 7; //한화면당 나오는 행의 갯수
 	int currentPage = 1; //첫페이지
 	if(request.getParameter("currentPage") != null){ 
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -25,7 +25,7 @@
 		nameKeyword = (String)request.getSession().getAttribute("nameKeyword");
 	}
 	
-	Memberdao dao = new Memberdao();
+	MemberDao dao = new MemberDao();
 	ArrayList<Member> result = dao.selectMemberByPage(currentPage, pagePerRow, nameKeyword);
 	
 	int lastPage = dao.paging(pagePerRow, nameKeyword); //마지막 페이지
@@ -49,9 +49,6 @@
 			</ul>
 		</div>
 		<div id="content">
-			<form action="<%=request.getContextPath() %>/Member/memberList.jsp" method="post">
-				<div>검색 : &nbsp;<input type="text" name="nameKeyword"> &nbsp; <input type="submit" value="검색"></div> <!-- 검색입력폼 -->
-			</form><br>
 			<table border="1">
 				<thead>
 					<tr>
@@ -72,19 +69,32 @@
 				%>
 					<tr>
 						<td><%=result.get(i).getMember_no() %></td>
-						<td><a href = "<%= request.getContextPath() %>/Member/selectMemberAddrList.jsp?no=<%=result.get(i).getMember_no() %>"><%=result.get(i).getMember_name() %></a></td>
+						<td><a href = "<%= request.getContextPath() %>/Member/selectMemberAddr.jsp?no=<%=result.get(i).getMember_no() %>"><%=result.get(i).getMember_name() %></a></td>
 						<td><%=result.get(i).getMember_age()%></td>
 						<td><a href = "<%= request.getContextPath() %>/Member/updateMemberForm.jsp?no=<%=result.get(i).getMember_no() %>">수정</a></td>
-						<td><a href = "<%= request.getContextPath() %>/Member/deleteMemberAction.jsp?no=<%=result.get(i).getMember_no() %>">삭제</a></td>
-						<td><a href = "<%= request.getContextPath() %>/Member/insertMemberaddrForm.jsp?no=<%=result.get(i).getMember_no() %>">주소입력</a></td>
+						<td><a href = "<%= request.getContextPath() %>/Member/deleteMember.jsp?no=<%=result.get(i).getMember_no() %>">삭제</a></td>
 					<%
+						MemberAddrDao memberAddrDao = new MemberAddrDao();
+						/*회원 번호를 매개변수로 회원주소를 검색하는 메서드 호출한다
+						그리고 회원 주소데이터가 있는 객체의 주소값을 리턴받는다*/
+						MemberAddr memberAddrNo = memberAddrDao.selectMemberAddr(result.get(i).getMember_no());
+						if(memberAddrNo == null){
+					%>
+						<td><a href = "<%= request.getContextPath() %>/Member/insertMemberAddrForm.jsp?no=<%=result.get(i).getMember_no() %>">주소입력</a></td>
+					<%
+						} else {
+					%>
+						<td><a href = "<%= request.getContextPath() %>/Member/updateMemberAddrForm.jsp?no=<%=result.get(i).getMember_no() %>">주소수정</a></td>
+					<%
+						}
+					
 						MemberScoreDao memberScore = new MemberScoreDao();
-						/*학생 번호를 매개변수로 학생점수를 검색하는 메서드 호출한다
-						그리고 학생 점수데이터가 있는 객체의 주소값을 리턴받는다*/
-						MemberScore studentNo = memberScore.selectScore(result.get(i).getMember_no());
-						System.out.println(studentNo  +"--이거");
+						/*회원 번호를 매개변수로 학생점수를 검색하는 메서드 호출한다
+						그리고 회원 점수데이터가 있는 객체의 주소값을 리턴받는다*/
+						MemberScore memberNo = memberScore.selectMemberScore(result.get(i).getMember_no());
+						System.out.println(memberNo  +"--이거");
 						
-						if(studentNo == null){ 
+						if(memberNo == null){ 
 					%>
 							<td><a href = "<%= request.getContextPath() %>/Member/insertMemberScoreForm.jsp?no=<%=result.get(i).getMember_no() %>">점수입력</a></td>
 					<%		
@@ -94,7 +104,7 @@
 					<%		
 						}
 					%>		
-						<td><a href = "<%= request.getContextPath() %>/Member/selectMemberScoreList.jsp?no=<%=result.get(i).getMember_no() %>&name=<%=result.get(i).getMember_name() %>">점수보기</a></td>
+						<td><a href = "<%= request.getContextPath() %>/Member/selectMemberScore.jsp?no=<%=result.get(i).getMember_no() %>&name=<%=result.get(i).getMember_name() %>">점수보기</a></td>
 						
 						<!-- updateMemberForm -> updateMemberAction-->
 					</tr>
@@ -103,6 +113,11 @@
 				%>		
 				</tbody>
 			</table>
+			
+			<form action="<%=request.getContextPath() %>/Member/memberList.jsp" method="post">
+				<div><input type="text" name="nameKeyword"> &nbsp; <input type="submit" value="이름검색"></div> <!-- 검색입력폼 -->
+			</form><br>
+		
 			<div>
 			<%
 				if(currentPage > 1){

@@ -26,23 +26,18 @@
 			
 			MemberAddrDao addr = new MemberAddrDao();
 			
-			ArrayList<MemberAddr> result = addr.addrList(no);
-			for(int i=0; i<result.size(); i++) {
+			MemberAddr result = addr.selectMemberAddr(no);
 		%>
 				<tr>
-					<td><%=result.get(i).getMember_addr_no() %></td>
-					<td><%=result.get(i).getMember_no() %></td>
-					<td><%=result.get(i).getMember_addr_content() %></td>
+					<td><%=result.getMemberAddrNo() %></td>
+					<td><%=result.getMemberNo() %></td>
+					<td><%=result.getMemberAddrContent() %></td>
 				</tr>
-		<%		
-			}
-		%>
 			</table>
 		
 			<div>
 			</div><br>
 		</div>
-		
 		<div id="footer">
 				COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
 		</div>

@@ -6,7 +6,7 @@
 	String name = request.getParameter("name");
 	
 	MemberScoreDao dao = new MemberScoreDao();
-	MemberScore m = dao.selectScore(no);
+	MemberScore m = dao.selectMemberScore(no);
 %>
 <html>
 	<head>
@@ -27,7 +27,6 @@
 			</ul>
 		</div>
 		<div id="content">
-			<div><h3><%=name %>님의 점수정보 입니다.</h3></div>
 			<table border="1">
 				<thead>
 					<tr>
@@ -46,10 +45,6 @@
 			</table>
 			<div>
 			</div><br>
-		
-			<div><a href="<%=request.getContextPath() %>/Member/insertMemberForm.jsp">학생 정보 입력 페이지</a></div>
-		</div>
-		
 		<div id="footer">
 				COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
 		</div>

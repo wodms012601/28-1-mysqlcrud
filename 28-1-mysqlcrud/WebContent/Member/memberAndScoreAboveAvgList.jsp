@@ -3,12 +3,23 @@
 <%@ page import="service.*" %>
 <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
-		<%
-			MemberScoreDao dao3 = new MemberScoreDao();
-			
-			ArrayList<MemberAndScore> result3= dao3.overSelectMemberList();
-			int a = dao3.selectScoreAvg();
-		%>
+<%
+	//UTF-8로 인코딩
+	request.setCharacterEncoding("UTF-8");
+
+	int pagePerRow = 7; //한화면당 나오는 행의 갯수
+	int currentPage = 1; //첫페이지
+	if(request.getParameter("currentPage") != null){ 
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+
+	MemberScoreDao dao3 = new MemberScoreDao();
+	int a = dao3.selectScoreAvg();	
+	ArrayList<MemberAndScore> result3= dao3.selectMemberListAboveAvg(currentPage, pagePerRow);
+	
+	
+	int lastPage = dao3.paging(pagePerRow);
+%>
 <html>
 	<head>
 		<title>평균점수이상 회원 리스트</title>
@@ -55,11 +66,24 @@
 				</tbody>
 			</table>
 			<div>
-			</div><br>
-		
-			<div><a href="<%=request.getContextPath() %>/Member/insertMemberForm.jsp">학생 정보 입력 페이지</a></div>
-		</div>
-		
+			<%
+				if(currentPage > 1){
+			%>
+				<a href="<%=request.getContextPath() %>/Member/memberAndScoreAboveAvgList.jsp?currentPage=<%=currentPage-1 %>">이전</a>
+			<%
+				}
+				for(int j=1; j<=lastPage; j++){
+			%>
+				<a href="<%=request.getContextPath() %>/Member/memberAndScoreAboveAvgList.jsp?currentPage=<%=j %>"><%=j %></a> <!-- 1 ~ 마지막페이지까지 링크 -->
+			<%
+				}
+				if(currentPage < lastPage){
+			%>
+				<a href="<%=request.getContextPath() %>/Member/memberAndScoreAboveAvgList.jsp?currentPage=<%=currentPage+1 %>">다음</a>
+			<%	
+				}
+			%>
+		</div><br>
 		<div id="footer">
 				COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
 		</div>

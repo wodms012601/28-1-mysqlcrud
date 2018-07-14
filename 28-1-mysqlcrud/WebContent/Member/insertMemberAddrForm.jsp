@@ -16,7 +16,7 @@
 	%>
 	
 		<div id="content">	
-			<form action = "<%= request.getContextPath() %>/Member/insertMemberaddrAction.jsp?" method="post">
+			<form action = "<%= request.getContextPath() %>/Member/insertMemberAddrAction.jsp?" method="post">
 							<fieldset><!-- 학생 점수 -->
 					<legend>주소입력</legend>
 						<div><img src="<%=request.getContextPath() %>/image/check_icon.gif"> 주소 :&nbsp;</div>

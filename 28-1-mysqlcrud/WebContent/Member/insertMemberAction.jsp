@@ -33,7 +33,7 @@
 	
 	
 	
-	Memberdao a = new Memberdao();
+	MemberDao a = new MemberDao();
 	a.insertMember(abc);
 	
 	response.sendRedirect(request.getContextPath() + "/Member/memberList.jsp");

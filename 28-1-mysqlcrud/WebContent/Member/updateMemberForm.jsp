@@ -5,8 +5,8 @@
 	String no = request.getParameter("no");
 	System.out.println(no + "<--no값");
 	
-	Memberdao dao = new Memberdao();
-	Member result = dao.selectUpdateNumber(no);
+	MemberDao dao = new MemberDao();
+	Member result = dao.selectMember(no);
 %>
 <html>
 	<head>

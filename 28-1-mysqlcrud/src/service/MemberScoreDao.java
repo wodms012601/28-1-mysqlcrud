@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class MemberScoreDao {
-	//스코어 처리 메서드 매개변수 a는 회원번호, b는 점수
+	//점수입력하는 화면 a는 회원번호, b는 점수
 	public void insertScore(int a, int b) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -42,7 +42,8 @@ public class MemberScoreDao {
 		
 	}
 	
-	public int selectScoreAvg() { // 평균을 구하는 메서드도 만들어 줘야함
+	
+	public int selectScoreAvg() { // 평균을 구하는 메서드
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -79,67 +80,8 @@ public class MemberScoreDao {
 		return a;
 	}
 	
-	// 한화면당 평균90점이상의 회원점수정보를 몇개 꺼내올건지에 대한 메서드  선언(페이징처리)
-	public ArrayList<MemberAndScore> selectMemberListAvg(int currentPage, int perPerRow) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		ArrayList<MemberAndScore> list = new ArrayList<>();
-		int startPage = (currentPage -1) * perPerRow;
-		
-		String sql = "select member_score_no, member_no, score from member_score where score >= (select avg(score) from member_score) order by member_no limit ?,?";
-		try {
-			Database database = new Database();
-			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, startPage);
-			pstmt.setInt(2, perPerRow);
-			
-			rs = pstmt.executeQuery();
-			
-			MemberAndScore m = null;
-			Member m1 = null;
-			MemberScore m2 = null;
-			while(rs.next()) {
-				m = new MemberAndScore();
-				m1 = new Member();
-				m2 = new MemberScore();
-				
-				
-				m2.setMemberScoreNo(Integer.parseInt(rs.getString("member_score_no")));
-				m1.setMember_no(Integer.parseInt(rs.getString("member_no")));
-				m2.setScore(Integer.parseInt(rs.getString("score")));
-				
-				
-				m.setMemberScore(m2);
-				m.setMember(m1);
-				
-				list.add(m);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			if (pstmt != null)
-				try { 
-					pstmt.close(); 
-				}
-				catch(SQLException e) {
-					e.printStackTrace();
-				}
-		    if (conn != null) 
-		    	try {
-		    		conn.close(); 
-		    	} catch(SQLException e) {
-		    		e.printStackTrace();	
-		    	}
-		}
-		return list;
-	}
-	
 	// 전체점수리스트 메서드
-	public ArrayList<MemberAndScore> allSelectMemberAndScore(int currentpage, int pagePerRow, String scoreKeyword) {
+	public ArrayList<MemberAndScore> memberScoreJoin(int currentpage, int pagePerRow, String scoreKeyword) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -210,20 +152,25 @@ public class MemberScoreDao {
 		return list2;
 	}
 	
-	// 평균 90이상인 학생들의 정보를 조회하는 메서드 선언 
-	public ArrayList<MemberAndScore> overSelectMemberList() {
+	// 평균 이상인 학생들의 정보를 조회하는 메서드 선언 
+	public ArrayList<MemberAndScore> selectMemberListAboveAvg(int currentPage, int pagePerRow) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<MemberAndScore> list = new ArrayList<>();
 		
+		int startPage = (currentPage - 1) * pagePerRow; //처음 보는 글
+		
 		String sql = "select m.member_no, m.member_name, m.member_age, ms.score from member_score ms inner join member m on ms.member_no "
-				+ "= m.member_no where ms.score >= (select avg(score) from member_score) order by ms.score ASC";
+				+ "= m.member_no where ms.score >= (select avg(score) from member_score) order by score desc limit ?, ?";
 		try {
 			Database database = new Database();
 			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, startPage); //시작지점
+			pstmt.setInt(2, pagePerRow); //열의 갯수
 			
 			rs = pstmt.executeQuery();
 			
@@ -265,7 +212,8 @@ public class MemberScoreDao {
 		return list;
 	}
 	
-	public void updateScore(int score, int no) {
+	//회원한명점수를 수정하는 메서드
+	public void updateMemberScore(int score, int no) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
@@ -298,47 +246,8 @@ public class MemberScoreDao {
 		} 
 	}
 	
-	public MemberScore selectUpdateScore(int no) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		MemberScore m = null;
-		
-		try {
-			Database database = new Database();
-			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
-			
-			pstmt = conn.prepareStatement("select score from member_score where member_no=?");
-			pstmt.setInt(1, no);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				m = new MemberScore();
-				m.setScore(Integer.parseInt(rs.getString("score")));;
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			if (pstmt != null)
-				try { 
-					pstmt.close(); 
-				}
-				catch(SQLException e) {
-					e.printStackTrace();
-				}
-		    if (conn != null) 
-		    	try {
-		    		conn.close(); 
-		    	} catch(SQLException e) {
-		    		e.printStackTrace();	
-		    	}
-		} 
-		return m;
-	}
-	
-	public MemberScore selectScore(int no) {
+	//회원한명의 점수를 조회하는 메서드
+	public MemberScore selectMemberScore(int no) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -381,6 +290,92 @@ public class MemberScoreDao {
 		return ms;
 	}
 	
+	//임의의 회원점수를 제거하는 메서드
+	public void deleteScoreMember(String id) { 
+		/*void를 쓴 이유는 멤버변수를 사용하지 않고 메소드 안의 지역변수를 사용해주었기 때문에 */
+			
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+		try {
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
+			
+			pstmt = conn.prepareStatement("delete from member_score where member_no=?");
+			
+			pstmt.setString(1, id);
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace(); 
+		} finally {
+			if (pstmt != null)
+				try { 
+					pstmt.close(); 
+				} 
+				catch(SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		    if (conn != null) 
+		    	try {
+		    		conn.close(); 
+		    	} catch(SQLException e) {
+		    		e.printStackTrace();	
+		    	}
+		  
+		}
+	
+	//점수보기 페이징처리
+	public int paging(int pagePerRow) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		int totalRow = 0; //모든 행의 갯수를 담을 변수
+		int lastPage = 0; //마지막 페이지를 담을 변수
+		
+		try {
+			Database database = new Database();
+			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
+			
+			//학생 테이블의 전체행의 값을 구하는 쿼리문 준비
+			pstmt = conn.prepareStatement("select count(*) from member_score");
+			
+			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
+			
+			if(rs.next()) {
+				//전체 행의 갯수를 totalRow에 대입
+				totalRow = rs.getInt("count(*)");
+			}
+			
+			if(totalRow % pagePerRow == 0){
+				lastPage = totalRow / pagePerRow;
+			} else{
+				lastPage = (totalRow / pagePerRow) + 1;
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally { //모든 처리가 끝나면 반드시 나중에 열린 객체 순서대로 닫아준다.
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lastPage;
+	}
+	
+	//검색하는 점수 페이징처리
 	public int paging(int pagePerRow, String scoreKeyword) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;

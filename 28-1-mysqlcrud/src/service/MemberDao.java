@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여야합니다.
+public class MemberDao { // 클래스명 맨앞 문자는 무조건 대문자여야합니다.
 
 	public void insertMember(Member m) { 
 		/*void를 쓴 이유는 멤버변수를 사용하지 않고 메소드 안의 지역변수를 사용해주었기 때문에 */
@@ -81,119 +81,8 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 		    	}
 		  
 		}
-	
-	public void deleteAddrMember(String id) { 
-		/*void를 쓴 이유는 멤버변수를 사용하지 않고 메소드 안의 지역변수를 사용해주었기 때문에 */
-			
-			Connection conn = null;
-			PreparedStatement pstmt = null;
-		try {
-			Database database = new Database();
-			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
-			
-			pstmt = conn.prepareStatement("delete from member_addr where member_no=?");
-			
-			pstmt.setString(1, id);
-			
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace(); 
-		} finally {
-			if (pstmt != null)
-				try { 
-					pstmt.close(); 
-				} 
-				catch(SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		    if (conn != null) 
-		    	try {
-		    		conn.close(); 
-		    	} catch(SQLException e) {
-		    		e.printStackTrace();	
-		    	}
-		  
-		}
-	
-	public void deleteScoreMember(String id) { 
-		/*void를 쓴 이유는 멤버변수를 사용하지 않고 메소드 안의 지역변수를 사용해주었기 때문에 */
-			
-			Connection conn = null;
-			PreparedStatement pstmt = null;
-		try {
-			Database database = new Database();
-			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
-			
-			pstmt = conn.prepareStatement("delete from member_score where member_no=?");
-			
-			pstmt.setString(1, id);
-			
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace(); 
-		} finally {
-			if (pstmt != null)
-				try { 
-					pstmt.close(); 
-				} 
-				catch(SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		    if (conn != null) 
-		    	try {
-		    		conn.close(); 
-		    	} catch(SQLException e) {
-		    		e.printStackTrace();	
-		    	}
-		  
-		}
-	
-	public Member selectNumber(String id) { 
-		/*void를 쓴 이유는 멤버변수를 사용하지 않고 메소드 안의 지역변수를 사용해주었기 때문에 */
-			
-			Connection conn = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			Member m = null;
-			
-		try {
-			Database database = new Database();
-			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
-			
-			pstmt = conn.prepareStatement("select * from member where member_no=?");
-			pstmt.setString(1, id);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				m = new Member();
-				m.setMember_no(Integer.parseInt(rs.getString("member_no")));
-			}	
-			
-		} catch (SQLException e) {
-			e.printStackTrace(); 
-		} finally {
-			if (pstmt != null)
-				try { 
-					pstmt.close(); 
-				} 
-				catch(SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		    if (conn != null) 
-		    	try {
-		    		conn.close(); 
-		    	} catch(SQLException e) {
-		    		e.printStackTrace();	
-		    	}
-			return m;
-		  
-		}
-	
-	public Member selectUpdateNumber(String no) { 
+	//회원이름, 나이를 수정하기위해 리스트에 저장되어있는 데이터 찾기
+	public Member selectMember(String no) { 
 		/*void를 쓴 이유는 멤버변수를 사용하지 않고 메소드 안의 지역변수를 사용해주었기 때문에 */
 			Connection conn = null;
 			PreparedStatement pstmt = null;
@@ -233,7 +122,7 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 			return m;
 		}
 	
-	public void updateNumber(String name, String age, String no) { 
+	public void updateMember(String name, String age, String no) { 
 		/*void를 쓴 이유는 멤버변수를 사용하지 않고 메소드 안의 지역변수를 사용해주었기 때문에 */
 			Connection conn = null;
 			PreparedStatement pstmt = null;
@@ -327,6 +216,7 @@ public class Memberdao { // 클래스명 맨앞 문자는 무조건 대문자여
 		return list;
 	}
 	
+	//memberList.jsp 리스트화면 페이징처리
 	public int paging(int pagePerRow, String nameKeyword) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;

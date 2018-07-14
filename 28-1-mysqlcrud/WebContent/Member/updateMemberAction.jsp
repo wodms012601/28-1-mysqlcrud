@@ -10,8 +10,8 @@
 			String dbname = request.getParameter("upname");
 			String dbage = request.getParameter("upage");
 			
-			Memberdao dao6 = new Memberdao();
-			dao6.updateNumber(dbname, dbage, dbno);
+			MemberDao dao6 = new MemberDao();
+			dao6.updateMember(dbname, dbage, dbno);
 			
 			response.sendRedirect(request.getContextPath() + "/Member/memberList.jsp");
 		%>

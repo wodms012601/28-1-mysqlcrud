@@ -7,7 +7,7 @@
 	//UTF-8로 인코딩
 	request.setCharacterEncoding("UTF-8");	
 
-	int pagePerRow = 4; //한화면당 나오는 행의 갯수
+	int pagePerRow = 7; //한화면당 나오는 행의 갯수
 	int currentPage = 1; //첫페이지
 	if(request.getParameter("currentPage") != null){ 
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -25,7 +25,7 @@
 	}
 
 	MemberScoreDao dao5 = new MemberScoreDao();
-	ArrayList<MemberAndScore> result4 = dao5.allSelectMemberAndScore(currentPage, pagePerRow, scoreKeyword);
+	ArrayList<MemberAndScore> result4 = dao5.memberScoreJoin(currentPage, pagePerRow, scoreKeyword);
 	
 	int lastPage = dao5.paging(pagePerRow, scoreKeyword);
 %>			
@@ -48,9 +48,6 @@
 			</ul>
 		</div>
 		<div id="content">
-			<form action="<%=request.getContextPath() %>/Member/memberAndScoreList.jsp" method="post">
-				<div>검색 : &nbsp;<input type="text" name="scoreKeyword"> &nbsp; <input type="submit" value="검색"></div> <!-- 검색입력폼 -->
-			</form><br>
 			<table border="1">
 				<tr>
 					<th>회원번호</th>
@@ -72,6 +69,10 @@
 		%>
 		</table>
 		
+		<form action="<%=request.getContextPath() %>/Member/memberAndScoreList.jsp" method="post">
+			<div><input type="text" name="scoreKeyword"> &nbsp; <input type="submit" value="점수검색"></div> <!-- 검색입력폼 -->
+		</form><br>
+		
 		<div>
 			<%
 				if(currentPage > 1){
@@ -91,10 +92,6 @@
 				}
 			%>
 		</div><br>
-		
-		<div><a href="<%=request.getContextPath() %>/Member/insertMemberForm.jsp">학생 정보 입력 페이지</a></div>
-		</div>
-		
 		<div id="footer">
 				COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
 		</div>

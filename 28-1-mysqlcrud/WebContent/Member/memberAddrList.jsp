@@ -7,7 +7,7 @@
 	//UTF-8로 인코딩
 	request.setCharacterEncoding("UTF-8");	
 
-	int pagePerRow = 4; //한화면당 나오는 행의 갯수
+	int pagePerRow = 7; //한화면당 나오는 행의 갯수
 	int currentPage = 1; //첫페이지
 	if(request.getParameter("currentPage") != null){ 
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -25,7 +25,7 @@
 	}	
 
 	MemberAddrDao dao4 = new MemberAddrDao();
-	ArrayList<MemberAddr> result = dao4.allSelectMember(currentPage, pagePerRow, addrKeyword);
+	ArrayList<MemberAddr> result = dao4.selectMemberAddrList(currentPage, pagePerRow, addrKeyword);
 	
 	int lastPage = dao4.paging(pagePerRow, addrKeyword); //마지막 페이지
 %>
@@ -48,9 +48,6 @@
 			</ul>
 		</div>
 		<div id="content">
-			<form action="<%=request.getContextPath() %>/Member/memberAddrList.jsp" method="post">
-				<div>검색 : &nbsp;<input type="text" name="addrKeyword"> &nbsp; <input type="submit" value="검색"></div> <!-- 검색입력폼 -->
-			</form><br>
 			<table border="1">
 				<tr>
 					<th>주소번호</th>
@@ -61,14 +58,18 @@
 			for(int i=0; i<result.size(); i++) {
 		%>
 				<tr>
-					<td><%=result.get(i).getMemberaddr().getMember_addr_no() %></td>
+					<td><%=result.get(i).getMemberaddr().getMemberAddrNo() %></td>
 					<td><%=result.get(i).getMember().getMember_name() %></td>
-					<td><%=result.get(i).getMemberaddr().getMember_addr_content() %></td>
+					<td><%=result.get(i).getMemberaddr().getMemberAddrContent() %></td>
 				</tr>		
 		<%		
 			}
 		%>
 		</table>
+		
+		<form action="<%=request.getContextPath() %>/Member/memberAddrList.jsp" method="post">
+				<div><input type="text" name="addrKeyword"> &nbsp; <input type="submit" value="주소검색"></div> <!-- 검색입력폼 -->
+		</form><br>
 		
 		<div>
 			<%
@@ -89,10 +90,6 @@
 				}
 			%>
 		</div><br>
-		
-		<div><a href="<%=request.getContextPath() %>/Member/insertMemberForm.jsp">학생 정보 입력 페이지</a></div>
-		</div>
-		
 		<div id="footer">
 				COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
 		</div>

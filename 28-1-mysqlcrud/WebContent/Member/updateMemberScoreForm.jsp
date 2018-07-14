@@ -5,7 +5,7 @@
 	String no = request.getParameter("no");
 	String name = request.getParameter("name");
 	MemberScoreDao dao = new MemberScoreDao();
-	MemberScore result = dao.selectUpdateScore(Integer.parseInt(no));
+	MemberScore result = dao.selectMemberScore(Integer.parseInt(no));
 	int score = result.getScore();
 %>
 <html>
