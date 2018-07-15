@@ -3,6 +3,14 @@
 <%@ page import="service.*" %>
 <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
+<%
+	request.setCharacterEncoding("euc-kr");
+
+	int no = Integer.parseInt(request.getParameter("no")); //memberList.jsp 에서 받은 회원번호 값
+	
+	MemberAddrDao addr = new MemberAddrDao();
+	MemberAddr result = addr.selectMemberAddr(no);
+%>
 <html>
 	<head>
 		<title>회원주소 리스트</title>
@@ -19,15 +27,6 @@
 					<th>회원주소번호</th>
 					<th>회원주소</th>
 				</tr>
-		<%
-			request.setCharacterEncoding("euc-kr");
-		
-			int no = Integer.parseInt(request.getParameter("no")); //memberList.jsp 에서 받은 회원번호 값
-			
-			MemberAddrDao addr = new MemberAddrDao();
-			
-			MemberAddr result = addr.selectMemberAddr(no);
-		%>
 				<tr>
 					<td><%=result.getMemberAddrNo() %></td>
 					<td><%=result.getMemberNo() %></td>

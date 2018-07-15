@@ -51,7 +51,7 @@
 			<table border="1">
 				<tr>
 					<th>주소번호</th>
-					<th>회원주소번호</th>
+					<th>회원번호</th>
 					<th>회원주소</th>
 				</tr>
 		<%	
