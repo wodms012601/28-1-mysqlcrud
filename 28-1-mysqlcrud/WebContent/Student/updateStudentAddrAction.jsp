@@ -7,12 +7,11 @@
 	request.setCharacterEncoding("UTF-8");
 
 	int studentNo = Integer.parseInt(request.getParameter("studentNo")); //수정폼 페이지에서 넘겨받은 학생번호 데이터를 변수에 저장
-	String studentAddrContent = request.getParameter("studentAddrContent"); //수정폼 페이지에서 넘겨받은 학생주소 데이터를 변수에 저장
 	
 	//학생주소 객체 생성 및 set메소드를 통해 데이터 삽입
 	StudentAddr stuAddr = new StudentAddr();
 	stuAddr.setStudentNo(studentNo);
-	stuAddr.setStudentAddrContent(studentAddrContent);
+	stuAddr.setStudentAddrContent(request.getParameter("studentAddrContent"));
 	System.out.println("학생주소 수정 완료");
 	
 	//학생주소 테이블에 수정

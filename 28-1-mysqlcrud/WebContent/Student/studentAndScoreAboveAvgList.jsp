@@ -37,7 +37,7 @@
 			</ul>
 		</div>
 		<div id="content">
-			<div>평균 점수 : <%=avg %></div><br>
+			<div><h3>평균 점수 : <%=avg %>점</h3></div>
 			<table border="1">
 				<tr>
 					<th>학생번호</th>
@@ -76,7 +76,7 @@
 			<%	
 				}
 			%>
-			</div>
+			</div><br>
 		</div>
 		<div id="footer">
 			COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.

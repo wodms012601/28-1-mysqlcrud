@@ -65,7 +65,7 @@ public class EmployerAddrDao {
 	--------------------------------------------
 	*/
 	//직원주소리스트 작업
-	public ArrayList<EmployerAddr> selectEmployerAddrList(int currentPage, int pagePerRow, String word) {
+	public ArrayList<EmployerAddr> selectEmployerAddrList(int currentPage, int pagePerRow, String addrKeyword) {
 		ArrayList<EmployerAddr> employerAddrList = new ArrayList<EmployerAddr>(); //직원 주소객체의 주소값을 저장할 배열객체 생성
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -77,7 +77,7 @@ public class EmployerAddrDao {
 			Database database = new Database();
 			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
-			if(word.equals("")) { //검색이 없을 경우 그대로 리스트 처리
+			if(addrKeyword.equals("")) { //검색이 없을 경우 그대로 리스트 처리
 				//직원주소 테이블에서 직원번호와 직원주소번호, 직원주소를 검색하는 쿼리문 준비(조건 : 직원번호를 기점으로 오름차순, 지정한 숫자대로 테이블의 열을 보여준다)
 				pstmt = conn.prepareStatement("select employer_addr_no, employer_no, employer_addr_content from employer_addr order by employer_addr_no desc limit ?, ?");
 				
@@ -88,7 +88,7 @@ public class EmployerAddrDao {
 				//직원 테이블에서 직원번호와 직원주소번호, 직원주소를 검색하는 쿼리문 준비(조건 : 직원이름컬럼에서 지정한 문자가 들어가있는 열을 검색)
 				pstmt = conn.prepareStatement("select employer_addr_no, employer_no, employer_addr_content from employer_addr where employer_addr_content like ? order by employer_addr_no desc limit ?, ?");
 				
-				pstmt.setString(1, "%"+word+"%");
+				pstmt.setString(1, "%"+addrKeyword+"%");
 				pstmt.setInt(2, startPage);
 				pstmt.setInt(3, pagePerRow);
 			}
@@ -178,7 +178,7 @@ public class EmployerAddrDao {
 	}
 	
 	//직원 리스트 페이징 작업
-	public int paging(int pagePerRow) {
+	public int paging(int pagePerRow, String addrKeyword) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -191,7 +191,9 @@ public class EmployerAddrDao {
 			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//직원 테이블의 전체행의 값을 구하는 쿼리문 준비
-			pstmt = conn.prepareStatement("select count(*) from employer");
+			pstmt = conn.prepareStatement("select count(*) from employer_addr where employer_addr_content like ? ");
+			
+			pstmt.setString(1, "%"+addrKeyword+"%");
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
 			

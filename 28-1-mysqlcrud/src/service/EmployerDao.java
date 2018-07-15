@@ -16,12 +16,9 @@ public class EmployerDao {
 	 	1 |	 최윤석	 |	24
 	--------------------------------------------
 	*/
-	//db의 직원테이블에 데이터 저장 및 직원주소테이블의 employer_no컬럼에 직원테이블의 employer_no값을 저장하기위해 직원번호 검색
-	public Employer insertEmployer(Employer emp) {
+	public void insertEmployer(Employer emp) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		PreparedStatement pstmt2 = null;
-		ResultSet rs = null;
 		
 		try {
 			Database database = new Database();
@@ -30,37 +27,15 @@ public class EmployerDao {
 			//직원 테이블에서 직원 이름과 직원 번호를 저장하기위한 쿼리문 준비
 			pstmt = conn.prepareStatement("insert into employer (employer_name, employer_age) values (?, ?)");
 			
-			/*각 테이블의 기본키를 auto_increment로 주었기때문에
-			직원테이블에 먼저 데이터를 입력한 후 추가된 auto_increment를
-			select문으로 받아 저장했습니다.*/
-			//직원 테이블의 직원이름을 통해 직원 번호를 검색하는 쿼리문 준비
-			pstmt2 = conn.prepareStatement("select employer_no from employer where employer_name=?");
-			
 			pstmt.setString(1, emp.getEmployerName()); //직원 이름
 			pstmt.setInt(2, emp.getEmployerAge()); //직원 나이
-			
-			pstmt2.setString(1, emp.getEmployerName()); //직원 이름으로 검색
 			
 			pstmt.executeUpdate(); //쿼리문 실행
 			System.out.println("직원테이블저장");
 			
-			rs = pstmt2.executeQuery(); //쿼리문 실행
-			System.out.println("직원테이블select");
-			
-			if(rs.next()) {
-				emp.setEmployerNo(rs.getInt("employer_no")); //넘버데이터 가져와서 변수에 저장
-			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if(pstmt2 != null) {
-				try {
-					pstmt2.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 			if(pstmt != null) {
 				try {
 					pstmt.close();
@@ -76,7 +51,6 @@ public class EmployerDao {
 				}
 			}
 		}
-		return emp;
 	}
 	
 	/*
@@ -97,7 +71,7 @@ public class EmployerDao {
 	--------------------------------------------
 	*/
 	//직원리스트 작업
-	public ArrayList<Employer> selectEmployerByPage(int currentPage, int pagePerRow, String word){
+	public ArrayList<Employer> selectEmployerByPage(int currentPage, int pagePerRow, String nameKeyword){
 		ArrayList<Employer> employerList = new ArrayList<Employer>(); //ArrayList클래스를 통해 배열객체 생성
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -109,7 +83,7 @@ public class EmployerDao {
 			Database database = new Database();
 			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
-			if(word.equals("")) { //검색이 없을 경우 그대로 리스트 처리
+			if(nameKeyword.equals("")) { //검색이 없을 경우 그대로 리스트 처리
 				//직원 테이블에서 직원번호와 직원이름, 직원나이를 검색하는 쿼리문 준비(조건 : 직원번호를 기점으로 오름차순, 지정한 숫자대로 테이블의 열을 보여준다)
 				pstmt = conn.prepareStatement("select employer_no, employer_name, employer_age from employer order by employer_no desc limit ?, ?");
 				
@@ -120,7 +94,7 @@ public class EmployerDao {
 				//직원 테이블에서 직원번호와 직원이름, 직원나이를 검색하는 쿼리문 준비(조건 : 직원이름 컬럼에서 지정한 문자가 들어가있는 열을 검색)
 				pstmt = conn.prepareStatement("select employer_no, employer_name, employer_age from employer where employer_name like ? order by employer_no desc limit ?, ?");
 				
-				pstmt.setString(1, "%"+word+"%");
+				pstmt.setString(1, "%"+nameKeyword+"%");
 				pstmt.setInt(2, startPage);
 				pstmt.setInt(3, pagePerRow);
 			}
@@ -158,7 +132,7 @@ public class EmployerDao {
 	}
 	
 	//직원리스트페이징 작업
-	public int paging(int pagePerRow) {
+	public int paging(int pagePerRow, String nameKeyword) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -171,7 +145,9 @@ public class EmployerDao {
 			conn = database.databaseConnect(); //드라이버 로딩 및 db연결하는 메서드 호출하고 Connection객체의 주소값을 리턴받는다.
 			
 			//직원 테이블의 전체행의 값을 구하는 쿼리문 준비
-			pstmt = conn.prepareStatement("select count(*) from employer");
+			pstmt = conn.prepareStatement("select count(*) from employer where employer_name like ? ");
+			
+			pstmt.setString(1, "%"+nameKeyword+"%");
 			
 			rs = pstmt.executeQuery(); //쿼리문 실행 및 ResultSet객체 생성
 			

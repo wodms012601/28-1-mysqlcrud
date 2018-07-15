@@ -22,7 +22,6 @@
 	} else if(request.getSession().getAttribute("addrKeyword") != null){ 
 
 		addrKeyword = (String)request.getSession().getAttribute("addrKeyword");
-
 	}
 	
 	StudentAddrDao studentAddrDao = new StudentAddrDao();

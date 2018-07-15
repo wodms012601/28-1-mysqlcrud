@@ -89,7 +89,7 @@
 			<%	
 				}
 			%>
-			</div>
+			</div><br>
 		</div>
 		<div id="footer">
 			COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.

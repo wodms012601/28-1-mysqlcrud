@@ -23,7 +23,6 @@
 	} else if(request.getSession().getAttribute("nameKeyword") != null){ 
 
 		nameKeyword = (String)request.getSession().getAttribute("nameKeyword");
-
 	}
 	
 	StudentDao studentDao = new StudentDao();

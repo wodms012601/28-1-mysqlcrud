@@ -34,9 +34,9 @@
 			<div><h3>멤버 리스트(송원민)</h3></div>
 			<ul>
 				<li><a href="<%=request.getContextPath() %>/Member/memberList.jsp">멤버 리스트</a></li>
-				<li><a href="<%=request.getContextPath() %>/Member/allMemberAddrList.jsp">멤버주소 리스트</a></li>
-				<li><a href="<%=request.getContextPath() %>/Member/allMemberAndScoreList.jsp">멤버점수 리스트</a></li>
-				<li><a href="<%=request.getContextPath() %>/Member/overMemberScoreList.jsp">평균점수 이상 멤버 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Member/memberAddrList.jsp">멤버주소 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Member/memberAndScoreList.jsp">멤버점수 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Member/memberAndScoreAboveAvgList.jsp">평균점수 이상 멤버 리스트</a></li>
 			</ul>
 		</div><br>
 		<div id="footer">

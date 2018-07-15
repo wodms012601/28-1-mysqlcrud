@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <%
 	//페이징 작업
-	int pagePerRow = 5; //한 페이지당 보는 갯수
+	int pagePerRow = 7; //한 페이지당 보는 갯수
 	int currentPage = 1; //현재 페이지
 	if(request.getParameter("currentPage") != null){ //페이지 이동 후 currentPage가 String타입이 되기때문에 int 데이터타입으로 변경
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -33,6 +33,7 @@
 				<li><a href="<%=request.getContextPath() %>/Employer/employerList.jsp">직원 리스트</a></li>
 				<li><a href="<%=request.getContextPath() %>/Employer/employerAddrList.jsp">직원주소 리스트</a></li>
 				<li><a href="<%=request.getContextPath() %>/Employer/employerAndScoreList.jsp">직원점수 리스트</a></li>
+				<li><a href="<%=request.getContextPath() %>/Employer/employerAndScoreAboveAvgList.jsp">평균점수 이상 직원 리스트</a></li>
 			</ul>
 		</div>
 		<div id="content">
@@ -42,6 +43,7 @@
 					<tr>
 						<th>직원번호</th>
 						<th>직원이름</th>
+						<th>직원나이</th>
 						<th>직원점수</th>
 					</tr>
 				</thead>
@@ -52,6 +54,7 @@
 					<tr>
 						<td><%=employerAvg.get(i).getEmployer().getEmployerNo() %></td>
 						<td><%=employerAvg.get(i).getEmployer().getEmployerName() %></td>
+						<td><%=employerAvg.get(i).getEmployer().getEmployerAge() %></td>
 						<td><%=employerAvg.get(i).getEmployerScore().getScore() %></td>
 					</tr>
 				<%
