@@ -50,9 +50,9 @@
 				</thead>
 				<tbody>
 				전체평균 :<%=a %>
-		<%	
-			for(int i=0; i<result3.size(); i++) {
-		%>
+			<%	
+				for(int i=0; i<result3.size(); i++) {
+			%>
 					<tr>
 						<td><%=result3.get(i).getMember().getMember_no() %></td>
 						<td><%=result3.get(i).getMember().getMember_name() %></td>
@@ -60,9 +60,9 @@
 						<td><%=result3.get(i).getMemberScore().getScore() %></td>
 					</tr>
 				
-		<%		
-			}
-		%>
+			<%		
+				}
+			%>
 				</tbody>
 			</table>
 			<div>
@@ -83,7 +83,8 @@
 			<%	
 				}
 			%>
-		</div><br>
+			</div><br>
+		</div>
 		<div id="footer">
 				COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
 		</div>

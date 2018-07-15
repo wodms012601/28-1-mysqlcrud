@@ -55,25 +55,25 @@
 					<th>회원나이</th>
 					<th>회원점수</th>
 				</tr>		
-		<%	
-			for(int i=0; i<result4.size(); i++) {
-		%>		
+			<%	
+				for(int i=0; i<result4.size(); i++) {
+			%>		
 				<tr>
 					<td><%=result4.get(i).getMember().getMember_no() %></td>
 					<td><%=result4.get(i).getMember().getMember_name() %></td>
 					<td><%=result4.get(i).getMember().getMember_age() %></td>
 					<td><%=result4.get(i).getMemberScore().getScore() %></td>
 				</tr>
-		<%
-			}
-		%>
-		</table>
+			<%
+				}
+			%>
+			</table>
 		
-		<form action="<%=request.getContextPath() %>/Member/memberAndScoreList.jsp" method="post">
-			<div><input type="text" name="scoreKeyword"> &nbsp; <input type="submit" value="점수검색"></div> <!-- 검색입력폼 -->
-		</form><br>
+			<form action="<%=request.getContextPath() %>/Member/memberAndScoreList.jsp" method="post">
+				<div><input type="text" name="scoreKeyword"> &nbsp; <input type="submit" value="점수검색"></div> <!-- 검색입력폼 -->
+			</form><br>
 		
-		<div>
+			<div>
 			<%
 				if(currentPage > 1){
 			%>
@@ -91,7 +91,8 @@
 			<%	
 				}
 			%>
-		</div><br>
+			</div><br>
+		</div>
 		<div id="footer">
 				COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
 		</div>

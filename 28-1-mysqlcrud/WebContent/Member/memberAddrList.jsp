@@ -54,24 +54,24 @@
 					<th>회원번호</th>
 					<th>회원주소</th>
 				</tr>
-		<%	
-			for(int i=0; i<result.size(); i++) {
-		%>
+			<%	
+				for(int i=0; i<result.size(); i++) {
+			%>
 				<tr>
 					<td><%=result.get(i).getMemberaddr().getMemberAddrNo() %></td>
 					<td><%=result.get(i).getMember().getMember_name() %></td>
 					<td><%=result.get(i).getMemberaddr().getMemberAddrContent() %></td>
 				</tr>		
-		<%		
-			}
-		%>
-		</table>
+			<%		
+				}
+			%>
+			</table>
 		
-		<form action="<%=request.getContextPath() %>/Member/memberAddrList.jsp" method="post">
-				<div><input type="text" name="addrKeyword"> &nbsp; <input type="submit" value="주소검색"></div> <!-- 검색입력폼 -->
-		</form><br>
+				<form action="<%=request.getContextPath() %>/Member/memberAddrList.jsp" method="post">
+					<div><input type="text" name="addrKeyword"> &nbsp; <input type="submit" value="주소검색"></div> <!-- 검색입력폼 -->
+				</form><br>
 		
-		<div>
+			<div>
 			<%
 				if(currentPage > 1){
 			%>
@@ -89,7 +89,8 @@
 			<%	
 				}
 			%>
-		</div><br>
+			</div><br>
+		</div>
 		<div id="footer">
 				COPYRIGHT&copy; 1조 프로젝트  All Rights Reserved.
 		</div>
